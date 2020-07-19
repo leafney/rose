@@ -4,6 +4,12 @@
 
 [英文](README.md)
 
+#### 安装
+
+```sh
+go get -u github.com/leafney/rose
+```
+
 #### 方法列表
 
 ##### snowflake算法

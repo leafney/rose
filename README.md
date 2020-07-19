@@ -4,6 +4,12 @@
 
 [中文](README_cn.md)
 
+#### Install
+
+```sh
+go get -u github.com/leafney/rose
+```
+
 #### Method List
 
 ##### snowflake
