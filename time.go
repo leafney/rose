@@ -60,6 +60,14 @@ func GetDateFromUnix(t int64) string {
 	return time.Unix(t, 0).Format(TimeLayoutDate)
 }
 
+// eg: 1595225361 => 2020-07-20 14:09:21
+func GetTimeFromUnix(t int64) string {
+	if t <= 0 {
+		return ""
+	}
+	return time.Unix(t, 0).Format(TimeLayoutDateTime)
+}
+
 // 根据时间戳返回指定格式的时间信息
 func GetTimeFromUnixFormat(t int64, format string) string {
 	if t <= 0 {
@@ -68,7 +76,8 @@ func GetTimeFromUnixFormat(t int64, format string) string {
 	return time.Unix(t, 0).Format(format)
 }
 
-func GetDateMHFromUnix(t int64) string {
+// eg: 1595225361 => 2020-07-20 14:09
+func GetTimeMHFromUnix(t int64) string {
 	if t <= 0 {
 		return ""
 	}
@@ -81,17 +90,16 @@ func GetTimeParse(times string) int64 {
 	if "" == times {
 		return 0
 	}
-	loc, _ := time.LoadLocation("Local")
-	parse, _ := time.ParseInLocation("2006-01-02 15:04", times, loc)
+	parse, _ := time.ParseInLocation("2006-01-02 15:04", times, time.Local)
 	return parse.Unix()
 }
+
 
 func GetDateParse(dates string) int64 {
 	if "" == dates {
 		return 0
 	}
-	loc, _ := time.LoadLocation("Local")
-	parse, _ := time.ParseInLocation("2006-01-02", dates, loc)
+	parse, _ := time.ParseInLocation("2006-01-02", dates, time.Local)
 	return parse.Unix()
 }
 
@@ -137,4 +145,12 @@ func ParseStringTime(tm, lc string) (time.Time, error) {
 		return time.Time{}, err
 	}
 	return time.ParseInLocation(TimeLayoutDateTime, tm, loc)
+}
+
+
+// GMT
+// eg: Mon, 20 Jul 2020 06:09:21 GMT =>
+// https://golang.org/pkg/time/#pkg-constants
+func ParseGMTTimeOfRFC1123(gmt string) (time.Time, error) {
+	return time.Parse(time.RFC1123,gmt)
 }
