@@ -1,4 +1,4 @@
-package rose
+package time
 
 import (
 	"fmt"
@@ -94,7 +94,6 @@ func GetTimeParse(times string) int64 {
 	return parse.Unix()
 }
 
-
 func GetDateParse(dates string) int64 {
 	if "" == dates {
 		return 0
@@ -147,10 +146,9 @@ func ParseStringTime(tm, lc string) (time.Time, error) {
 	return time.ParseInLocation(TimeLayoutDateTime, tm, loc)
 }
 
-
 // GMT
 // eg: Mon, 20 Jul 2020 06:09:21 GMT =>
 // https://golang.org/pkg/time/#pkg-constants
 func ParseGMTTimeOfRFC1123(gmt string) (time.Time, error) {
-	return time.Parse(time.RFC1123,gmt)
+	return time.Parse(time.RFC1123, gmt)
 }
