@@ -1,4 +1,4 @@
-package rose
+package str
 
 import (
 	"bytes"

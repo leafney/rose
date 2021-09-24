@@ -1,4 +1,4 @@
-package rose
+package str
 
 import (
 	"math"
@@ -107,4 +107,13 @@ func CamelName(name string) string {
 	name = strings.Replace(name, "_", " ", -1)
 	name = strings.Title(name)
 	return strings.Replace(name, " ", "", -1)
+}
+
+// 字符串拼接
+func JoinString(args ...string) string {
+	buffer := NewBuffer()
+	for _, arg := range args {
+		buffer.append(arg)
+	}
+	return buffer.String()
 }
