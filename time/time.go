@@ -6,19 +6,19 @@ import (
 	"time"
 )
 
-var (
-	TimeLayoutDate     = "2006-01-02"
-	TimeLayoutDateMH   = "2006-01-02 15:04"
-	TimeLayoutDateTime = "2006-01-02 15:04:05"
+const (
+	layoutDate     = "2006-01-02"
+	layoutDateMH   = "2006-01-02 15:04"
+	layoutDateTime = "2006-01-02 15:04:05"
 )
 
-// 当前时间戳
-func TimeNow10() int64 {
+// 当前时间戳（秒 10位
+func NowS() int64 {
 	return time.Now().Unix()
 }
 
-// 当前时间戳
-func TimeNow13() int64 {
+// 当前时间戳（毫秒 13位
+func NowMs() int64 {
 	//这种计算毫秒时间戳的方法比较推荐，参考自：https://stackoverflow.com/questions/24122821/go-golang-time-now-unixnano-convert-to-milliseconds
 	return time.Now().UnixNano() / int64(time.Millisecond)
 }
@@ -28,7 +28,7 @@ func TimeNow13() int64 {
 // 截止到今日的24点之前的秒数
 func TheDayExpireSeconds() int64 {
 	now := time.Now()
-	t, _ := time.ParseInLocation("2006-01-02", now.AddDate(0, 0, 1).Format("2006-01-02"), time.Local)
+	t, _ := time.ParseInLocation(layoutDate, now.AddDate(0, 0, 1).Format(layoutDate), time.Local)
 	return t.Unix() - now.Unix()
 }
 
@@ -49,15 +49,15 @@ func DelayTimeToTomorrow(addDays int, addHourStr string) int64 {
 
 // 返回今天日期 2019-01-09
 func GetDate() string {
-	return time.Now().Format(TimeLayoutDate)
+	return time.Now().Format(layoutDate)
 }
 
-// 根据时间戳返回日期 2019-04-17
+// Return date based on timestamp
 func GetDateFromUnix(t int64) string {
 	if t <= 0 {
 		return ""
 	}
-	return time.Unix(t, 0).Format(TimeLayoutDate)
+	return time.Unix(t, 0).Format(layoutDate)
 }
 
 // eg: 1595225361 => 2020-07-20 14:09:21
@@ -65,7 +65,7 @@ func GetTimeFromUnix(t int64) string {
 	if t <= 0 {
 		return ""
 	}
-	return time.Unix(t, 0).Format(TimeLayoutDateTime)
+	return time.Unix(t, 0).Format(layoutDateTime)
 }
 
 // 根据时间戳返回指定格式的时间信息
@@ -81,16 +81,16 @@ func GetTimeMHFromUnix(t int64) string {
 	if t <= 0 {
 		return ""
 	}
-	return time.Unix(t, 0).Format(TimeLayoutDateMH) //"2006-01-02 15:04"
+	return time.Unix(t, 0).Format(layoutDateMH) //"2006-01-02 15:04"
 }
 
 // ************
 
 func GetTimeParse(times string) int64 {
-	if "" == times {
+	if times == "" {
 		return 0
 	}
-	parse, _ := time.ParseInLocation("2006-01-02 15:04", times, time.Local)
+	parse, _ := time.ParseInLocation(layoutDateTime, times, time.Local)
 	return parse.Unix()
 }
 
@@ -122,20 +122,16 @@ func TodayEnd() time.Time {
 	return time.Date(y, m, d, 23, 59, 59, 1e9-1, time.Local)
 }
 
-func NowDate() string {
-	return time.Now().Format(TimeLayoutDate)
-}
-
-func NowDateTime() string {
-	return time.Now().Format(TimeLayoutDateTime)
+func GetDateTime() string {
+	return time.Now().Format(layoutDateTime)
 }
 
 func ParseDate(dt string) (time.Time, error) {
-	return time.Parse(TimeLayoutDate, dt)
+	return time.Parse(layoutDate, dt)
 }
 
 func ParseDateTime(dt string) (time.Time, error) {
-	return time.Parse(TimeLayoutDateTime, dt)
+	return time.Parse(layoutDateTime, dt)
 }
 
 func ParseStringTime(tm, lc string) (time.Time, error) {
@@ -143,7 +139,7 @@ func ParseStringTime(tm, lc string) (time.Time, error) {
 	if err != nil {
 		return time.Time{}, err
 	}
-	return time.ParseInLocation(TimeLayoutDateTime, tm, loc)
+	return time.ParseInLocation(layoutDateTime, tm, loc)
 }
 
 // GMT

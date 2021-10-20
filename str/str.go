@@ -2,50 +2,16 @@ package str
 
 import (
 	"math"
-	"strconv"
 	"strings"
 	"unicode"
 )
 
 // 判断字符串是否为空
-func StrIsEmpty(s string) bool {
+func IsEmpty(s string) bool {
 	return len(strings.TrimSpace(s)) == 0
 }
 
-// 将数字字符串转换成数字类型
-func StrToInt(s string) int {
-	if s == "" {
-		return 0
-	}
-	if i, err := strconv.Atoi(s); err != nil {
-		return 0
-	} else {
-		return i
-	}
-}
-
-func StrToIntWithErr(s string) (int, error) {
-	return strconv.Atoi(s)
-}
-
-// 将字符串转换为int64(转换失败返回0
-func StrToInt64(s string) int64 {
-	if s == "" {
-		return 0
-	}
-	if i, err := strconv.ParseInt(s, 10, 64); err != nil {
-		return 0
-	} else {
-		return i
-	}
-}
-
-// 将字符串转换为int64
-func StrToInt64WithErr(str string) (int64, error) {
-	return strconv.ParseInt(str, 10, 64)
-}
-
-func StrSliceRemoveEmpty(sls []string) []string {
+func SliceRmvEmpty(sls []string) []string {
 	newSls := make([]string, 0)
 	for k, v := range sls {
 		if len(v) > 0 {
@@ -69,18 +35,6 @@ func StrSliceArray(arr []string, size int) (result [][]string) {
 		result = append(result, arr[start:end])
 	}
 	return
-}
-
-// 将数字字符串转换成float64类型
-func StrToFloat64(s string) float64 {
-	if s == "" {
-		return 0.0
-	}
-	if i, err := strconv.ParseFloat(s, 64); err != nil {
-		return 0.0
-	} else {
-		return i
-	}
 }
 
 // *************
