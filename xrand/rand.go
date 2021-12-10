@@ -1,4 +1,4 @@
-package rose
+package xrand
 
 import (
 	"errors"
@@ -8,13 +8,18 @@ import (
 	"time"
 )
 
-func RandInt(max int) int {
+func RInt(max int) int {
 	rand.Seed(time.Now().UnixNano())
 	return rand.Intn(max)
 }
 
+func RInt64(max int64) int64 {
+	rand.Seed(time.Now().UnixNano())
+	return rand.Int63n(max)
+}
+
 // String returns a random string ['a', 'z'] in the specified length
-func RandStr(n int) string {
+func RStr(n int) string {
 	rand.Seed(time.Now().UTC().UnixNano())
 
 	letter := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
@@ -45,22 +50,17 @@ func RandNumStr(n int) string {
 }
 
 // Int returns a random integer in range [min, max].
-func RandIntRange(min int, max int) int {
+func RIntRange(min int, max int) int {
 	rand.Seed(time.Now().UnixNano())
 	return min + rand.Intn(max-min)
 }
 
-func RandInt64(max int64) int64 {
-	rand.Seed(time.Now().UnixNano())
-	return rand.Int63n(max)
-}
-
-func RandInt64Range(min, max int64) int64 {
+func RInt64Range(min, max int64) int64 {
 	rand.Seed(time.Now().UnixNano())
 	//if min >= max || min == 0 || max == 0 {
 	//	return max
 	//}
-	return rand.Int63n(max-min) + min
+	return min + rand.Int63n(max-min)
 }
 
 /*

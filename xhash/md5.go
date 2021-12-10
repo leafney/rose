@@ -1,4 +1,4 @@
-package rose
+package xhash
 
 import (
 	"crypto/md5"
@@ -6,23 +6,20 @@ import (
 	"io"
 )
 
-func Md5HashStr(s string) string {
+func Md5Str(s string) string {
 	hashMd5 := md5.New()
 	hashMd5.Write([]byte(s))
 	return hex.EncodeToString(hashMd5.Sum(nil))
 }
 
-//func GetMd5Hash(s string) string {
-//	return fmt.Sprintf("%x", md5.Sum([]byte(s)))
-//}
-
-func Md5HashBuf(buf []byte) string {
+func Md5Buf(buf []byte) string {
 	hashMd5 := md5.New()
 	hashMd5.Write(buf)
 	return hex.EncodeToString(hashMd5.Sum(nil))
 }
 
-func Md5HashFile(reader io.Reader) string {
+//
+func Md5File(reader io.Reader) string {
 	var buf = make([]byte, 4096)
 	hashMd5 := md5.New()
 	for {

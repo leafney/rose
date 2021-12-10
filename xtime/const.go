@@ -6,7 +6,7 @@
  * @Description:
  */
 
-package time
+package xtime
 
 const (
 	layoutMonth    = "200601"

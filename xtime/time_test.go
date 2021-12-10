@@ -1,6 +1,8 @@
-package time
+package xtime
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestTimeNow10(t *testing.T) {
 	t.Log(NowS())
