@@ -8,7 +8,10 @@
 
 package xtime
 
-import "time"
+import (
+	"github.com/leafney/rose/xconv"
+	"time"
+)
 
 func Now() time.Time {
 	return time.Now()
@@ -19,12 +22,22 @@ func NowS() int64 {
 	return Now().Unix()
 }
 
+// 当前时间戳（秒 10位 字符串形式
+func NowStr() string {
+	return xconv.Int64ToStr(NowS())
+}
+
 // 当前时间戳（毫秒 13位
 func NowMs() int64 {
 	//这种计算毫秒时间戳的方法比较推荐，参考自：https://stackoverflow.com/questions/24122821/go-golang-time-now-unixnano-convert-to-milliseconds
 	// [time: add Time.UnixMilli and Time.UnixMicro (like Time.UnixNano) · Issue #44196 · golang/go](https://github.com/golang/go/issues/44196)
 	// time.Now().UnixNano() / int64(time.Millisecond) 官方增加了新方法支持获取毫秒
 	return Now().UnixMilli()
+}
+
+// 当前时间戳（毫秒 13位 字符串形式
+func NowMStr() string {
+	return xconv.Int64ToStr(NowMs())
 }
 
 // Converts Unix Epoch from seconds to time.Time
