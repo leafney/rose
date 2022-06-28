@@ -7,7 +7,7 @@ import (
 )
 
 // 截止到今日的24点之前的秒数
-func TheDayExpireSec() int64 {
+func ToDayRemainSec() int64 {
 	now := time.Now()
 	t, _ := time.ParseInLocation(layoutDate, now.AddDate(0, 0, 1).Format(layoutDate), time.Local)
 	return t.Unix() - now.Unix()
@@ -20,7 +20,7 @@ func DelayTimeToTomorrow(addDays int, addHourStr string) int64 {
 	t := time.Now()
 	tm := t.AddDate(0, 0, addDays)
 
-	newTimeStr := fmt.Sprintf("%s %s", tm.Format("2006-01-02"), addHourStr) //格式：2006-01-02 15:04:05
+	newTimeStr := fmt.Sprintf("%s %s", tm.Format(layoutDate), addHourStr) //格式：2006-01-02 15:04:05
 	nt, _ := time.ParseInLocation(layoutDateTime, newTimeStr, time.Local)
 
 	dt := nt.Sub(t).Seconds()

@@ -11,19 +11,19 @@
 
 // https://github.com/zheng-ji/goSnowFlake
 
-package snowflake
+package xsnowflake
 
 import (
-"errors"
-"strconv"
-"sync"
-"time"
+	"errors"
+	"strconv"
+	"sync"
+	"time"
 )
 
 const (
 	// Epoch is set to the twitter snowflake epoch of 2019-08-12 18:00:00 in milliseconds
 	// You may customize this to set a different epoch for your application.
-	CEpoch         = 1565604000000
+	CEpoch = 1565604000000
 
 	CWorkerIdBits  = 10 // Num of WorkerId Bits
 	CSenquenceBits = 12 // Num of Sequence Bits

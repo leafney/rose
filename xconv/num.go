@@ -29,3 +29,11 @@ func Float64ToStr(f float64) string {
 func Float32ToStr(f float32) string {
 	return strconv.FormatFloat(float64(f), 'f', -1, 32)
 }
+
+func UInt32ToStr(i uint32) string {
+	return strconv.FormatUint(uint64(i), 10)
+}
+
+func UInt64ToStr(i uint64) string {
+	return strconv.FormatUint(i, 10)
+}

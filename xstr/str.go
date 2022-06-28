@@ -71,3 +71,11 @@ func JoinString(args ...string) string {
 	}
 	return buffer.String()
 }
+
+// 对字符串使用任意字符分隔，支持多分隔符，支持空内容
+func StrSplitAny(s string, seps string) []string {
+	splitter := func(r rune) bool {
+		return strings.ContainsRune(seps, r)
+	}
+	return strings.FieldsFunc(s, splitter)
+}
