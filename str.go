@@ -1,13 +1,12 @@
 package rose
 
 import (
-	"math"
 	"strconv"
 	"strings"
 	"unicode"
 )
 
-// 判断字符串是否为空
+// Check if a string is empty
 func StrIsEmpty(s string) bool {
 	return len(strings.TrimSpace(s)) == 0
 }
@@ -41,37 +40,11 @@ func StrToInt64(s string) int64 {
 }
 
 // 将字符串转换为int64
-func StrToInt64WithErr(str string) (int64, error) {
-	return strconv.ParseInt(str, 10, 64)
+func StrToInt64WithErr(s string) (int64, error) {
+	return strconv.ParseInt(s, 10, 64)
 }
 
-func StrSliceRemoveEmpty(sls []string) []string {
-	newSls := make([]string, 0)
-	for k, v := range sls {
-		if len(v) > 0 {
-			newSls = append(newSls, sls[k])
-		}
-	}
-	return newSls
-}
-
-// 将一个array分成多个指定数量的分组
-func StrSliceArray(arr []string, size int) (result [][]string) {
-	ln := len(arr)
-	cs := int(math.Ceil(float64(ln) / float64(size)))
-
-	for x := 0; x < cs; x++ {
-		start := x * size
-		end := start + size
-		if end > ln {
-			end = ln
-		}
-		result = append(result, arr[start:end])
-	}
-	return
-}
-
-// 将数字字符串转换成float64类型
+// 将数字字符串转换成float64类型(转换失败返回0.0
 func StrToFloat64(s string) float64 {
 	if s == "" {
 		return 0.0
@@ -83,10 +56,13 @@ func StrToFloat64(s string) float64 {
 	}
 }
 
-// *************
+// 将数字字符串转换成float64类型
+func StrToFloat64WithErr(s string) (float64, error) {
+	return strconv.ParseFloat(s, 64)
+}
 
-// 驼峰式写法转为下划线写法
-func UnderscoreName(name string) string {
+// 将字符串驼峰式写法转为下划线写法
+func StrToUnderscoreName(name string) string {
 	buffer := NewBuffer()
 	for i, r := range name {
 		if unicode.IsUpper(r) {
@@ -102,9 +78,60 @@ func UnderscoreName(name string) string {
 	return buffer.String()
 }
 
-// 下划线写法转为驼峰写法
-func CamelName(name string) string {
+// 将字符串下划线写法转为驼峰写法
+func StrToCamelName(name string) string {
 	name = strings.Replace(name, "_", " ", -1)
 	name = strings.Title(name)
 	return strings.Replace(name, " ", "", -1)
+}
+
+// 对字符串使用任意字符分隔
+func StrSplitAny(s string, seps string) []string {
+	splitter := func(r rune) bool {
+		return strings.ContainsRune(seps, r)
+	}
+	return strings.FieldsFunc(s, splitter)
+}
+
+//start：正数 - 在字符串的指定位置开始,超出字符串长度强制把start变为字符串长度
+//       负数 - 在从字符串结尾的指定位置开始
+//       0 - 在字符串中的第一个字符处开始
+//length:正数 - 从 start 参数所在的位置返回
+//       负数 - 从字符串末端返回
+func Substr(str string, start, length int) string {
+	if length == 0 {
+		return ""
+	}
+	rune_str := []rune(str)
+	len_str := len(rune_str)
+
+	if start < 0 {
+		start = len_str + start
+	}
+	if start > len_str {
+		start = len_str
+	}
+	end := start + length
+	if end > len_str {
+		end = len_str
+	}
+	if length < 0 {
+		end = len_str + length
+	}
+	if start > end {
+		start, end = end, start
+	}
+	return string(rune_str[start:end])
+
+}
+
+/**
+ * 字符串拼接
+ */
+func JoinString(args ...string) string {
+	var buffer strings.Builder
+	for _, arg := range args {
+		buffer.WriteString(arg)
+	}
+	return buffer.String()
 }

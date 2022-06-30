@@ -2,19 +2,37 @@ package rose
 
 import "encoding/json"
 
-func JsonMarshal(v interface{}) ([]byte, error) {
+func JsonMarshal(v interface{}) []byte {
+	bt, _ := json.Marshal(v)
+	return bt
+}
+
+func JsonMarshalWithErr(v interface{}) ([]byte, error) {
 	return json.Marshal(v)
 }
 
-func JsonUnMarshal(data []byte, v interface{}) error {
-	return json.Unmarshal(data, v)
+func JsonMarshalStr(v interface{}) string {
+	bt, _ := json.Marshal(v)
+	return string(bt)
 }
 
-func JsonMarshalStr(v interface{}) (string, error) {
+func JsonMarshalStrWithErr(v interface{}) (string, error) {
 	bt, err := json.Marshal(v)
 	return string(bt), err
 }
 
-func JsonUnMarshalStr(s string, v interface{}) error {
+func JsonUnMarshal(data []byte, v interface{}) {
+	json.Unmarshal(data, v)
+}
+
+func JsonUnMarshalWithErr(data []byte, v interface{}) error {
+	return json.Unmarshal(data, v)
+}
+
+func JsonUnMarshalStr(s string, v interface{}) {
+	json.Unmarshal([]byte(s), v)
+}
+
+func JsonUnMarshalStrWithErr(s string, v interface{}) error {
 	return json.Unmarshal([]byte(s), v)
 }

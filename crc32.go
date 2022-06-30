@@ -2,14 +2,25 @@ package rose
 
 import (
 	"hash/crc32"
-	"strconv"
 )
 
-func CRC32Int(str string) uint32 {
-	return crc32.ChecksumIEEE([]byte(str))
+func crc32Int(key string) uint32 {
+	return crc32.ChecksumIEEE([]byte(key))
 }
 
-func CRC32Str(str string) string {
-	res := crc32.ChecksumIEEE([]byte(str))
-	return strconv.FormatUint(uint64(res), 10)
+func Crc32Val(key string) string {
+	val := crc32Int(key)
+	return UInt32ToStr(val)
+}
+
+func Crc32(key string) string {
+	val := crc32Int(key)
+	nVal := val % 32
+	return UInt32ToStr(nVal)
+}
+
+func Crc32Mod(key string, mod uint32) string {
+	val := crc32Int(key)
+	nVal := val % mod
+	return UInt32ToStr(nVal)
 }
