@@ -50,7 +50,7 @@ func TUnixMsToTime(ms int64) time.Time {
 
 // TODO 这两个可以结合一下
 
-// 截止到今日的24点之前的秒数
+// 截止到今日的24点之前剩余的秒数
 func ToDayRemainSec() int64 {
 	now := time.Now()
 	t, _ := time.ParseInLocation(timeLayoutDate, now.AddDate(0, 0, 1).Format(timeLayoutDate), time.Local)
@@ -91,6 +91,10 @@ func GetTimeFromUnix(t int64) string {
 		return ""
 	}
 	return time.Unix(t, 0).Format(timeLayoutDateTime)
+}
+
+func GetTFromUnix(t int64) time.Time {
+	return time.Unix(t, 0)
 }
 
 // 根据时间戳返回指定格式的时间信息

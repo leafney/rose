@@ -6,12 +6,12 @@ import (
 	"unicode"
 )
 
-// Check if a string is empty
+// StrIsEmpty Check if a string is empty
 func StrIsEmpty(s string) bool {
 	return len(strings.TrimSpace(s)) == 0
 }
 
-// 将数字字符串转换成数字类型
+// StrToInt 将数字字符串转换成数字类型
 func StrToInt(s string) int {
 	if s == "" {
 		return 0
@@ -59,6 +59,30 @@ func StrToFloat64(s string) float64 {
 // 将数字字符串转换成float64类型
 func StrToFloat64WithErr(s string) (float64, error) {
 	return strconv.ParseFloat(s, 64)
+}
+
+func StrToBool(s string) bool {
+	if b, err := strconv.ParseBool(s); err != nil {
+		return false
+	} else {
+		return b
+	}
+}
+
+func StrToBoolWithErr(s string) (bool, error) {
+	return strconv.ParseBool(s)
+}
+
+// StrToChar convert string to char slice
+func StrToChar(s string) []string {
+	c := make([]string, 0)
+	if len(s) == 0 {
+		c = append(c, "")
+	}
+	for _, v := range s {
+		c = append(c, string(v))
+	}
+	return c
 }
 
 // 将字符串驼峰式写法转为下划线写法

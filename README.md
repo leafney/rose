@@ -1,25 +1,25 @@
-### Rose
+## Rose
 
 **Golang Toolkit**
 
 [中文](README_cn.md)
 
-#### Install
+### Install
 
 ```sh
 go get -u github.com/leafney/rose
 ```
 
-#### Method List
+### Method List
 
-##### snowflake
+#### snowflake
 
 * `InitWorker` -- init worker
 * `GetNextId` -- get id
 
 ---
 
-##### Url
+#### Url
 
 * `UrlJoin` -- Merge URL request link
 * `UrlJoinWithQuery` -- Merge links with request parameters
