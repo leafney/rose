@@ -94,3 +94,16 @@ go get -u github.com/leafney/rose
 
 -----
 
+#### reqx
+
+http请求封装，链式调用，参考req。
+
+```
+ resp,err:= Get("http://jsonplaceholder.typicode.com/posts/1").
+    SetDebug(true).
+    SetTimeout(1 * time.Second).
+    SetHeader("aaa", "bbb").
+    Do()
+```
+
+-----
