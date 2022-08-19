@@ -7,17 +7,18 @@ import (
 	"time"
 )
 
+// RandInt 随机生成 [0,max) 内int类型数字
 func RandInt(max int) int {
 	rand.Seed(time.Now().UnixNano())
 	return rand.Intn(max)
 }
 
-// String returns a random string ['a', 'z'] in the specified length
-func RandStr(n int) string {
+// RandStr String returns a random string [a-z,A-Z,0-9] in the specified length
+func RandStr(length int) string {
 	rand.Seed(time.Now().UnixNano())
 
 	letter := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-	b := make([]rune, n)
+	b := make([]rune, length)
 	for i := range b {
 		b[i] = letter[rand.Intn(len(letter))]
 	}
@@ -25,13 +26,11 @@ func RandStr(n int) string {
 	return string(b)
 }
 
-/*
-生成指定长度的随机数字字符串
-*/
-func RandNumStr(n int) string {
+// RandNumStr 随机生成指定长度的数字字符串
+func RandNumStr(length int) string {
 	rand.Seed(time.Now().UnixNano())
 	// [用GO生成指定长度的随机字符串 - impressionw的博客 - CSDN博客](https://blog.csdn.net/impressionw/article/details/72765756)
-	s := make([]int, n)
+	s := make([]int, length)
 	//[Go生成随机数 - Cynhard的专栏 - CSDN博客](https://blog.csdn.net/u011304970/article/details/72721747)
 	for i := range s {
 		s[i] = rand.Intn(10)
@@ -43,17 +42,19 @@ func RandNumStr(n int) string {
 	return a
 }
 
-// Int returns a random integer in range [min, max].
+// RandIntRange Int returns a random integer in range [min, max].
 func RandIntRange(min, max int) int {
 	rand.Seed(time.Now().UnixNano())
 	return min + rand.Intn(max-min)
 }
 
+// RandInt64 随机生成 [0,max) 内的Int64随机数
 func RandInt64(max int64) int64 {
 	rand.Seed(time.Now().UnixNano())
 	return rand.Int63n(max)
 }
 
+// RandInt64Range 随机生成指定范围内的随机数
 func RandInt64Range(min, max int64) int64 {
 	rand.Seed(time.Now().UnixNano())
 	return min + rand.Int63n(max-min)

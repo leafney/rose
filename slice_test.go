@@ -18,7 +18,7 @@ func TestSliceRmvSubStr(t *testing.T) {
 	slc1 := []string{"aaa", "bbb", "ccc", "ddd", "eee", "fff", "mmm", "nnn"}
 	slc2 := []string{"ddd", "fff", "nnn"}
 	for i := 0; i < 100; i++ {
-		t.Log(SliceRmvSubStr(slc1, slc2))
+		t.Log(SliceRmvSubSlice(slc1, slc2))
 	}
 }
 
@@ -27,6 +27,6 @@ func BenchmarkSliceRmvSubStr(b *testing.B) {
 	slc2 := []string{"ddd", "fff", "nnn"}
 
 	for i := 0; i < b.N; i++ {
-		b.Log(SliceRmvSubStr(slc1, slc2))
+		b.Log(SliceRmvSubSlice(slc1, slc2))
 	}
 }

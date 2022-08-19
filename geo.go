@@ -10,7 +10,7 @@ package rose
 
 import "math"
 
-// 获取两个坐标点之间的距离（返回距离单位km
+// GetDistanceByLocation 获取两个坐标点之间的距离（返回距离单位km
 func GetDistanceByLocation(lat1, lng1, lat2, lng2 float64) float64 {
 	radius := 6371000.0
 	rad := math.Pi / 180.0

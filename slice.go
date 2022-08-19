@@ -64,8 +64,8 @@ func SliceRmvDuplicates(slices []string) []string {
 	return result
 }
 
-// SliceRmvSubStr slice1中去除slice2中有的item
-func SliceRmvSubStr(slice1, slice2 []string) (newSlice []string) {
+// SliceRmvSubSlice slice1中去除slice2中有的item
+func SliceRmvSubSlice(slice1, slice2 []string) (newSlice []string) {
 	for _, s1 := range slice1 {
 		flag := true
 		for _, s2 := range slice2 {
@@ -81,7 +81,7 @@ func SliceRmvSubStr(slice1, slice2 []string) (newSlice []string) {
 	return
 }
 
-// 判断slice中是否存在
+// SliceExistStr 判断slice中是否存在
 func SliceExistStr(slices []string, val string) bool {
 	for _, v := range slices {
 		if val == v {
@@ -100,10 +100,23 @@ func SliceExistInt64(slices []int64, val int64) bool {
 	return false
 }
 
-// 随机选择Slice中的一项
-func SliceRandomItem(slices []string) string {
+// SliceRandomItemStr 随机选择Slice中的一项
+func SliceRandomItemStr(slices []string) string {
 	if len(slices) == 0 {
 		return ""
+	} else if len(slices) == 1 {
+		return slices[0]
+	} else {
+		rand.Seed(time.Now().UnixNano())
+		// https://stackoverflow.com/questions/33994677/pick-a-random-value-from-a-go-slice
+		return slices[rand.Intn(len(slices))]
+	}
+}
+
+// SliceRandomItemInt64 随机选择slice中的一项
+func SliceRandomItemInt64(slices []int64) int64 {
+	if len(slices) == 0 {
+		return 0
 	} else if len(slices) == 1 {
 		return slices[0]
 	} else {
@@ -140,7 +153,7 @@ func SliceShuffleStr(list []string) (newList []string) {
 	return
 }
 
-//
+// SliceIntToStr 将int类型slice拼接成指定字符分隔的字符串
 func SliceIntToStr(slice []int, sep string) string {
 	if len(slice) == 0 {
 		return ""
@@ -152,7 +165,7 @@ func SliceIntToStr(slice []int, sep string) string {
 	return strings.Join(res, sep)
 }
 
-//
+// SliceInt64ToStr 将int64类型slice拼接成指定字符分隔的字符串
 func SliceInt64ToStr(slice []int64, sep string) string {
 	if len(slice) == 0 {
 		return ""
@@ -164,6 +177,7 @@ func SliceInt64ToStr(slice []int64, sep string) string {
 	return strings.Join(res, sep)
 }
 
+// SliceStrToStr 将slice拼接成指定字符分隔的字符串
 func SliceStrToStr(slice []string, sep string) string {
 	if len(slice) == 0 {
 		return ""

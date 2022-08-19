@@ -23,11 +23,12 @@ func StrToInt(s string) int {
 	}
 }
 
+// StrToIntWithErr 将数字字符串转换成数字类型
 func StrToIntWithErr(s string) (int, error) {
 	return strconv.Atoi(s)
 }
 
-// 将字符串转换为int64(转换失败返回0
+// StrToInt64 将字符串转换为int64(转换失败返回0
 func StrToInt64(s string) int64 {
 	if s == "" {
 		return 0
@@ -39,12 +40,12 @@ func StrToInt64(s string) int64 {
 	}
 }
 
-// 将字符串转换为int64
+// StrToInt64WithErr 将字符串转换为int64
 func StrToInt64WithErr(s string) (int64, error) {
 	return strconv.ParseInt(s, 10, 64)
 }
 
-// 将数字字符串转换成float64类型(转换失败返回0.0
+// StrToFloat64 将数字字符串转换成float64类型(转换失败返回0.0
 func StrToFloat64(s string) float64 {
 	if s == "" {
 		return 0.0
@@ -85,8 +86,8 @@ func StrToChar(s string) []string {
 	return c
 }
 
-// 将字符串驼峰式写法转为下划线写法
-func StrToUnderscoreName(name string) string {
+// StrToUnderScoreName 将字符串驼峰式写法转为下划线写法
+func StrToUnderScoreName(name string) string {
 	buffer := NewBuffer()
 	for i, r := range name {
 		if unicode.IsUpper(r) {
@@ -102,14 +103,14 @@ func StrToUnderscoreName(name string) string {
 	return buffer.String()
 }
 
-// 将字符串下划线写法转为驼峰写法
+// StrToCamelName 将字符串下划线写法转为驼峰写法
 func StrToCamelName(name string) string {
 	name = strings.Replace(name, "_", " ", -1)
 	name = strings.Title(name)
 	return strings.Replace(name, " ", "", -1)
 }
 
-// 对字符串使用任意字符分隔
+// StrSplitAny 对字符串使用任意字符分隔
 func StrSplitAny(s string, seps string) []string {
 	splitter := func(r rune) bool {
 		return strings.ContainsRune(seps, r)
@@ -149,10 +150,8 @@ func Substr(str string, start, length int) string {
 
 }
 
-/**
- * 字符串拼接
- */
-func JoinString(args ...string) string {
+// StrJoin 字符串拼接
+func StrJoin(args ...string) string {
 	var buffer strings.Builder
 	for _, arg := range args {
 		buffer.WriteString(arg)
