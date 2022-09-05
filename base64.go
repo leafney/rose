@@ -16,3 +16,16 @@ func Base64Decode(str string) (string, error) {
 		return string(data), nil
 	}
 }
+
+func Base64URLEncode(str string) string {
+	return base64.RawURLEncoding.EncodeToString([]byte(str))
+}
+
+func Base64URLDecode(str string) (string, error) {
+	data, err := base64.RawURLEncoding.DecodeString(str)
+	if err != nil {
+		return "", err
+	} else {
+		return string(data), nil
+	}
+}
