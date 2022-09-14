@@ -23,6 +23,18 @@ func StrToInt(s string) int {
 	}
 }
 
+// StrToIntWithDef 转换失败返回预设值
+func StrToIntWithDef(s string, def int) int {
+	if s == "" {
+		return def
+	}
+	if i, err := strconv.Atoi(s); err != nil {
+		return def
+	} else {
+		return i
+	}
+}
+
 // StrToIntWithErr 将数字字符串转换成数字类型
 func StrToIntWithErr(s string) (int, error) {
 	return strconv.Atoi(s)
@@ -35,6 +47,18 @@ func StrToInt64(s string) int64 {
 	}
 	if i, err := strconv.ParseInt(s, 10, 64); err != nil {
 		return 0
+	} else {
+		return i
+	}
+}
+
+// StrToInt64WithDef 转换失败返回预设值
+func StrToInt64WithDef(s string, def int64) int64 {
+	if s == "" {
+		return def
+	}
+	if i, err := strconv.ParseInt(s, 10, 64); err != nil {
+		return def
 	} else {
 		return i
 	}
@@ -57,6 +81,18 @@ func StrToFloat64(s string) float64 {
 	}
 }
 
+// StrToFloat64WithDef 转换失败返回预设值
+func StrToFloat64WithDef(s string, def float64) float64 {
+	if s == "" {
+		return def
+	}
+	if i, err := strconv.ParseFloat(s, 64); err != nil {
+		return def
+	} else {
+		return i
+	}
+}
+
 // 将数字字符串转换成float64类型
 func StrToFloat64WithErr(s string) (float64, error) {
 	return strconv.ParseFloat(s, 64)
@@ -65,6 +101,15 @@ func StrToFloat64WithErr(s string) (float64, error) {
 func StrToBool(s string) bool {
 	if b, err := strconv.ParseBool(s); err != nil {
 		return false
+	} else {
+		return b
+	}
+}
+
+// StrToBoolWithDef 转换失败返回预设值
+func StrToBoolWithDef(s string, def bool) bool {
+	if b, err := strconv.ParseBool(s); err != nil {
+		return def
 	} else {
 		return b
 	}
