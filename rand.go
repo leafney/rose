@@ -15,9 +15,19 @@ func RandInt(max int) int {
 
 // RandStr String returns a random string [a-z,A-Z,0-9] in the specified length
 func RandStr(length int) string {
+	str := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	return RandSomeStr(str, length)
+}
+
+// RandSomeStr 随机获取指定长度的指定字符串
+func RandSomeStr(s string, length int) string {
+	if StrIsEmpty(s) {
+		return ""
+	}
+
 	rand.Seed(time.Now().UnixNano())
 
-	letter := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+	letter := []rune(s)
 	b := make([]rune, length)
 	for i := range b {
 		b[i] = letter[rand.Intn(len(letter))]
@@ -42,7 +52,7 @@ func RandNumStr(length int) string {
 	return a
 }
 
-// RandIntRange Int returns a random integer in range [min, max].
+// RandIntRange Int returns a random integer in range [min, max).
 func RandIntRange(min, max int) int {
 	rand.Seed(time.Now().UnixNano())
 	return min + rand.Intn(max-min)
@@ -54,7 +64,7 @@ func RandInt64(max int64) int64 {
 	return rand.Int63n(max)
 }
 
-// RandInt64Range 随机生成指定范围内的随机数
+// RandInt64Range 随机生成指定范围 [0,max) 内的随机数
 func RandInt64Range(min, max int64) int64 {
 	rand.Seed(time.Now().UnixNano())
 	return min + rand.Int63n(max-min)

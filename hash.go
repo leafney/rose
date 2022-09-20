@@ -12,6 +12,11 @@ func Md5HashStr(s string) string {
 	return hex.EncodeToString(hashMd5.Sum(nil))
 }
 
+func Md5HashJoinStr(s ...string) string {
+	str := StrJoin(s...)
+	return Md5HashStr(str)
+}
+
 func Md5HashBuf(buf []byte) string {
 	hashMd5 := md5.New()
 	hashMd5.Write(buf)
