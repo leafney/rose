@@ -184,3 +184,28 @@ func SliceStrToStr(slice []string, sep string) string {
 	}
 	return strings.Join(slice, sep)
 }
+
+// SlicePage slice分页
+func SlicePage(page, pageSize, defSize int64, nums int) (sliceStart, sliceEnd int) {
+	if page <= 0 {
+		page = 1
+	}
+	if pageSize <= 0 {
+		pageSize = defSize
+	}
+	if int(pageSize) > nums {
+		return 0, nums
+	}
+	pageCount := int64(math.Ceil(float64(nums) / float64(pageSize)))
+	if page > pageCount {
+		return 0, 0
+	}
+
+	sliceStart = int((page - 1) * pageSize)
+	sliceEnd = sliceStart + int(pageSize)
+
+	if sliceEnd > nums {
+		sliceEnd = nums
+	}
+	return sliceStart, sliceEnd
+}
