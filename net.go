@@ -118,6 +118,6 @@ func ClientPublicIP(r *http.Request) string {
 
 // RemoteIP 通过 RemoteAddr 获取 IP 地址， 只是一个快速解析方法。
 func RemoteIP(r *http.Request) string {
-	ip, _, _ := net.SplitHostPort(r.RemoteAddr)
+	ip, _, _ := net.SplitHostPort(strings.TrimSpace(r.RemoteAddr))
 	return ip
 }

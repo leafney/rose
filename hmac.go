@@ -32,7 +32,7 @@ func HmacSha1(data, key string) string {
 func HmacSha256(data, key string) string {
 	h := hmac.New(sha256.New, []byte(key))
 	h.Write([]byte(data))
-	return hex.EncodeToString(h.Sum([]byte("")))
+	return hex.EncodeToString(h.Sum(nil))
 }
 
 func HmacSha512(data, key string) string {

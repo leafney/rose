@@ -1,6 +1,10 @@
 package rose
 
-import "encoding/base64"
+import (
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/base64"
+)
 
 // 对字符串进行Base64编码
 func Base64Encode(str string) string {
@@ -28,4 +32,10 @@ func Base64URLDecode(str string) (string, error) {
 	} else {
 		return string(data), nil
 	}
+}
+
+func Base64HmacSha256(data, key string) string {
+	h := hmac.New(sha256.New, []byte(key))
+	h.Write([]byte(data))
+	return base64.StdEncoding.EncodeToString(h.Sum(nil))
 }
