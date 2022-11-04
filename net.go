@@ -26,8 +26,8 @@ func LocalIP() (string, error) {
 	return "", errors.New("can't get local IP")
 }
 
-// LocalMac gets the first NIC's MAC address.
-func LocalMac() (string, error) {
+// LocalMacAddr gets the first NIC's MAC address.
+func LocalMacAddr() (string, error) {
 	interfaces, err := net.Interfaces()
 	if err != nil {
 		return "", err
@@ -87,8 +87,8 @@ func ClientIP(r *http.Request) string {
 	if ip != "" {
 		return ip
 	}
-
-	if ip, _, err := net.SplitHostPort(strings.TrimSpace(r.RemoteAddr)); err == nil {
+	var err error
+	if ip, _, err = net.SplitHostPort(strings.TrimSpace(r.RemoteAddr)); err == nil {
 		return ip
 	}
 
@@ -119,5 +119,21 @@ func ClientPublicIP(r *http.Request) string {
 // RemoteIP 通过 RemoteAddr 获取 IP 地址， 只是一个快速解析方法。
 func RemoteIP(r *http.Request) string {
 	ip, _, _ := net.SplitHostPort(strings.TrimSpace(r.RemoteAddr))
+	return ip
+}
+
+// GetRemoteClientIP 获取客户端IP地址
+// 优先获取公网IP（解析 X-Real-IP 和 X-Forwarded-For），无公网IP则获取内网IP
+func GetRemoteClientIP(r *http.Request) string {
+	// 优先尝试获取公网IP
+	ip := ClientPublicIP(r)
+	if StrIsEmpty(ip) {
+		// 其次尝试获取内网IP
+		ip = ClientIP(r)
+	}
+
+	if ip == "::1" {
+		ip = "127.0.0.1"
+	}
 	return ip
 }
