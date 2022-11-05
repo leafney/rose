@@ -48,12 +48,12 @@ type GetContentFunc func() (io.ReadCloser, error)
 
 func (r *Request) Do() (resp *Response, err error) {
 
-	if err := parseRequestURL(r); err != nil {
+	if err = parseRequestURL(r); err != nil {
 		r.log.Printf("[ERROR] failed to get params %v", err)
 		return nil, err
 	}
 
-	if err := parseRequestBody(r); err != nil {
+	if err = parseRequestBody(r); err != nil {
 		r.log.Printf("[ERROR] failed to get body %v", err)
 		return nil, err
 	}
@@ -129,19 +129,24 @@ func (r *Request) Do() (resp *Response, err error) {
 		fmt.Printf("[ERROR] failed to request %v", err)
 		return nil, err
 	}
-	defer httpResp.Body.Close()
-	body, err := ioutil.ReadAll(httpResp.Body)
-	if err != nil {
-		fmt.Printf("[ERROR] failed to read body %v", err)
-		return nil, err
-	}
-	fmt.Println("返回数据：")
-	fmt.Println(string(body))
-	//return &Response{
-	//	resp,
-	//	req,
-	//}, err
-	return nil, nil
+
+	//defer httpResp.Body.Close()
+	//body, err := ioutil.ReadAll(httpResp.Body)
+	//if err != nil {
+	//	fmt.Printf("[ERROR] failed to read body %v", err)
+	//	return nil, err
+	//}
+	//
+	//if r.Debug {
+	//	r.log.Printf("Response: \n %s \r\n", string(body))
+	//}
+
+	return &Response{
+		r:    r,
+		resp: httpResp,
+		req:  r.RawRequest,
+	}, nil
+
 }
 
 // SetFormData set the form data from a map

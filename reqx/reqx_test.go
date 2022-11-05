@@ -14,8 +14,16 @@ import (
 )
 
 func TestGet(t *testing.T) {
-	Get("http://jsonplaceholder.typicode.com/posts/1").
-		SetDebug(true).
-		SetTimeout(1 * time.Second).
-		Do()
+	resp, err :=
+		Get("http://jsonplaceholder.typicode.com/posts/1").
+			SetDebug(true).
+			SetTimeout(1 * time.Second).
+			Do()
+	if err != nil {
+		t.Error(err)
+	}
+	if resp.IsSuccess() {
+		t.Log(resp.String())
+	}
+	t.Log(resp.StatusCode())
 }

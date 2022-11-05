@@ -14,14 +14,14 @@ import (
 	"os"
 )
 
-var std = New()
+var std = new()
 
 type Req struct {
 	req *Request
 	//Timeout time.Duration
 }
 
-func New() *Req {
+func new() *Req {
 	return &Req{
 		req: &Request{
 			//TimeOut:
