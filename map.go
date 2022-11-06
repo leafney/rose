@@ -10,6 +10,7 @@ package rose
 
 import "sort"
 
+// MapInt64SortByValue 将map中的key按照value大小排序后返回
 func MapInt64SortByValue(m map[string]int64, asc bool) (nk []string) {
 	type PairKV struct {
 		Key   string
@@ -35,6 +36,7 @@ func MapInt64SortByValue(m map[string]int64, asc bool) (nk []string) {
 	return nk
 }
 
+// MapFloat64SortByValue 将map中的key按照value大小排序后返回
 func MapFloat64SortByValue(m map[string]float64, asc bool) (nk []string) {
 	type PairKV struct {
 		Key   string
@@ -58,4 +60,12 @@ func MapFloat64SortByValue(m map[string]float64, asc bool) (nk []string) {
 		nk = append(nk, re.Key)
 	}
 	return nk
+}
+
+// MapGetValueDef 获取map中key的值或返回指定的默认值
+func MapGetValueDef(m map[string]string, key string, def string) string {
+	if val, ok := m[key]; ok {
+		return val
+	}
+	return def
 }

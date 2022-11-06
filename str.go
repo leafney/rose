@@ -155,12 +155,22 @@ func StrToCamelName(name string) string {
 	return strings.Replace(name, " ", "", -1)
 }
 
-// StrSplitAny 对字符串使用任意字符分隔
+// StrSplitAny 对字符串使用任意一个或多个字符分隔，同时排除空字符
 func StrSplitAny(s string, seps string) []string {
 	splitter := func(r rune) bool {
 		return strings.ContainsRune(seps, r)
 	}
 	return strings.FieldsFunc(s, splitter)
+}
+
+// StrRemoveAny 移除字符串中一个或多个字符
+func StrRemoveAny(s string, seps []string) string {
+	for _, sep := range seps {
+		if strings.Contains(s, sep) {
+			s = strings.ReplaceAll(s, sep, "")
+		}
+	}
+	return s
 }
 
 //start：正数 - 在字符串的指定位置开始,超出字符串长度强制把start变为字符串长度
@@ -202,4 +212,14 @@ func StrJoin(args ...string) string {
 		buffer.WriteString(arg)
 	}
 	return buffer.String()
+}
+
+// StrEqualFold 比较两个字符串是否相同，不区分大小写
+func StrEqualFold(s, t string) bool {
+	return strings.EqualFold(s, t)
+}
+
+// StrEqualFull 比较两个字符串是否完全相等，区分大小写
+func StrEqualFull(s, t string) bool {
+	return s == t
 }

@@ -18,6 +18,7 @@ func TestGet(t *testing.T) {
 		Get("http://jsonplaceholder.typicode.com/posts/1").
 			SetDebug(true).
 			SetTimeout(1 * time.Second).
+			SetDefUserAgent().
 			Do()
 	if err != nil {
 		t.Error(err)

@@ -185,18 +185,19 @@ func SliceStrToStr(slice []string, sep string) string {
 	return strings.Join(slice, sep)
 }
 
-// SlicePage slice分页
-func SlicePage(page, pageSize, defSize int64, nums int) (sliceStart, sliceEnd int) {
+// SliceSplitPage 对slice分页
+// page: 设置当前页码；pageSize: 设置获取每页条数；defSize：默认每页条数；count: 总数据条数
+func SliceSplitPage(page, pageSize, defSize int64, count int) (sliceStart, sliceEnd int) {
 	if page <= 0 {
 		page = 1
 	}
 	if pageSize <= 0 {
 		pageSize = defSize
 	}
-	if int(pageSize) > nums {
-		return 0, nums
+	if int(pageSize) > count {
+		return 0, count
 	}
-	pageCount := int64(math.Ceil(float64(nums) / float64(pageSize)))
+	pageCount := int64(math.Ceil(float64(count) / float64(pageSize)))
 	if page > pageCount {
 		return 0, 0
 	}
@@ -204,8 +205,68 @@ func SlicePage(page, pageSize, defSize int64, nums int) (sliceStart, sliceEnd in
 	sliceStart = int((page - 1) * pageSize)
 	sliceEnd = sliceStart + int(pageSize)
 
-	if sliceEnd > nums {
-		sliceEnd = nums
+	if sliceEnd > count {
+		sliceEnd = count
 	}
 	return sliceStart, sliceEnd
+}
+
+// SliceGroupStr 将字符串切片分成若干组，每个组中元素个数为num个；不足一组时最后一组中包含剩余的所有元素
+func SliceGroupStr(arr []string, num int64) [][]string {
+	max := int64(len(arr))
+	//判断数组大小是否小于等于指定分割大小的值，是则把原数组放入二维数组返回
+	if max <= num {
+		return [][]string{arr}
+	}
+	//获取应该数组分割为多少份
+	var quantity int64
+	if max%num == 0 {
+		quantity = max / num
+	} else {
+		quantity = (max / num) + 1
+	}
+	//声明分割好的二维数组
+	var segments = make([][]string, 0)
+	//声明分割数组的截止下标
+	var start, end, i int64
+	for i = 1; i <= quantity; i++ {
+		end = i * num
+		if i != quantity {
+			segments = append(segments, arr[start:end])
+		} else {
+			segments = append(segments, arr[start:])
+		}
+		start = i * num
+	}
+	return segments
+}
+
+// SliceGroupInt64 将字符串切片分成若干组，每个组中元素个数为num个；不足一组时最后一组中包含剩余的所有元素
+func SliceGroupInt64(arr []int64, num int64) [][]int64 {
+	max := int64(len(arr))
+	//判断数组大小是否小于等于指定分割大小的值，是则把原数组放入二维数组返回
+	if max <= num {
+		return [][]int64{arr}
+	}
+	//获取应该数组分割为多少份
+	var quantity int64
+	if max%num == 0 {
+		quantity = max / num
+	} else {
+		quantity = (max / num) + 1
+	}
+	//声明分割好的二维数组
+	var segments = make([][]int64, 0)
+	//声明分割数组的截止下标
+	var start, end, i int64
+	for i = 1; i <= quantity; i++ {
+		end = i * num
+		if i != quantity {
+			segments = append(segments, arr[start:end])
+		} else {
+			segments = append(segments, arr[start:])
+		}
+		start = i * num
+	}
+	return segments
 }

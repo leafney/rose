@@ -52,14 +52,14 @@ func LocalMacAddr() (string, error) {
 	return "", errors.New("can't get local mac")
 }
 
-// IsLocalIPAddr 检测 IP 地址字符串是否是内网地址
-func IsLocalIPAddr(ip string) bool {
-	return IsLocalIP(net.ParseIP(ip))
+// IsLocalIP 检测 IP 地址字符串是否是内网地址
+func IsLocalIP(ip string) bool {
+	return ChkLocalIP(net.ParseIP(ip))
 }
 
-// IsLocalIP 检测 IP 地址是否是内网地址
+// ChkLocalIP 检测 IP 地址是否是内网地址
 // 通过直接对比ip段范围效率更高，详见：https://github.com/thinkeridea/go-extend/issues/2
-func IsLocalIP(ip net.IP) bool {
+func ChkLocalIP(ip net.IP) bool {
 	if ip.IsLoopback() {
 		return true
 	}
@@ -100,16 +100,16 @@ func ClientIP(r *http.Request) string {
 func ClientPublicIP(r *http.Request) string {
 	var ip string
 	for _, ip = range strings.Split(r.Header.Get("X-Forwarded-For"), ",") {
-		if ip = strings.TrimSpace(ip); ip != "" && !IsLocalIPAddr(ip) {
+		if ip = strings.TrimSpace(ip); ip != "" && !IsLocalIP(ip) {
 			return ip
 		}
 	}
 
-	if ip = strings.TrimSpace(r.Header.Get("X-Real-Ip")); ip != "" && !IsLocalIPAddr(ip) {
+	if ip = strings.TrimSpace(r.Header.Get("X-Real-Ip")); ip != "" && !IsLocalIP(ip) {
 		return ip
 	}
 
-	if ip = RemoteIP(r); !IsLocalIPAddr(ip) {
+	if ip = RemoteIP(r); !IsLocalIP(ip) {
 		return ip
 	}
 
@@ -122,7 +122,7 @@ func RemoteIP(r *http.Request) string {
 	return ip
 }
 
-// GetRemoteClientIP 获取客户端IP地址
+// GetRemoteClientIP 获取客户端IP地址，支持公网IP和内网IP
 // 优先获取公网IP（解析 X-Real-IP 和 X-Forwarded-For），无公网IP则获取内网IP
 func GetRemoteClientIP(r *http.Request) string {
 	// 优先尝试获取公网IP
@@ -136,4 +136,12 @@ func GetRemoteClientIP(r *http.Request) string {
 		ip = "127.0.0.1"
 	}
 	return ip
+}
+
+func IsIPv4(ip string) bool {
+	return net.ParseIP(ip).To4() != nil
+}
+
+func IsIPv6(ip string) bool {
+	return net.ParseIP(ip).To16() != nil
 }

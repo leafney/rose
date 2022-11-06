@@ -19,7 +19,7 @@ func TestLocalIP(t *testing.T) {
 	//}
 	//t.Logf(ip)
 
-	t.Log(IsLocalIPAddr("::1"))
-	t.Log(IsLocalIPAddr("127.0.0.1"))
+	t.Log(IsLocalIP("::1"))
+	t.Log(IsLocalIP("127.0.0.1"))
 
 }

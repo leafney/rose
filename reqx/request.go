@@ -12,6 +12,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"fmt"
+	"github.com/leafney/rose"
 	"io"
 	"io/ioutil"
 	"log"
@@ -59,7 +60,7 @@ func (r *Request) Do() (resp *Response, err error) {
 	}
 
 	if r.Debug {
-		r.log.Printf("%s %s \r\n", r.Method, r.URL.String())
+		r.log.Printf("URL: %s %s\n", r.Method, r.URL.String())
 	}
 
 	var host string
@@ -79,7 +80,7 @@ func (r *Request) Do() (resp *Response, err error) {
 	if r.Debug {
 		for k, vv := range header {
 			for _, v := range vv {
-				r.log.Printf("%s: %s \r\n", k, v)
+				r.log.Printf("Headers: \n%s: %s\n", k, v)
 			}
 		}
 	}
@@ -240,6 +241,7 @@ func (r *Request) AddQueryParam(key, value string) *Request {
 }
 
 // SetPathParams set URL path parameters from a map for the request.
+// https://www.xxx.com/user/{name}
 func (r *Request) SetPathParams(params map[string]string) *Request {
 	for key, value := range params {
 		r.SetPathParam(key, value)
@@ -259,6 +261,23 @@ func (r *Request) SetPathParam(key, value string) *Request {
 // SetContentType set the `Content-Type` for the request.
 func (r *Request) SetContentType(contentType string) *Request {
 	return r.SetHeader("Content-Type", contentType)
+}
+
+//
+func (r *Request) SetUserAgent(userAgent string) *Request {
+	return r.SetHeader("User-Agent", userAgent)
+}
+
+func (r *Request) SetDefUserAgent() *Request {
+	agentList := []string{
+		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.28",
+		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15",
+		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36",
+		"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0",
+		"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:90.0) Gecko/20100101 Firefox/90.0",
+	}
+	agent := rose.SliceRandomItemStr(agentList)
+	return r.SetHeader("User-Agent", agent)
 }
 
 func (r *Request) SetProxy(proxyUrl string, skipVerify bool) *Request {

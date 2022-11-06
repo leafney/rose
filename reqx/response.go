@@ -44,7 +44,8 @@ func (r *Response) ToBytes() ([]byte, error) {
 	}
 
 	if r.r.Debug {
-		r.r.log.Printf("Response: \r\n %s \r\n", string(body))
+		r.r.log.Printf("StatusCode: %v\n", r.resp.Status)
+		r.r.log.Printf("Response: \n%s\n", string(body))
 	}
 
 	r.respBody = body
