@@ -164,13 +164,23 @@ func StrSplitAny(s string, seps string) []string {
 }
 
 // StrRemoveAny 移除字符串中一个或多个字符
-func StrRemoveAny(s string, seps []string) string {
+func StrRemoveAny(s string, seps ...string) string {
 	for _, sep := range seps {
 		if strings.Contains(s, sep) {
 			s = strings.ReplaceAll(s, sep, "")
 		}
 	}
 	return s
+}
+
+// StrContainsAny 判断是否包含其中的某个字符串
+func StrContainsAny(s string, seps ...string) bool {
+	for _, sep := range seps {
+		if strings.Contains(s, sep) {
+			return true
+		}
+	}
+	return false
 }
 
 //start：正数 - 在字符串的指定位置开始,超出字符串长度强制把start变为字符串长度
@@ -222,4 +232,43 @@ func StrEqualFold(s, t string) bool {
 // StrEqualFull 比较两个字符串是否完全相等，区分大小写
 func StrEqualFull(s, t string) bool {
 	return s == t
+}
+
+func StrPrefixAny(s string, prefixes ...string) bool {
+	for _, prefix := range prefixes {
+		if strings.HasPrefix(s, prefix) {
+			return true
+		}
+	}
+	return false
+}
+
+func StrSuffixAny(s string, suffixes ...string) bool {
+	for _, suffix := range suffixes {
+		if strings.HasSuffix(s, suffix) {
+			return true
+		}
+	}
+	return false
+}
+
+func StrPrefixAnyI(s string, prefixes ...string) bool {
+	st := strings.ToLower(s)
+	for _, prefix := range prefixes {
+		if strings.HasPrefix(st, strings.ToLower(prefix)) {
+			return true
+		}
+	}
+	return false
+}
+
+// StrSuffixAnyI is case insensitive HasSuffix
+func StrSuffixAnyI(s string, suffixes ...string) bool {
+	st := strings.ToLower(s)
+	for _, suffix := range suffixes {
+		if strings.HasSuffix(st, strings.ToLower(suffix)) {
+			return true
+		}
+	}
+	return false
 }
