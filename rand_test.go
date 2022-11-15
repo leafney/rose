@@ -12,8 +12,9 @@ import "testing"
 
 func TestRandIntRange(t *testing.T) {
 
-	for i := 0; i < 10; i++ {
-		t.Log(RandIntRange(0, 5))
+	for i := 0; i < 20; i++ {
+		//t.Log(RandIntRange(0, 5))
+		t.Log(RandInt64(100))
 	}
 }
 
