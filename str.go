@@ -266,6 +266,7 @@ func StrEqualFull(s, t string) bool {
 	return s == t
 }
 
+// StrPrefixAny 是否以任何前缀字符串开头
 func StrPrefixAny(s string, prefixes ...string) bool {
 	for _, prefix := range prefixes {
 		if strings.HasPrefix(s, prefix) {
@@ -275,6 +276,7 @@ func StrPrefixAny(s string, prefixes ...string) bool {
 	return false
 }
 
+// StrSuffixAny 是否以任何后缀字符串结尾
 func StrSuffixAny(s string, suffixes ...string) bool {
 	for _, suffix := range suffixes {
 		if strings.HasSuffix(s, suffix) {
@@ -284,6 +286,7 @@ func StrSuffixAny(s string, suffixes ...string) bool {
 	return false
 }
 
+// StrPrefixAnyI 是否以任何前缀字符串开头，不区分大小写
 func StrPrefixAnyI(s string, prefixes ...string) bool {
 	st := strings.ToLower(s)
 	for _, prefix := range prefixes {
@@ -294,7 +297,7 @@ func StrPrefixAnyI(s string, prefixes ...string) bool {
 	return false
 }
 
-// StrSuffixAnyI is case insensitive HasSuffix
+// StrSuffixAnyI 是否以任何后缀字符串结尾，不区分大小写
 func StrSuffixAnyI(s string, suffixes ...string) bool {
 	st := strings.ToLower(s)
 	for _, suffix := range suffixes {
@@ -303,4 +306,12 @@ func StrSuffixAnyI(s string, suffixes ...string) bool {
 		}
 	}
 	return false
+}
+
+func StrToLower(s string) string {
+	return strings.ToLower(s)
+}
+
+func StrToUpper(s string) string {
+	return strings.ToUpper(s)
 }
