@@ -11,6 +11,21 @@ func StrIsEmpty(s string) bool {
 	return len(strings.TrimSpace(s)) == 0
 }
 
+// StrTrim TrimSpace
+func StrTrim(s string) string {
+	return strings.TrimSpace(s)
+}
+
+// StrLTrim TrimPrefix
+func StrLTrim(s, left string) string {
+	return strings.TrimPrefix(s, left)
+}
+
+// StrRTrim TrimSuffix
+func StrRTrim(s, right string) string {
+	return strings.TrimSuffix(s, right)
+}
+
 // StrToInt 将数字字符串转换成数字类型
 func StrToInt(s string) int {
 	if s == "" {
@@ -155,7 +170,9 @@ func StrToCamelName(name string) string {
 	return strings.Replace(name, " ", "", -1)
 }
 
-// StrSplitAny 对字符串使用任意一个或多个字符分隔，同时排除空字符
+// -----------------
+
+// StrSplitAny 对字符串使用任意一个或多个字符分隔，**同时排除空字符**
 func StrSplitAny(s string, seps string) []string {
 	splitter := func(r rune) bool {
 		return strings.ContainsRune(seps, r)
@@ -163,9 +180,19 @@ func StrSplitAny(s string, seps string) []string {
 	return strings.FieldsFunc(s, splitter)
 }
 
+func StrTrimAny(s string, seps ...string) string {
+	// 先对分隔字符串按照长度由大到小排序
+	seps = SliceSortByLength(seps, false)
+
+	for _, sep := range seps {
+		s = strings.Trim(s, sep)
+	}
+	return s
+}
+
 // StrRemoveAny 移除字符串中一个或多个字符
 func StrRemoveAny(s string, seps ...string) string {
-	// 先对分隔符按照长度由大到小排序
+	// 先对分隔字符串按照长度由大到小排序
 	seps = SliceSortByLength(seps, false)
 
 	for _, sep := range seps {
@@ -185,6 +212,8 @@ func StrContainsAny(s string, seps ...string) bool {
 	}
 	return false
 }
+
+// -------------------
 
 //start：正数 - 在字符串的指定位置开始,超出字符串长度强制把start变为字符串长度
 //       负数 - 在从字符串结尾的指定位置开始
