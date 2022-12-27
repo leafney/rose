@@ -72,7 +72,15 @@ func DelayTimeToTomorrow(addDays int, addHourStr string) int64 {
 	return int64(fdt)
 }
 
-// 返回今天日期 2019-01-09
+func GetMonth() string {
+	return time.Now().Format(timeLayoutShortMonth)
+}
+
+func GetNextMonth() string {
+	return time.Now().AddDate(0, 1, 0).Format(timeLayoutShortMonth)
+}
+
+// GetDate 返回今天日期 2019-01-09
 func GetDate() string {
 	return time.Now().Format(timeLayoutDate)
 }
@@ -175,8 +183,8 @@ func ParseStringTime(tm, lc string) (time.Time, error) {
 	return time.ParseInLocation(timeLayoutDateTime, tm, loc)
 }
 
-// GMT
-// eg: Mon, 20 Jul 2020 06:09:21 GMT =>
+// ParseGMTTimeOfRFC1123 GMT
+// eg: Mon, 20 Jul 2020 06:09:21 GMT => Time
 // https://golang.org/pkg/time/#pkg-constants
 func ParseGMTTimeOfRFC1123(gmt string) (time.Time, error) {
 	return time.Parse(time.RFC1123, gmt)

@@ -11,6 +11,7 @@ package rose
 import (
 	"math"
 	"math/rand"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -44,7 +45,14 @@ func SliceStrToArray(arr []string, size int) (result [][]string) {
 }
 
 // SliceReverse 切片反转
-func SliceReverse(s []string) []string {
+func SliceReverse(slices interface{}) {
+	sort.SliceStable(slices, func(i, j int) bool {
+		return true
+	})
+}
+
+// SliceStrReverse 切片反转
+func SliceStrReverse(s []string) []string {
 	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
 		s[i], s[j] = s[j], s[i]
 	}
@@ -124,6 +132,19 @@ func SliceRandomItemInt64(slices []int64) int64 {
 		// https://stackoverflow.com/questions/33994677/pick-a-random-value-from-a-go-slice
 		return slices[rand.Intn(len(slices))]
 	}
+}
+
+// SliceSortByLength 将slice中字符串按照长度排序
+// asc 有小到大；desc 由大到小
+func SliceSortByLength(slices []string, asc bool) []string {
+	sort.Slice(slices, func(i, j int) bool {
+		if asc {
+			return len(slices[i]) < len(slices[j])
+		} else {
+			return len(slices[i]) > len(slices[j])
+		}
+	})
+	return slices
 }
 
 // 洗牌算法

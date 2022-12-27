@@ -165,6 +165,9 @@ func StrSplitAny(s string, seps string) []string {
 
 // StrRemoveAny 移除字符串中一个或多个字符
 func StrRemoveAny(s string, seps ...string) string {
+	// 先对分隔符按照长度由大到小排序
+	seps = SliceSortByLength(seps, false)
+
 	for _, sep := range seps {
 		if strings.Contains(s, sep) {
 			s = strings.ReplaceAll(s, sep, "")
