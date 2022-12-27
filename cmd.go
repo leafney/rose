@@ -4,11 +4,12 @@ import (
 	"bytes"
 	"log"
 	"os/exec"
+	"strings"
 	"time"
 )
 
-func ExecShell(s string) (string, error) {
-	cmd := exec.Command("/bin/bash", "-c", s)
+func ExecShell(str string) (string, error) {
+	cmd := exec.Command("/bin/bash", "-c", str)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	err := cmd.Run()
@@ -16,6 +17,20 @@ func ExecShell(s string) (string, error) {
 		return "", err
 	}
 	return out.String(), nil
+}
+
+// ExecCmd execute shell command
+// "/bin/sh", "-c", "command"
+func ExecCmd(name string, arg ...string) (string, error) {
+	cmd := exec.Command(name, arg...)
+	outBytes, err := cmd.CombinedOutput()
+	if err != nil {
+		return "", err
+	}
+
+	// Clean the output and remove special characters
+	outStr := strings.TrimSpace(string(outBytes))
+	return outStr, nil
 }
 
 // ExecDurationTime 获取函数执行时间
