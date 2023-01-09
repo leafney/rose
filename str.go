@@ -173,9 +173,10 @@ func StrToCamelName(name string) string {
 // -----------------
 
 // StrSplitAny 对字符串使用任意一个或多个字符分隔，**同时排除空字符**
-func StrSplitAny(s string, seps string) []string {
+func StrSplitAny(s string, seps ...string) []string {
+	sep := SliceStrToStr(seps, "")
 	splitter := func(r rune) bool {
-		return strings.ContainsRune(seps, r)
+		return strings.ContainsRune(sep, r)
 	}
 	return strings.FieldsFunc(s, splitter)
 }
