@@ -3,6 +3,7 @@ package rose
 import (
 	"archive/zip"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -29,10 +30,12 @@ func FIsDir(path string) bool {
 	return fio.IsDir()
 }
 
+// FRemove 移除指定路径文件
 func FRemove(path string) error {
 	return os.Remove(path)
 }
 
+// FZip zip the file and save it to destPath
 func FZip(fpath string, destPath string) error {
 	zipFile, err := os.Create(destPath)
 	if err != nil {
@@ -119,4 +122,9 @@ func FUnZip(zipFile string, destPath string) error {
 		}
 	}
 	return nil
+}
+
+// FReadFile ioutil.ReadFile
+func FReadFile(filePath string) ([]byte, error) {
+	return ioutil.ReadFile(filePath)
 }

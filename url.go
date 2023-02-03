@@ -46,3 +46,17 @@ func UrlJoinPath(baseUrl string, elem ...string) (*url.URL, error) {
 	}
 	return u, nil
 }
+
+// UrlParseQueries 解析URL请求参数
+func UrlParseQueries(query string) url.Values {
+	res := make(url.Values, 0)
+	params, err := url.ParseQuery(StrTrim(query))
+	if err == nil {
+		for p, v := range params {
+			for _, pv := range v {
+				res.Add(p, pv)
+			}
+		}
+	}
+	return res
+}
