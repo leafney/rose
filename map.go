@@ -8,7 +8,10 @@
 
 package rose
 
-import "sort"
+import (
+	"sort"
+	"strconv"
+)
 
 // MapInt64SortByValue 将map中的key按照value大小排序后返回
 func MapInt64SortByValue(m map[string]int64, asc bool) (nk []string) {
@@ -68,4 +71,26 @@ func MapGetValueDef(m map[string]string, key string, def string) string {
 		return val
 	}
 	return def
+}
+
+// MapInterfaceToStr
+func MapInterfaceToStr(m map[string]interface{}) map[string]string {
+	res := make(map[string]string)
+	for k, v := range m {
+		switch vv := v.(type) {
+		case string:
+			res[k] = vv
+		case float64:
+			res[k] = strconv.FormatFloat(vv, 'f', -1, 64)
+		case int64:
+			res[k] = strconv.FormatInt(vv, 10)
+		case int:
+			res[k] = strconv.Itoa(vv)
+		case bool:
+			res[k] = strconv.FormatBool(vv)
+		default:
+			//
+		}
+	}
+	return res
 }
