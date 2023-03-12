@@ -9,6 +9,7 @@
 package rose
 
 import (
+	"fmt"
 	"sort"
 	"strconv"
 )
@@ -89,7 +90,7 @@ func MapInterfaceToStr(m map[string]interface{}) map[string]string {
 		case bool:
 			res[k] = strconv.FormatBool(vv)
 		default:
-			//
+			res[k] = fmt.Sprintf("%v", v)
 		}
 	}
 	return res
