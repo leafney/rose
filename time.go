@@ -17,29 +17,30 @@ func TNow() time.Time {
 	return time.Now()
 }
 
-// 当前时间戳（秒 10位
+// TNowS 当前时间戳（秒 10位
 func TNowS() int64 {
 	return time.Now().Unix()
 }
 
-// 当前时间戳（秒 10位 字符串形式
+// TNowStr 当前时间戳（秒 10位 字符串形式
 func TNowStr() string {
 	return Int64ToStr(TNowS())
 }
 
-// 当前时间戳（毫秒 13位
+// TNowMs 当前时间戳（毫秒 13位
 func TNowMs() int64 {
 	//这种计算毫秒时间戳的方法比较推荐，参考自：https://stackoverflow.com/questions/24122821/go-golang-time-now-unixnano-convert-to-milliseconds
 	//return time.Now().UnixNano() / int64(time.Millisecond)
+
 	return time.Now().UnixMilli()
 }
 
-// 当前时间戳（毫秒 13位 字符串形式
+// TNowMStr 当前时间戳（毫秒 13位 字符串形式
 func TNowMStr() string {
 	return Int64ToStr(TNowMs())
 }
 
-// Converts Unix Epoch from seconds to time.Time
+// TUnixSToTime Converts Unix Epoch from seconds to time.Time
 func TUnixSToTime(s int64) time.Time {
 	return time.Unix(s, 0)
 }
@@ -50,16 +51,14 @@ func TUnixMsToTime(ms int64) time.Time {
 
 // TODO 这两个可以结合一下
 
-// 截止到今日的24点之前剩余的秒数
+// ToDayRemainSec 截止到今日的24点之前剩余的秒数
 func ToDayRemainSec() int64 {
 	now := time.Now()
 	t, _ := time.ParseInLocation(timeLayoutDate, now.AddDate(0, 0, 1).Format(timeLayoutDate), time.Local)
 	return t.Unix() - now.Unix()
 }
 
-/*
-获取当前时间戳截止到明天早晨1点之间的总秒数 (1,"01:00:00")
-*/
+// DelayTimeToTomorrow 获取当前时间戳截止到明天早晨1点之间的总秒数 (1,"01:00:00")
 func DelayTimeToTomorrow(addDays int, addHourStr string) int64 {
 	t := time.Now()
 	tm := t.AddDate(0, 0, addDays)
@@ -190,9 +189,9 @@ func ParseGMTTimeOfRFC1123(gmt string) (time.Time, error) {
 	return time.Parse(time.RFC1123, gmt)
 }
 
-// 将秒转换成时分秒形式
-// 00:40
-// 47:55:49
+// FormatSec 将秒转换成时分秒形式
+// 简写：00:40
+// 完整：47:55:49
 // isAll 是否显示完整格式
 func FormatSec(sec int64, isAll bool) string {
 
@@ -210,4 +209,34 @@ func FormatSec(sec int64, isAll bool) string {
 			return fmt.Sprintf("%02d:%02d:%02d", int(rHour), int(rMin), int(rSec))
 		}
 	}
+}
+
+// ----------
+
+func TNowAdd(d time.Duration) time.Time {
+	return TNow().Add(d)
+}
+
+func TNowAddDate(years int, months int, days int) time.Time {
+	return TNow().AddDate(years, months, days)
+}
+
+func TNowAddYears(years int) time.Time {
+	return TNowAddDate(years, 0, 0)
+}
+
+func TNowAddMonths(months int) time.Time {
+	return TNowAddDate(0, months, 0)
+}
+
+func TNowAddDays(days int) time.Time {
+	return TNowAddDate(0, 0, days)
+}
+
+func TTimes(t time.Time) int64 {
+	return t.Unix()
+}
+
+func TTimeMs(t time.Time) int64 {
+	return t.UnixMilli()
 }
