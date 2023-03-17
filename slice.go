@@ -233,6 +233,14 @@ func SliceSplitPage(page, pageSize, defSize int64, count int) (sliceStart, slice
 	return sliceStart, sliceEnd
 }
 
+// SlicePageToOffset 将集合分页Page方式转换为Offset方式
+func SlicePageToOffset(page, pageSize int64) (offset, count int64) {
+	// 计算偏移量 offset 和每页显示数量 count
+	offset = (page - 1) * pageSize
+	count = pageSize
+	return
+}
+
 // SliceGroupStr 将字符串切片分成若干组，每个组中元素个数为num个；不足一组时最后一组中包含剩余的所有元素
 func SliceGroupStr(arr []string, num int64) [][]string {
 	max := int64(len(arr))
