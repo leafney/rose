@@ -9,6 +9,7 @@
 package rose
 
 import (
+	"fmt"
 	"math"
 	"math/rand"
 	"sort"
@@ -290,4 +291,31 @@ func SliceGroupInt64(arr []int64, num int64) [][]int64 {
 		start = i * num
 	}
 	return segments
+}
+
+func SliceIntToMap(arr []int, prefix string) map[string]int {
+	res := make(map[string]int, len(arr))
+	for k, v := range arr {
+		key := fmt.Sprintf("%s%d", prefix, k+1)
+		res[key] = v
+	}
+	return res
+}
+
+func SliceInt64ToMap(arr []int64, prefix string) map[string]int64 {
+	res := make(map[string]int64, len(arr))
+	for k, v := range arr {
+		key := fmt.Sprintf("%s%d", prefix, k+1)
+		res[key] = v
+	}
+	return res
+}
+
+func SliceStrToMap(arr []string, prefix string) map[string]string {
+	res := make(map[string]string, len(arr))
+	for k, v := range arr {
+		key := fmt.Sprintf("%s%d", prefix, k+1)
+		res[key] = v
+	}
+	return res
 }
