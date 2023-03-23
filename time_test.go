@@ -15,3 +15,10 @@ func TestParseGMTTime(t *testing.T) {
 	t.Log(tt.Unix())
 	t.Log(GetTimeFromUnix(tt.Unix()))
 }
+
+func TestTSecByDay(t *testing.T) {
+	//tt := TSecByMin(5)
+	//tt := TSecByDay(3)
+	tt := TSecByMonth(2)
+	t.Log(tt)
+}

@@ -240,3 +240,30 @@ func TTimes(t time.Time) int64 {
 func TTimeMs(t time.Time) int64 {
 	return t.UnixMilli()
 }
+
+// TSecByYear one year for 365 days
+func TSecByYear(year int) int64 {
+	duration := time.Duration(year) * 365 * 24 * time.Hour
+	return int64(duration.Seconds())
+}
+
+// TSecByMonth one month for 30 days
+func TSecByMonth(month int) int64 {
+	duration := time.Duration(month) * 30 * 24 * time.Hour
+	return int64(duration.Seconds())
+}
+
+func TSecByDay(day int) int64 {
+	duration := time.Duration(day) * 24 * time.Hour
+	return int64(duration.Seconds())
+}
+
+func TSecByHour(hour int) int64 {
+	duration := time.Duration(hour) * time.Hour
+	return int64(duration.Seconds())
+}
+
+func TSecByMin(min int) int64 {
+	duration := time.Duration(min) * time.Minute
+	return int64(duration.Seconds())
+}
