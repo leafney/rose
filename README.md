@@ -4,24 +4,31 @@
 
 [中文](README_cn.md)
 
+----
+
 ### Install
 
 ```sh
 go get -u github.com/leafney/rose
 ```
 
-### Method List
+----
 
-#### snowflake
+### Use
 
-* `InitWorker` -- init worker
-* `GetNextId` -- get id
+```go
+    rose.xxx
+```
 
----
+----
 
-#### Url
+### Series
 
-* `UrlJoin` -- Merge URL request link
-* `UrlJoinWithQuery` -- Merge links with request parameters
+- [rose-notify](https://github.com/leafney/rose-notify)
+- [rose-ip2region](https://github.com/leafney/rose-ip2region) 
+- [rose-sms](https://github.com/leafney/rose-sms) 
+- [rose-nsq](https://github.com/leafney/rose-nsq)
+- [rose-redis](https://github.com/leafney/rose-redis)
+- [rose_menu_item: Flutter 菜单项](https://github.com/leafney/rose_menu_item) 
 
----
+----
