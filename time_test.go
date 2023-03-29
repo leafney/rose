@@ -23,7 +23,14 @@ func TestTSecByDay(t *testing.T) {
 	t.Log(tt)
 }
 
-func TestTodayUntilEndSec(t *testing.T) {
-	t.Log(ToDayRemainSec())   //  2167
-	t.Log(TodayUntilEndSec()) //  2165
+func TestTSecToAdd(t *testing.T) {
+	//t.Log(TUnixSToDateTime(TSecToAdd(1, 1, 0)))
+
+	//t.Log(DelayTimeToTomorrow(3, "00:00:00") - 1)
+	//t.Log(TEndTheDayRemainSec() + 3600)
+	t.Log(TSecDurationNowToAdd(3, 0, 0))
+}
+
+func TestTFormatSec(t *testing.T) {
+	t.Log(TFormatSec(3605, true))
 }

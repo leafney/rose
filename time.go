@@ -8,10 +8,11 @@ import (
 
 const (
 	timeLayoutShortY   = "2006"
-	timeLayoutShortM   = "200601"
-	timeLayoutShortMD  = "20060102"
-	timeLayoutDateMD   = "2006-01-02"
-	timeLayoutDateMDH  = "2006-01-02 15:04"
+	timeLayoutShortYM  = "200601"
+	timeLayoutShortYMD = "20060102"
+	timeLayoutLongYM   = "2006-01"
+	timeLayoutDateYMD  = "2006-01-02"
+	timeLayoutDateYMDH = "2006-01-02 15:04"
 	timeLayoutDateTime = "2006-01-02 15:04:05"
 	timeLayoutTimeH    = "15:04"
 	timeLayoutTimeHS   = "15:04:05"
@@ -21,10 +22,11 @@ type TFormat string
 
 const (
 	TFShortY   TFormat = "2006"
-	TFShortM   TFormat = "200601"
-	TFShortMD  TFormat = "20060102"
-	TFDateMD   TFormat = "2006-01-02"
-	TFDateMDH  TFormat = "2006-01-02 15:04"
+	TFShortYM  TFormat = "200601"
+	TFShortYMD TFormat = "20060102"
+	TFLongYM   TFormat = "2006-01"
+	TFDateYMD  TFormat = "2006-01-02"
+	TFDateYMDH TFormat = "2006-01-02 15:04"
 	TFDateTime TFormat = "2006-01-02 15:04:05"
 )
 
@@ -59,12 +61,12 @@ func TNowMStr() string {
 
 // TNowDateMD eg: 2023-03-23
 func TNowDateMD() string {
-	return time.Now().Format(timeLayoutDateMD)
+	return time.Now().Format(timeLayoutDateYMD)
 }
 
 // TNowDateMDH eg: 2023-03-23 23:07
 func TNowDateMDH() string {
-	return time.Now().Format(timeLayoutDateMDH)
+	return time.Now().Format(timeLayoutDateYMDH)
 }
 
 // TNowDateTime eg: 2023-03-23 23:06:42
@@ -92,7 +94,7 @@ func TUnixSToDateMD(s int64) string {
 	if s <= 0 {
 		return ""
 	}
-	return time.Unix(s, 0).Format(timeLayoutDateMD)
+	return time.Unix(s, 0).Format(timeLayoutDateYMD)
 }
 
 // TUnixSToDateMDH eg: 1595225361 => 2020-07-20 14:09
@@ -100,7 +102,7 @@ func TUnixSToDateMDH(s int64) string {
 	if s <= 0 {
 		return ""
 	}
-	return time.Unix(s, 0).Format(timeLayoutDateMDH) //"2006-01-02 15:04"
+	return time.Unix(s, 0).Format(timeLayoutDateYMDH) //"2006-01-02 15:04"
 }
 
 // TUnixSToDateTime eg: 1595225361 => 2020-07-20 14:09:21
@@ -123,22 +125,22 @@ func TUnixSToFormat(s int64, format TFormat) string {
 
 // TMonth 获取当前月份 eg: 202303
 func TMonth() string {
-	return time.Now().Format(timeLayoutShortM)
+	return time.Now().Format(timeLayoutShortYM)
 }
 
 // TNextMonth 获取下月月份 eg：202304
 func TNextMonth() string {
-	return time.Now().AddDate(0, 1, 0).Format(timeLayoutShortM)
+	return time.Now().AddDate(0, 1, 0).Format(timeLayoutShortYM)
 }
 
 // TDate 获取当前月份日期 eg: 2019-01-09
 func TDate() string {
-	return time.Now().Format(timeLayoutDateMD)
+	return time.Now().Format(timeLayoutDateYMD)
 }
 
 // TNextDate 获取下月月份日期 eg: 2019-02-09
 func TNextDate() string {
-	return time.Now().AddDate(0, 1, 0).Format(timeLayoutDateMD)
+	return time.Now().AddDate(0, 1, 0).Format(timeLayoutDateYMD)
 }
 
 // ----------------------------
@@ -166,25 +168,32 @@ func StrDateMH2Time(dates string) time.Time {
 
 // ----------------------------
 
-func MonthStart() time.Time {
-	y, m, _ := time.Now().Date()
-	return time.Date(y, m, 1, 0, 0, 0, 0, time.Local)
+func TStartTheMonth() time.Time {
+	now := time.Now()
+	return time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, now.Location())
 }
 
-func TodayStart() time.Time {
-	y, m, d := time.Now().Date()
-	return time.Date(y, m, d, 0, 0, 0, 0, time.Local)
+func TStartTheDay() time.Time {
+	now := time.Now()
+	return time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
 }
 
-func TodayEnd() time.Time {
-	y, m, d := time.Now().Date()
-	return time.Date(y, m, d, 23, 59, 59, 1e9-1, time.Local)
+func TEndTheDay() time.Time {
+	now := time.Now()
+	return time.Date(now.Year(), now.Month(), now.Day(), 23, 59, 59, 0, now.Location())
+}
+
+// TEndTheDayRemainSec 截止到今日的24点之前剩余的秒数
+func TEndTheDayRemainSec() int64 {
+	now := time.Now()
+	endOfDay := time.Date(now.Year(), now.Month(), now.Day(), 23, 59, 59, 0, now.Location())
+	return int64(endOfDay.Sub(now).Seconds())
 }
 
 // ----------------------------
 
 func ParseDate(dt string) (time.Time, error) {
-	return time.Parse(timeLayoutDateMD, dt)
+	return time.Parse(timeLayoutDateYMD, dt)
 }
 
 func ParseDateTime(dt string) (time.Time, error) {
@@ -256,35 +265,25 @@ func TSecByMin(min int) int64 {
 	return int64(duration.Seconds())
 }
 
+// TSecToAdd 当前时间增加指定的天数、小时数、分钟数，得到未来时间点的时间戳
+func TSecToAdd(days int, hours int, minutes int) int64 {
+	now := time.Now()
+	future := now.AddDate(0, 0, days).Add(time.Duration(hours) * time.Hour).Add(time.Duration(minutes) * time.Minute).Unix()
+	return future
+}
+
+// TSecDurationNowToAdd 当前时间增加指定的天数、小时数、分钟数，获取当前时间戳截止到未来时间点之间的差值秒数
+func TSecDurationNowToAdd(days int, hours int, minutes int) int64 {
+	now := time.Now()
+	nextDay := now.AddDate(0, 0, days)
+	future := time.Date(nextDay.Year(), nextDay.Month(), nextDay.Day(), hours, minutes, 0, 0, now.Location())
+	duration := future.Sub(now).Seconds()
+	return int64(duration)
+}
+
 // ----------------------------
 
 // TODO 待后期完善
-
-// ToDayRemainSec 截止到今日的24点之前剩余的秒数
-func ToDayRemainSec() int64 {
-	now := time.Now()
-	t, _ := time.ParseInLocation(timeLayoutDateMD, now.AddDate(0, 0, 1).Format(timeLayoutDateMD), time.Local)
-	return t.Unix() - now.Unix()
-}
-
-func TodayUntilEndSec() int64 {
-	now := time.Now()
-	endOfDay := time.Date(now.Year(), now.Month(), now.Day(), 23, 59, 59, 0, now.Location())
-	return int64(endOfDay.Sub(now).Seconds())
-}
-
-// DelayTimeToTomorrow 获取当前时间戳截止到明天早晨1点之间的总秒数 (1,"01:00:00")
-func DelayTimeToTomorrow(addDays int, addHourStr string) int64 {
-	t := time.Now()
-	tm := t.AddDate(0, 0, addDays)
-
-	newTimeStr := fmt.Sprintf("%s %s", tm.Format("2006-01-02"), addHourStr) //格式：2006-01-02 15:04:05
-	nt, _ := time.ParseInLocation("2006-01-02 15:04:05", newTimeStr, time.Local)
-
-	dt := nt.Sub(t).Seconds()
-	fdt := math.Floor(dt + 0.5) // 通过+0.5来实现
-	return int64(fdt)
-}
 
 // ParseGMTTimeOfRFC1123 GMT
 // eg: Mon, 20 Jul 2020 06:09:21 GMT => Time
@@ -293,11 +292,11 @@ func ParseGMTTimeOfRFC1123(gmt string) (time.Time, error) {
 	return time.Parse(time.RFC1123, gmt)
 }
 
-// FormatSec 将秒转换成时分秒形式
+// TFormatSec 将秒转换成时分秒形式
 // 简写：00:40
 // 完整：47:55:49
 // isAll 是否显示完整格式
-func FormatSec(sec int64, isAll bool) string {
+func TFormatSec(sec int64, isAll bool) string {
 
 	rHour := math.Floor(float64(sec / 3600.0))
 	tmpMin := math.Floor(float64(sec % 3600.0))
