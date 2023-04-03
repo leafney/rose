@@ -265,18 +265,32 @@ func TSecByMin(min int) int64 {
 	return int64(duration.Seconds())
 }
 
-// TSecToAdd 当前时间增加指定的天数、小时数、分钟数，得到未来时间点的时间戳
-func TSecToAdd(days int, hours int, minutes int) int64 {
+// TSecNowToAdd 当前时间增加指定的天数、小时数、分钟数，得到未来时间点的时间戳
+// 例如：增加一小时，最后的时间戳即为 Now().Unix() + 3600
+func TSecNowToAdd(days int, hours int, minutes int) int64 {
+	return TSecNowToAddY(0, 0, days, hours, minutes, 0)
+}
+
+func TSecNowToAddY(years, months, days int, hours, minutes, sec int) int64 {
 	now := time.Now()
-	future := now.AddDate(0, 0, days).Add(time.Duration(hours) * time.Hour).Add(time.Duration(minutes) * time.Minute).Unix()
+	future := now.AddDate(years, months, days).
+		Add(time.Duration(hours) * time.Hour).
+		Add(time.Duration(minutes) * time.Minute).
+		Add(time.Duration(sec) * time.Second).
+		Unix()
 	return future
 }
 
-// TSecDurationNowToAdd 当前时间增加指定的天数、小时数、分钟数，获取当前时间戳截止到未来时间点之间的差值秒数
-func TSecDurationNowToAdd(days int, hours int, minutes int) int64 {
+// TSecUntilNowToAdd 当前时间增加指定的天数、小时数、分钟数，获取当前时间戳截止到未来时间点之间的差值秒数
+// 例如：增加一小时，差值即为 3600 秒
+func TSecUntilNowToAdd(days int, hours int, minutes int) int64 {
+	return TSecUntilNowToAddY(0, 0, days, hours, minutes, 0)
+}
+
+func TSecUntilNowToAddY(years, months, days int, hours, minutes, sec int) int64 {
 	now := time.Now()
-	nextDay := now.AddDate(0, 0, days)
-	future := time.Date(nextDay.Year(), nextDay.Month(), nextDay.Day(), hours, minutes, 0, 0, now.Location())
+	nextDay := now.AddDate(years, months, days)
+	future := time.Date(nextDay.Year(), nextDay.Month(), nextDay.Day(), hours, minutes, sec, 0, now.Location())
 	duration := future.Sub(now).Seconds()
 	return int64(duration)
 }
