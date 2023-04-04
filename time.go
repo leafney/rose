@@ -289,8 +289,10 @@ func TSecUntilNowToAdd(days int, hours int, minutes int) int64 {
 
 func TSecUntilNowToAddY(years, months, days int, hours, minutes, sec int) int64 {
 	now := time.Now()
-	nextDay := now.AddDate(years, months, days)
-	future := time.Date(nextDay.Year(), nextDay.Month(), nextDay.Day(), hours, minutes, sec, 0, now.Location())
+	future := now.AddDate(years, months, days).
+		Add(time.Duration(hours) * time.Hour).
+		Add(time.Duration(minutes) * time.Minute).
+		Add(time.Duration(sec) * time.Second)
 	duration := future.Sub(now).Seconds()
 	return int64(duration)
 }
