@@ -30,8 +30,10 @@ func TestTSecToAdd(t *testing.T) {
 	//t.Log(TEndTheDayRemainSec() + 3600)
 	//t.Log(TSecUntilNowToAddY(0, 0, 1, 1, 0, 0))
 
-	//t.Log(TSecNowToAddY(0, 0, 0, 0, 0, 0))
-	t.Log(TSecUntilNowToAddY(0, 0, 0, 0, 45, 0))
+	//t.Log(TUnixSNowToAddY(0, 0, 0, 0, 0, 0))
+	//t.Log(TSecUntilNowToAddY(0, 0, 0, 0, 45, 0))
+	t.Log(TUnixSToDateTime(TUnixSNowToAdd(-1, 0, 0)))
+
 }
 
 func TestTFormatSec(t *testing.T) {

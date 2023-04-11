@@ -265,13 +265,13 @@ func TSecByMin(min int) int64 {
 	return int64(duration.Seconds())
 }
 
-// TSecNowToAdd 当前时间增加指定的天数、小时数、分钟数，得到未来时间点的时间戳
+// TUnixSNowToAdd 当前时间增加指定的天数、小时数、分钟数，得到未来时间点的时间戳
 // 例如：增加一小时，最后的时间戳即为 Now().Unix() + 3600
-func TSecNowToAdd(days int, hours int, minutes int) int64 {
-	return TSecNowToAddY(0, 0, days, hours, minutes, 0)
+func TUnixSNowToAdd(days int, hours int, minutes int) int64 {
+	return TUnixSNowToAddY(0, 0, days, hours, minutes, 0)
 }
 
-func TSecNowToAddY(years, months, days int, hours, minutes, sec int) int64 {
+func TUnixSNowToAddY(years, months, days int, hours, minutes, sec int) int64 {
 	now := time.Now()
 	future := now.AddDate(years, months, days).
 		Add(time.Duration(hours) * time.Hour).
