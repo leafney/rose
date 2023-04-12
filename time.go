@@ -168,16 +168,19 @@ func StrDateMH2Time(dates string) time.Time {
 
 // ----------------------------
 
+// TStartTheMonth 当前月份的起始日期
 func TStartTheMonth() time.Time {
 	now := time.Now()
 	return time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, now.Location())
 }
 
+// TStartTheDay 今天的起始时间
 func TStartTheDay() time.Time {
 	now := time.Now()
 	return time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
 }
 
+// TEndTheDay 今天的结束时间
 func TEndTheDay() time.Time {
 	now := time.Now()
 	return time.Date(now.Year(), now.Month(), now.Day(), 23, 59, 59, 0, now.Location())
@@ -230,12 +233,16 @@ func TNowAddDays(days int) time.Time {
 	return TNowAddDate(0, 0, days)
 }
 
-func TTimes(t time.Time) int64 {
+func TTimeS(t time.Time) int64 {
 	return t.Unix()
 }
 
 func TTimeMs(t time.Time) int64 {
 	return t.UnixMilli()
+}
+
+func TTimeFormat(t time.Time, format TFormat) string {
+	return t.Format(string(format))
 }
 
 // TSecByYear one year for 365 days
