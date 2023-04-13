@@ -11,9 +11,9 @@ func TestTimeNow13(t *testing.T) {
 }
 
 func TestParseGMTTime(t *testing.T) {
-	tt, _ := ParseGMTTimeOfRFC1123("Mon, 20 Jul 2020 06:09:21 GMT")
+	tt, _ := TParseGMTTimeOfRFC1123("Mon, 20 Jul 2020 06:09:21 GMT")
 	t.Log(tt.Unix())
-	t.Log(TUnixSToFormat(tt.Unix(), TFDateTime))
+	t.Log(TUnixSFormat(tt.Unix(), TFLongYMDHS))
 }
 
 func TestTSecByDay(t *testing.T) {
@@ -31,11 +31,17 @@ func TestTSecToAdd(t *testing.T) {
 	//t.Log(TSecUntilNowToAddY(0, 0, 1, 1, 0, 0))
 
 	//t.Log(TUnixSNowToAddY(0, 0, 0, 0, 0, 0))
-	//t.Log(TSecUntilNowToAddY(0, 0, 0, 0, 45, 0))
-	t.Log(TUnixSToDateTime(TUnixSNowToAdd(-1, 0, 0)))
+	t.Log(TSecUntilNowToAddY(0, 0, 0, 0, 45, 0))
+	//t.Log(TUnixSToDateTime(TNowAddUnixSDHM(-1, 0, 0)))
+
+	//t.Log(TMonthEndStr())
+
+	t.Log(TNowAddIntervalSecDHM(0, 0, 45))
 
 }
 
 func TestTFormatSec(t *testing.T) {
-	t.Log(TFormatSec(3605, true))
+	t.Log(TFormatSec(3505, true))
+	t.Log(TSecFormatMS(3505))
+	t.Log(TSecFormatHMS(3505))
 }
