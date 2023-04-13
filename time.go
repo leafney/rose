@@ -167,28 +167,6 @@ func TUnixMsFormatStr(ms int64, layout string) string {
 
 // ----------------------------
 
-// TMonth 获取当前月份 eg: 202303
-func TMonth() string {
-	return time.Now().Format(TFLayoutShortYM)
-}
-
-// TNextMonth 获取下月月份 eg：202304
-func TNextMonth() string {
-	return time.Now().AddDate(0, 1, 0).Format(TFLayoutShortYM)
-}
-
-// TDate 获取当前月份日期 eg: 2019-01-09
-func TDate() string {
-	return time.Now().Format(TFLayoutLongYMD)
-}
-
-// TNextDate 获取下月月份日期 eg: 2019-02-09
-func TNextDate() string {
-	return time.Now().AddDate(0, 1, 0).Format(TFLayoutLongYMD)
-}
-
-// ----------------------------
-
 // TParseDateTimeToTime 将时间字符串`2006-01-02 15:04:05`转换为time.Time
 func TParseDateTimeToTime(ds string) time.Time {
 	return TParseFormatToTimeLoc(TFLongYMDHS, ds, time.Local)
@@ -299,6 +277,38 @@ func TDayEndRemainSec() int64 {
 	return int64(endOfDay.Sub(now).Seconds())
 }
 
+// ----------------------------
+
+// TMonthS 获取当前月份 eg: 202303
+func TMonthS() string {
+	return time.Now().Format(TFLayoutShortYM)
+}
+
+// TMonthL 获取当前月份 eg: 2023-03
+func TMonthL() string {
+	return time.Now().Format(TFLayoutLongYM)
+}
+
+// TMonthNextS 获取下月月份 eg：202304
+func TMonthNextS() string {
+	return time.Now().AddDate(0, 1, 0).Format(TFLayoutShortYM)
+}
+
+// TMonthNextL 获取下月月份 eg：2023-04
+func TMonthNextL() string {
+	return time.Now().AddDate(0, 1, 0).Format(TFLayoutLongYM)
+}
+
+// TMonthLastS 获取上月月份 eg: 202302
+func TMonthLastS() string {
+	return time.Now().AddDate(0, -1, 0).Format(TFLayoutShortYM)
+}
+
+// TMonthLastL 获取上月月份 eg: 2023-02
+func TMonthLastL() string {
+	return time.Now().AddDate(0, -1, 0).Format(TFLayoutLongYM)
+}
+
 // TMonthStartTime 当前月份的第一天日期
 func TMonthStartTime() time.Time {
 	now := time.Now()
@@ -320,6 +330,23 @@ func TMonthEndTime() time.Time {
 // TMonthEndStr 当前月份的最后一天日期字符串
 func TMonthEndStr() string {
 	return TTimeFormat(TMonthEndTime(), TFLongYMD)
+}
+
+// ----------------------------
+
+// TDate 获取当前日期 eg: 2019-01-09
+func TDate() string {
+	return time.Now().Format(TFLayoutLongYMD)
+}
+
+// TDateNext 获取下月日期 eg: 2019-02-09
+func TDateNext() string {
+	return time.Now().AddDate(0, 1, 0).Format(TFLayoutLongYMD)
+}
+
+// TDateLast 获取上月日期 eg: 2018-12-09
+func TDateLast() string {
+	return time.Now().AddDate(0, -1, 0).Format(TFLayoutLongYMD)
 }
 
 // ----------------------------

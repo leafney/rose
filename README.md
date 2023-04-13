@@ -1,4 +1,4 @@
-## Rose
+# Rose
 
 **Golang Toolkit**
 
@@ -6,7 +6,7 @@
 
 ----
 
-### Install
+## Install
 
 ```sh
 go get -u github.com/leafney/rose
@@ -14,7 +14,7 @@ go get -u github.com/leafney/rose
 
 ----
 
-### Use
+## Use
 
 ```go
     rose.xxx
@@ -22,7 +22,7 @@ go get -u github.com/leafney/rose
 
 ----
 
-### Series
+## Series
 
 - [rose-notify](https://github.com/leafney/rose-notify)
 - [rose-ip2region](https://github.com/leafney/rose-ip2region) 

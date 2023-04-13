@@ -16,13 +16,13 @@ func StrTrim(s string) string {
 	return strings.TrimSpace(s)
 }
 
-// StrLTrim TrimPrefix
-func StrLTrim(s, left string) string {
+// StrTrimL TrimPrefix
+func StrTrimL(s, left string) string {
 	return strings.TrimPrefix(s, left)
 }
 
-// StrRTrim TrimSuffix
-func StrRTrim(s, right string) string {
+// StrTrimR TrimSuffix
+func StrTrimR(s, right string) string {
 	return strings.TrimSuffix(s, right)
 }
 
@@ -38,8 +38,8 @@ func StrToInt(s string) int {
 	}
 }
 
-// StrToIntWithDef 转换失败返回预设值
-func StrToIntWithDef(s string, def int) int {
+// StrToIntDef 将数字字符串转换为数值类型，转换失败使用默认值
+func StrToIntDef(s string, def int) int {
 	if s == "" {
 		return def
 	}
@@ -50,8 +50,8 @@ func StrToIntWithDef(s string, def int) int {
 	}
 }
 
-// StrToIntWithErr 将数字字符串转换成数字类型
-func StrToIntWithErr(s string) (int, error) {
+// StrToIntErr 将数字字符串转换为数值类型，转换失败抛出异常
+func StrToIntErr(s string) (int, error) {
 	return strconv.Atoi(s)
 }
 
@@ -67,8 +67,8 @@ func StrToInt64(s string) int64 {
 	}
 }
 
-// StrToInt64WithDef 转换失败返回预设值
-func StrToInt64WithDef(s string, def int64) int64 {
+// StrToInt64Def 转换失败返回预设值
+func StrToInt64Def(s string, def int64) int64 {
 	if s == "" {
 		return def
 	}
@@ -79,8 +79,8 @@ func StrToInt64WithDef(s string, def int64) int64 {
 	}
 }
 
-// StrToInt64WithErr 将字符串转换为int64
-func StrToInt64WithErr(s string) (int64, error) {
+// StrToInt64Err 将字符串转换为int64
+func StrToInt64Err(s string) (int64, error) {
 	return strconv.ParseInt(s, 10, 64)
 }
 
@@ -96,8 +96,8 @@ func StrToFloat64(s string) float64 {
 	}
 }
 
-// StrToFloat64WithDef 转换失败返回预设值
-func StrToFloat64WithDef(s string, def float64) float64 {
+// StrToFloat64Def 将数字字符串转换成float64类型
+func StrToFloat64Def(s string, def float64) float64 {
 	if s == "" {
 		return def
 	}
@@ -108,8 +108,8 @@ func StrToFloat64WithDef(s string, def float64) float64 {
 	}
 }
 
-// 将数字字符串转换成float64类型
-func StrToFloat64WithErr(s string) (float64, error) {
+// StrToFloat64Err 将数字字符串转换成float64类型
+func StrToFloat64Err(s string) (float64, error) {
 	return strconv.ParseFloat(s, 64)
 }
 
@@ -121,8 +121,8 @@ func StrToBool(s string) bool {
 	}
 }
 
-// StrToBoolWithDef 转换失败返回预设值
-func StrToBoolWithDef(s string, def bool) bool {
+// StrToBoolDef 转换失败返回预设值
+func StrToBoolDef(s string, def bool) bool {
 	if b, err := strconv.ParseBool(s); err != nil {
 		return def
 	} else {
@@ -130,7 +130,7 @@ func StrToBoolWithDef(s string, def bool) bool {
 	}
 }
 
-func StrToBoolWithErr(s string) (bool, error) {
+func StrToBoolErr(s string) (bool, error) {
 	return strconv.ParseBool(s)
 }
 
@@ -145,6 +145,10 @@ func StrToChar(s string) []string {
 	}
 	return c
 }
+
+// -----------------
+
+// TODO 待优化
 
 // StrToUnderScoreName 将字符串驼峰式写法转为下划线写法
 func StrToUnderScoreName(name string) string {
@@ -169,52 +173,6 @@ func StrToCamelName(name string) string {
 	name = strings.Title(name)
 	return strings.Replace(name, " ", "", -1)
 }
-
-// -----------------
-
-// StrSplitAny 对字符串使用任意一个或多个字符分隔，**同时排除空字符**
-func StrSplitAny(s string, seps ...string) []string {
-	sep := SliceStrToStr(seps, "")
-	splitter := func(r rune) bool {
-		return strings.ContainsRune(sep, r)
-	}
-	return strings.FieldsFunc(s, splitter)
-}
-
-func StrTrimAny(s string, seps ...string) string {
-	// 先对分隔字符串按照长度由大到小排序
-	seps = SliceSortByLength(seps, false)
-
-	for _, sep := range seps {
-		s = strings.Trim(s, sep)
-	}
-	return s
-}
-
-// StrRemoveAny 移除字符串中一个或多个字符
-func StrRemoveAny(s string, seps ...string) string {
-	// 先对分隔字符串按照长度由大到小排序
-	seps = SliceSortByLength(seps, false)
-
-	for _, sep := range seps {
-		if strings.Contains(s, sep) {
-			s = strings.ReplaceAll(s, sep, "")
-		}
-	}
-	return s
-}
-
-// StrContainsAny 判断是否包含其中的某个字符串
-func StrContainsAny(s string, seps ...string) bool {
-	for _, sep := range seps {
-		if strings.Contains(s, sep) {
-			return true
-		}
-	}
-	return false
-}
-
-// -------------------
 
 //start：正数 - 在字符串的指定位置开始,超出字符串长度强制把start变为字符串长度
 //       负数 - 在从字符串结尾的指定位置开始
@@ -248,27 +206,53 @@ func Substr(str string, start, length int) string {
 
 }
 
-// StrJoin 字符串拼接
-func StrJoin(args ...string) string {
-	var buffer strings.Builder
-	for _, arg := range args {
-		buffer.WriteString(arg)
+// -----------------
+
+// StrAnySplit 对字符串使用任意一个或多个字符分隔，**同时排除空字符**
+func StrAnySplit(s string, seps ...string) []string {
+	sep := SliceStrToStr(seps, "")
+	splitter := func(r rune) bool {
+		return strings.ContainsRune(sep, r)
 	}
-	return buffer.String()
+	return strings.FieldsFunc(s, splitter)
 }
 
-// StrEqualFold 比较两个字符串是否相同，不区分大小写
-func StrEqualFold(s, t string) bool {
-	return strings.EqualFold(s, t)
+// StrAnyTrim 移除字符串中任意指定字符
+func StrAnyTrim(s string, seps ...string) string {
+	// 先对分隔字符串按照长度由大到小排序
+	seps = SliceSortByLength(seps, false)
+
+	for _, sep := range seps {
+		s = strings.Trim(s, sep)
+	}
+	return s
 }
 
-// StrEqualFull 比较两个字符串是否完全相等，区分大小写
-func StrEqualFull(s, t string) bool {
-	return s == t
+// StrAnyRemove 移除字符串中一个或多个字符
+func StrAnyRemove(s string, seps ...string) string {
+	// 先对分隔字符串按照长度由大到小排序
+	seps = SliceSortByLength(seps, false)
+
+	for _, sep := range seps {
+		if strings.Contains(s, sep) {
+			s = strings.ReplaceAll(s, sep, "")
+		}
+	}
+	return s
 }
 
-// StrPrefixAny 是否以任何前缀字符串开头
-func StrPrefixAny(s string, prefixes ...string) bool {
+// StrAnyContains 判断是否包含其中的某个字符串
+func StrAnyContains(s string, seps ...string) bool {
+	for _, sep := range seps {
+		if strings.Contains(s, sep) {
+			return true
+		}
+	}
+	return false
+}
+
+// StrAnyPrefix 是否以任何前缀字符串开头
+func StrAnyPrefix(s string, prefixes ...string) bool {
 	for _, prefix := range prefixes {
 		if strings.HasPrefix(s, prefix) {
 			return true
@@ -277,8 +261,8 @@ func StrPrefixAny(s string, prefixes ...string) bool {
 	return false
 }
 
-// StrSuffixAny 是否以任何后缀字符串结尾
-func StrSuffixAny(s string, suffixes ...string) bool {
+// StrAnySuffix 是否以任何后缀字符串结尾
+func StrAnySuffix(s string, suffixes ...string) bool {
 	for _, suffix := range suffixes {
 		if strings.HasSuffix(s, suffix) {
 			return true
@@ -309,10 +293,113 @@ func StrSuffixAnyI(s string, suffixes ...string) bool {
 	return false
 }
 
+// -------------------
+
+// StrJoin 字符串拼接
+func StrJoin(args ...string) string {
+	var buffer strings.Builder
+	for _, arg := range args {
+		buffer.WriteString(arg)
+	}
+	return buffer.String()
+}
+
+// StrEqualFold 比较两个字符串是否相同，不区分大小写
+func StrEqualFold(s, t string) bool {
+	return strings.EqualFold(s, t)
+}
+
+// StrEqualFull 比较两个字符串是否完全相等，区分大小写
+func StrEqualFull(s, t string) bool {
+	return s == t
+}
+
 func StrToLower(s string) string {
 	return strings.ToLower(s)
 }
 
 func StrToUpper(s string) string {
 	return strings.ToUpper(s)
+}
+
+// --------- Deprecated -------------------
+
+// StrToIntWithDef 转换失败返回预设值
+// Deprecated: Use rose.StrToIntDef instead.
+func StrToIntWithDef(s string, def int) int {
+	return StrToIntDef(s, def)
+}
+
+// Deprecated: Use rose.StrTrimL instead.
+func StrLTrim(s, left string) string {
+	return StrTrimL(s, left)
+}
+
+// Deprecated: Use rose.StrTrimR instead.
+func StrRTrim(s, right string) string {
+	return StrTrimR(s, right)
+}
+
+// StrToIntWithErr 将数字字符串转换成数字类型
+// Deprecated: Use rose.StrToIntErr instead.
+func StrToIntWithErr(s string) (int, error) {
+	return StrToIntErr(s)
+}
+
+// Deprecated: Use rose.StrToInt64Def instead.
+func StrToInt64WithDef(s string, def int64) int64 {
+	return StrToInt64Def(s, def)
+}
+
+// Deprecated: Use rose.StrToInt64Err instead.
+func StrToInt64WithErr(s string) (int64, error) {
+	return StrToInt64Err(s)
+}
+
+// Deprecated: Use rose.StrToFloat64Def instead.
+func StrToFloat64WithDef(s string, def float64) float64 {
+	return StrToFloat64Def(s, def)
+}
+
+// Deprecated: Use rose.StrToFloat64Err instead.
+func StrToFloat64WithErr(s string) (float64, error) {
+	return StrToFloat64Err(s)
+}
+
+// Deprecated: Use rose.StrToBoolDef instead.
+func StrToBoolWithDef(s string, def bool) bool {
+	return StrToBoolDef(s, def)
+}
+
+// Deprecated: Use rose.StrToBoolErr instead.
+func StrToBoolWithErr(s string) (bool, error) {
+	return StrToBoolErr(s)
+}
+
+func StrSplitAny(s string, seps ...string) []string {
+
+}
+
+func StrTrimAny(s string, seps ...string) string {
+
+}
+
+func StrRemoveAny(s string, seps ...string) string {
+
+}
+
+func StrContainsAny(s string, seps ...string) bool {
+
+}
+
+func StrPrefixAny(s string, prefixes ...string) bool {
+
+}
+
+func StrSuffixAny(s string, suffixes ...string) bool {
+
+}
+
+func StrPrefixAnyI(s string, prefixes ...string) bool {
+
 }
