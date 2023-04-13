@@ -271,8 +271,8 @@ func StrAnySuffix(s string, suffixes ...string) bool {
 	return false
 }
 
-// StrPrefixAnyI 是否以任何前缀字符串开头，不区分大小写
-func StrPrefixAnyI(s string, prefixes ...string) bool {
+// StrAnyPrefixI 是否以任何前缀字符串开头，不区分大小写
+func StrAnyPrefixI(s string, prefixes ...string) bool {
 	st := strings.ToLower(s)
 	for _, prefix := range prefixes {
 		if strings.HasPrefix(st, strings.ToLower(prefix)) {
@@ -282,8 +282,8 @@ func StrPrefixAnyI(s string, prefixes ...string) bool {
 	return false
 }
 
-// StrSuffixAnyI 是否以任何后缀字符串结尾，不区分大小写
-func StrSuffixAnyI(s string, suffixes ...string) bool {
+// StrAnySuffixI 是否以任何后缀字符串结尾，不区分大小写
+func StrAnySuffixI(s string, suffixes ...string) bool {
 	st := strings.ToLower(s)
 	for _, suffix := range suffixes {
 		if strings.HasSuffix(st, strings.ToLower(suffix)) {
@@ -376,30 +376,42 @@ func StrToBoolWithErr(s string) (bool, error) {
 	return StrToBoolErr(s)
 }
 
+// Deprecated: Use rose.StrAnySplit instead.
 func StrSplitAny(s string, seps ...string) []string {
-
+	return StrAnySplit(s, seps...)
 }
 
+// Deprecated: Use rose.StrAnyTrim instead.
 func StrTrimAny(s string, seps ...string) string {
-
+	return StrAnyTrim(s, seps...)
 }
 
+// Deprecated: Use rose.StrAnyRemove instead.
 func StrRemoveAny(s string, seps ...string) string {
-
+	return StrAnyRemove(s, seps...)
 }
 
+// Deprecated: Use rose.StrAnyContains instead.
 func StrContainsAny(s string, seps ...string) bool {
-
+	return StrAnyContains(s, seps...)
 }
 
+// Deprecated: Use rose.StrAnyPrefix instead.
 func StrPrefixAny(s string, prefixes ...string) bool {
-
+	return StrAnyPrefix(s, prefixes...)
 }
 
+// Deprecated: Use rose.StrAnySuffix instead.
 func StrSuffixAny(s string, suffixes ...string) bool {
-
+	return StrAnySuffix(s, suffixes...)
 }
 
+// Deprecated: Use rose.StrAnyPrefixI instead.
 func StrPrefixAnyI(s string, prefixes ...string) bool {
+	return StrAnyPrefixI(s, prefixes...)
+}
 
+// Deprecated: Use rose.StrAnySuffixI instead.
+func StrSuffixAnyI(s string, suffixes ...string) bool {
+	return StrAnySuffixI(s, suffixes...)
 }
