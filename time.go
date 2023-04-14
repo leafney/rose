@@ -8,17 +8,17 @@ import (
 )
 
 const (
-	TFLayoutShortY     = "2006"
-	TFLayoutShortYM    = "200601"
-	TFLayoutShortYMD   = "20060102"
-	TFLayoutShortYMDH  = "200601021504"
-	TFLayoutShortYMDHS = "20060102150405"
-	TFLayoutLongYM     = "2006-01"
-	TFLayoutLongYMD    = "2006-01-02"
-	TFLayoutLongYMDH   = "2006-01-02 15:04"
-	TFLayoutLongYMDHS  = "2006-01-02 15:04:05"
-	TFLayoutTimeH      = "15:04"
-	TFLayoutTimeHS     = "15:04:05"
+	TimeLayoutShortY     = "2006"
+	TimeLayoutShortYM    = "200601"
+	TimeLayoutShortYMD   = "20060102"
+	TimeLayoutShortYMDH  = "200601021504"
+	TimeLayoutShortYMDHS = "20060102150405"
+	TimeLayoutLongYM     = "2006-01"
+	TimeLayoutLongYMD    = "2006-01-02"
+	TimeLayoutLongYMDH   = "2006-01-02 15:04"
+	TimeLayoutLongYMDHS  = "2006-01-02 15:04:05"
+	TimeLayoutTimeH      = "15:04"
+	TimeLayoutTimeHS     = "15:04:05"
 )
 
 const tScale = int(60)
@@ -71,32 +71,32 @@ func TNowMStr() string {
 
 // TNowDateSYMD 当前日期字符串，格式：20230323
 func TNowDateSYMD() string {
-	return time.Now().Format(TFLayoutShortYMD)
+	return time.Now().Format(TimeLayoutShortYMD)
 }
 
 // TNowDateLYMD 当前日期字符串，格式：2023-03-23
 func TNowDateLYMD() string {
-	return time.Now().Format(TFLayoutLongYMD)
+	return time.Now().Format(TimeLayoutLongYMD)
 }
 
 // TNowDateSYMDH 当前日期字符串，格式：202303232307
 func TNowDateSYMDH() string {
-	return time.Now().Format(TFLayoutShortYMDH)
+	return time.Now().Format(TimeLayoutShortYMDH)
 }
 
 // TNowDateLYMDH 当前日期字符串，格式：2023-03-23 23:07
 func TNowDateLYMDH() string {
-	return time.Now().Format(TFLayoutLongYMDH)
+	return time.Now().Format(TimeLayoutLongYMDH)
 }
 
 // TNowDateTime 当前日期字符串，格式：2023-03-23 23:06:42
 func TNowDateTime() string {
-	return time.Now().Format(TFLayoutLongYMDHS)
+	return time.Now().Format(TimeLayoutLongYMDHS)
 }
 
 // TNowDateTimeS 当前日期字符串，格式：20230323230642
 func TNowDateTimeS() string {
-	return time.Now().Format(TFLayoutShortYMDHS)
+	return time.Now().Format(TimeLayoutShortYMDHS)
 }
 
 // TNowFormat 当前日期字符串，内置格式
@@ -281,32 +281,32 @@ func TDayEndRemainSec() int64 {
 
 // TMonthS 获取当前月份 eg: 202303
 func TMonthS() string {
-	return time.Now().Format(TFLayoutShortYM)
+	return time.Now().Format(TimeLayoutShortYM)
 }
 
 // TMonthL 获取当前月份 eg: 2023-03
 func TMonthL() string {
-	return time.Now().Format(TFLayoutLongYM)
+	return time.Now().Format(TimeLayoutLongYM)
 }
 
 // TMonthNextS 获取下月月份 eg：202304
 func TMonthNextS() string {
-	return time.Now().AddDate(0, 1, 0).Format(TFLayoutShortYM)
+	return time.Now().AddDate(0, 1, 0).Format(TimeLayoutShortYM)
 }
 
 // TMonthNextL 获取下月月份 eg：2023-04
 func TMonthNextL() string {
-	return time.Now().AddDate(0, 1, 0).Format(TFLayoutLongYM)
+	return time.Now().AddDate(0, 1, 0).Format(TimeLayoutLongYM)
 }
 
 // TMonthLastS 获取上月月份 eg: 202302
 func TMonthLastS() string {
-	return time.Now().AddDate(0, -1, 0).Format(TFLayoutShortYM)
+	return time.Now().AddDate(0, -1, 0).Format(TimeLayoutShortYM)
 }
 
 // TMonthLastL 获取上月月份 eg: 2023-02
 func TMonthLastL() string {
-	return time.Now().AddDate(0, -1, 0).Format(TFLayoutLongYM)
+	return time.Now().AddDate(0, -1, 0).Format(TimeLayoutLongYM)
 }
 
 // TMonthStartTime 当前月份的第一天日期
@@ -336,17 +336,17 @@ func TMonthEndStr() string {
 
 // TDate 获取当前日期 eg: 2019-01-09
 func TDate() string {
-	return time.Now().Format(TFLayoutLongYMD)
+	return time.Now().Format(TimeLayoutLongYMD)
 }
 
 // TDateNext 获取下月日期 eg: 2019-02-09
 func TDateNext() string {
-	return time.Now().AddDate(0, 1, 0).Format(TFLayoutLongYMD)
+	return time.Now().AddDate(0, 1, 0).Format(TimeLayoutLongYMD)
 }
 
 // TDateLast 获取上月日期 eg: 2018-12-09
 func TDateLast() string {
-	return time.Now().AddDate(0, -1, 0).Format(TFLayoutLongYMD)
+	return time.Now().AddDate(0, -1, 0).Format(TimeLayoutLongYMD)
 }
 
 // ----------------------------
