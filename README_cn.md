@@ -32,21 +32,40 @@ go get -u github.com/leafney/rose
 
 ### Str
 
-- `StrIsEmpty` -- 判断字符串是否为空
-- `StrToInt` -- 将字符串转换为int
-- `StrToIntWithErr`
-- `StrToInt64`
-- `StrToInt64WithErr`
-- `StrToFloat64`
-- `StrToFloat64WithErr`
-- `StrToBool`
-- `StrToBoolWithErr`
-- `StrToChar`
+- `StrIsEmpty(s string) bool` -- 判断字符串是否为空
+- `StrTrim(s string) string` --
+- `StrTrimL(s, left string) string` --
+- `StrTrimR(s, right string) string` --
+- `StrToInt(s string) int` --
+- `StrToIntDef(s string, def int) int` --
+- `StrToIntErr(s string) (int, error)` --
+- `StrToInt64(s string) int64` --
+- `StrToInt64Def(s string, def int64) int64` --
+- `StrToInt64Err(s string) (int64, error)` --
+- `StrToFloat64(s string) float64` --
+- `StrToFloat64Def(s string, def float64) float64` --
+- `StrToFloat64Err(s string) (float64, error)` --
+- `StrToBool(s string) bool` --
+- `StrToBoolDef(s string, def bool) bool` --
+- `StrToBoolErr(s string) (bool, error)` --
+- `StrToChar(s string) []string` --
+- `StrAnySplit(s string, seps ...string) []string` -- 对字符串使用任意一个或多个字符分隔
+- `StrAnyTrim(s string, seps ...string) string` -- 移除字符串首部以及尾部的任意指定字符
+- `StrAnyRemove(s string, seps ...string) string` -- 移除字符串中包含的任意指定字符
+- `StrAnyReplace(s string, new string, seps ...string) string` -- 将字符串中包含的任意指定字符串替换为新的字符串
+- `StrAnyContains(s string, seps ...string) bool` -- 判断字符串中是否包含指定的任意字符串
+- `StrAnyPrefix(s string, prefixes ...string) bool` -- 是否以任何前缀字符串开头，区分大小写
+- `StrAnySuffix(s string, suffixes ...string) bool {` -- 是否以任何后缀字符串结尾，区分大小写
+- `StrAnyPrefixI(s string, prefixes ...string) bool` -- 是否以任何前缀字符串开头，不区分大小写
+- `StrAnySuffixI(s string, suffixes ...string) bool` -- 是否以任何后缀字符串结尾，不区分大小写
+- `StrJoin(args ...string) string` -- 字符串拼接
+- `StrEqualFold(s, t string) bool` -- 比较两个字符串是否相同，不区分大小写
+- `StrEqualFull(s, t string) bool` -- 比较两个字符串是否完全相等，区分大小写
+- `StrToLower(s string) string` -- 将字符串转换为小写形式
+- `StrToUpper(s string) string` -- 将字符串转换为大写形式
 - `StrToUnderscoreName` -- 将字符串的驼峰写法转成下划线写法
 - `StrToCamelName` -- 将字符串下划线写法转成驼峰写法
-- `StrSplitAny` -- 对字符串使用任意字符分隔，支持单个或多个
-- `Substr`
-- `JoinString`
+
 
 ----
 
