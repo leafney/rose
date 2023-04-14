@@ -148,6 +148,136 @@ func StrToChar(s string) []string {
 
 // -----------------
 
+// StrAnySplit 对字符串使用任意一个或多个字符分隔，**同时排除空字符**
+func StrAnySplit(s string, seps ...string) []string {
+	sep := SliceStrToStr(seps, "")
+	splitter := func(r rune) bool {
+		return strings.ContainsRune(sep, r)
+	}
+	return strings.FieldsFunc(s, splitter)
+}
+
+// StrAnyTrim 移除字符串首部以及尾部的任意指定字符
+func StrAnyTrim(s string, seps ...string) string {
+	// 先对分隔字符串按照长度由大到小排序
+	seps = SliceSortByLength(seps, false)
+
+	for _, sep := range seps {
+		s = strings.Trim(s, sep)
+	}
+	return s
+}
+
+// StrAnyRemove 移除字符串中包含的任意指定字符
+func StrAnyRemove(s string, seps ...string) string {
+	// 先对分隔字符串按照长度由大到小排序
+	seps = SliceSortByLength(seps, false)
+
+	for _, sep := range seps {
+		if strings.Contains(s, sep) {
+			s = strings.ReplaceAll(s, sep, "")
+		}
+	}
+	return s
+}
+
+// StrAnyReplace 将字符串中包含的任意指定字符串替换为新的字符串
+func StrAnyReplace(s string, new string, seps ...string) string {
+	// 先对分隔字符串按照长度由大到小排序
+	seps = SliceSortByLength(seps, false)
+	for _, sep := range seps {
+		if strings.Contains(s, sep) {
+			s = strings.ReplaceAll(s, sep, new)
+		}
+	}
+	return s
+}
+
+// StrAnyContains 判断字符串中是否包含指定的任意字符串
+func StrAnyContains(s string, seps ...string) bool {
+	for _, sep := range seps {
+		if strings.Contains(s, sep) {
+			return true
+		}
+	}
+	return false
+}
+
+// StrAnyPrefix 是否以任何前缀字符串开头，区分大小写
+func StrAnyPrefix(s string, prefixes ...string) bool {
+	for _, prefix := range prefixes {
+		if strings.HasPrefix(s, prefix) {
+			return true
+		}
+	}
+	return false
+}
+
+// StrAnySuffix 是否以任何后缀字符串结尾，区分大小写
+func StrAnySuffix(s string, suffixes ...string) bool {
+	for _, suffix := range suffixes {
+		if strings.HasSuffix(s, suffix) {
+			return true
+		}
+	}
+	return false
+}
+
+// StrAnyPrefixI 是否以任何前缀字符串开头，不区分大小写
+func StrAnyPrefixI(s string, prefixes ...string) bool {
+	st := strings.ToLower(s)
+	for _, prefix := range prefixes {
+		if strings.HasPrefix(st, strings.ToLower(prefix)) {
+			return true
+		}
+	}
+	return false
+}
+
+// StrAnySuffixI 是否以任何后缀字符串结尾，不区分大小写
+func StrAnySuffixI(s string, suffixes ...string) bool {
+	st := strings.ToLower(s)
+	for _, suffix := range suffixes {
+		if strings.HasSuffix(st, strings.ToLower(suffix)) {
+			return true
+		}
+	}
+	return false
+}
+
+// -------------------
+
+// StrJoin 字符串拼接
+func StrJoin(args ...string) string {
+	var buffer strings.Builder
+	for _, arg := range args {
+		buffer.WriteString(arg)
+	}
+	return buffer.String()
+}
+
+// StrEqualFold 比较两个字符串是否相同，不区分大小写
+func StrEqualFold(s, t string) bool {
+	return strings.EqualFold(s, t)
+}
+
+// StrEqualFull 比较两个字符串是否完全相等，区分大小写
+func StrEqualFull(s, t string) bool {
+	return s == t
+}
+
+// StrToLower 将字符串转换为小写形式
+func StrToLower(s string) string {
+	return strings.ToLower(s)
+}
+
+// StrToUpper 将字符串转换为大写形式
+func StrToUpper(s string) string {
+	return strings.ToUpper(s)
+}
+
+// -----------------
+
 // TODO 待优化
 
 // StrToUnderScoreName 将字符串驼峰式写法转为下划线写法
@@ -204,122 +334,6 @@ func Substr(str string, start, length int) string {
 	}
 	return string(rune_str[start:end])
 
-}
-
-// -----------------
-
-// StrAnySplit 对字符串使用任意一个或多个字符分隔，**同时排除空字符**
-func StrAnySplit(s string, seps ...string) []string {
-	sep := SliceStrToStr(seps, "")
-	splitter := func(r rune) bool {
-		return strings.ContainsRune(sep, r)
-	}
-	return strings.FieldsFunc(s, splitter)
-}
-
-// StrAnyTrim 移除字符串中任意指定字符
-func StrAnyTrim(s string, seps ...string) string {
-	// 先对分隔字符串按照长度由大到小排序
-	seps = SliceSortByLength(seps, false)
-
-	for _, sep := range seps {
-		s = strings.Trim(s, sep)
-	}
-	return s
-}
-
-// StrAnyRemove 移除字符串中一个或多个字符
-func StrAnyRemove(s string, seps ...string) string {
-	// 先对分隔字符串按照长度由大到小排序
-	seps = SliceSortByLength(seps, false)
-
-	for _, sep := range seps {
-		if strings.Contains(s, sep) {
-			s = strings.ReplaceAll(s, sep, "")
-		}
-	}
-	return s
-}
-
-// StrAnyContains 判断是否包含其中的某个字符串
-func StrAnyContains(s string, seps ...string) bool {
-	for _, sep := range seps {
-		if strings.Contains(s, sep) {
-			return true
-		}
-	}
-	return false
-}
-
-// StrAnyPrefix 是否以任何前缀字符串开头
-func StrAnyPrefix(s string, prefixes ...string) bool {
-	for _, prefix := range prefixes {
-		if strings.HasPrefix(s, prefix) {
-			return true
-		}
-	}
-	return false
-}
-
-// StrAnySuffix 是否以任何后缀字符串结尾
-func StrAnySuffix(s string, suffixes ...string) bool {
-	for _, suffix := range suffixes {
-		if strings.HasSuffix(s, suffix) {
-			return true
-		}
-	}
-	return false
-}
-
-// StrAnyPrefixI 是否以任何前缀字符串开头，不区分大小写
-func StrAnyPrefixI(s string, prefixes ...string) bool {
-	st := strings.ToLower(s)
-	for _, prefix := range prefixes {
-		if strings.HasPrefix(st, strings.ToLower(prefix)) {
-			return true
-		}
-	}
-	return false
-}
-
-// StrAnySuffixI 是否以任何后缀字符串结尾，不区分大小写
-func StrAnySuffixI(s string, suffixes ...string) bool {
-	st := strings.ToLower(s)
-	for _, suffix := range suffixes {
-		if strings.HasSuffix(st, strings.ToLower(suffix)) {
-			return true
-		}
-	}
-	return false
-}
-
-// -------------------
-
-// StrJoin 字符串拼接
-func StrJoin(args ...string) string {
-	var buffer strings.Builder
-	for _, arg := range args {
-		buffer.WriteString(arg)
-	}
-	return buffer.String()
-}
-
-// StrEqualFold 比较两个字符串是否相同，不区分大小写
-func StrEqualFold(s, t string) bool {
-	return strings.EqualFold(s, t)
-}
-
-// StrEqualFull 比较两个字符串是否完全相等，区分大小写
-func StrEqualFull(s, t string) bool {
-	return s == t
-}
-
-func StrToLower(s string) string {
-	return strings.ToLower(s)
-}
-
-func StrToUpper(s string) string {
-	return strings.ToUpper(s)
 }
 
 // --------- Deprecated -------------------

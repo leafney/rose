@@ -3,9 +3,15 @@ package rose
 import "testing"
 
 func TestStr(t *testing.T) {
-	t.Log(StrToInt("3"))
+	//t.Log(StrToInt("3"))
+	//
+	//t.Log(StrRemoveAny("hello world", "l", "o"))
+	//
+	//t.Log(StrPrefixAny("hello", "H"))
+	//
 
-	t.Log(StrRemoveAny("hello world", "l", "o"))
+	t.Log(StrAnyTrim("hello haha hh ok", "h"))
+	t.Log(StrAnyRemove("hello haha hh ok", "h"))
+	t.Log(StrAnyReplace("hello haha hh ok", "x", "h", "l"))
 
-	t.Log(StrPrefixAny("hello", "H"))
 }

@@ -136,7 +136,7 @@ func SliceRandomItemInt64(slices []int64) int64 {
 }
 
 // SliceSortByLength 将slice中字符串按照长度排序
-// asc 有小到大；desc 由大到小
+// asc 由小到大；desc 由大到小
 func SliceSortByLength(slices []string, asc bool) []string {
 	sort.Slice(slices, func(i, j int) bool {
 		if asc {
