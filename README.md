@@ -30,5 +30,7 @@ go get -u github.com/leafney/rose
 - [rose-nsq](https://github.com/leafney/rose-nsq)
 - [rose-redis](https://github.com/leafney/rose-redis)
 - [rose_menu_item: Flutter 菜单项](https://github.com/leafney/rose_menu_item) 
+- [rose-gin-embed: Gin embed static resources through middleware](https://github.com/leafney/rose-gin-embed)
+
 
 ----
