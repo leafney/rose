@@ -214,3 +214,12 @@ http请求封装，链式调用，参考req。
 ```
 
 -----
+
+### Mask 掩码
+
+- `MaskPhone(phone string) string` -- 手机号 前3后4
+- `MaskEmail(email string) string` -- 邮箱 仅用户名部分 前1后1
+- `MaskPwd(pwd string) string` -- 密码
+- `MaskBankCard(card string) string` -- 银行卡号 前4后4
+- `MaskIDCard(id string) string` -- 身份证号 前3后4
+- `MaskStr(s string, front, after int, rep string, count int) string` -- 对字符串掩码处理，保留前front，后after，使用rep替换中间内容，并指定rep的数量
