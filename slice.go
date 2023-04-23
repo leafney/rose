@@ -18,7 +18,7 @@ import (
 	"time"
 )
 
-// Remove empty items from slice
+// SliceStrRmvEmpty Remove empty items from slice
 func SliceStrRmvEmpty(sls []string) []string {
 	newSls := make([]string, 0)
 	for k, v := range sls {
@@ -29,7 +29,7 @@ func SliceStrRmvEmpty(sls []string) []string {
 	return newSls
 }
 
-// Divide a slice into a specified number of slice groups
+// SliceStrToArray Divide a slice into a specified number of slice groups
 func SliceStrToArray(arr []string, size int) (result [][]string) {
 	ln := len(arr)
 	cs := int(math.Ceil(float64(ln) / float64(size)))
@@ -100,7 +100,18 @@ func SliceExistStr(slices []string, val string) bool {
 	return false
 }
 
+// SliceExistInt64 判断slice中是否存在
 func SliceExistInt64(slices []int64, val int64) bool {
+	for _, v := range slices {
+		if val == v {
+			return true
+		}
+	}
+	return false
+}
+
+// SliceExistInt 判断slice中是否存在
+func SliceExistInt(slices []int, val int) bool {
 	for _, v := range slices {
 		if val == v {
 			return true
