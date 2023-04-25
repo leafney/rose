@@ -276,6 +276,19 @@ func StrToUpper(s string) string {
 	return strings.ToUpper(s)
 }
 
+// StrSizeSplit 按照指定长度大小拆分字符串
+func StrSizeSplit(s string, chunkSize int) []string {
+	var chunks []string
+	for i := 0; i < len(s); i += chunkSize {
+		end := i + chunkSize
+		if end > len(s) {
+			end = len(s)
+		}
+		chunks = append(chunks, s[i:end])
+	}
+	return chunks
+}
+
 // -----------------
 
 // TODO 待优化
