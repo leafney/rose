@@ -338,3 +338,21 @@ func SliceStrToMap(arr []string, prefix string) map[string]string {
 	}
 	return res
 }
+
+// SliceContainsSlice 判断 slice A 中是否存在 slice B 中的任意元素
+func SliceContainsSlice(a []string, b []string) bool {
+	// 将slice B中的元素存入map中
+	bMap := make(map[string]bool)
+	for _, item := range b {
+		bMap[item] = true
+	}
+
+	// 检查slice A中的元素是否在map中
+	for _, item := range a {
+		if _, exists := bMap[item]; exists {
+			return true
+		}
+	}
+
+	return false
+}
