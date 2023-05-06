@@ -8,10 +8,16 @@
 
 package rose
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestCRC32(t *testing.T) {
-	t.Log(Crc32Val("hello"))
-	t.Log(Crc32("hello"))
-	t.Log(Crc32Mod("hello", 10))
+	//t.Log(Crc32Val("hello"))
+	//t.Log(Crc32("hello"))
+	for i := 0; i < 100; i++ {
+		t.Log(Crc32Mod(fmt.Sprintf("%v", i), 32))
+	}
+
 }
