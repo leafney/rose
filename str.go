@@ -256,6 +256,11 @@ func StrJoin(args ...string) string {
 	return buffer.String()
 }
 
+// StrJoinWith alias strings.Join()
+func StrJoinWith(elems []string, sep string) string {
+	return strings.Join(elems, sep)
+}
+
 // StrEqualFold 比较两个字符串是否相同，不区分大小写
 func StrEqualFold(s, t string) bool {
 	return strings.EqualFold(s, t)
