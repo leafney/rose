@@ -496,6 +496,12 @@ func TSecFormatHMS(secs int64) string {
 
 // ----------------------------
 
+func TSleep(secs int64) {
+	time.Sleep(time.Duration(secs) * time.Second)
+}
+
+// ----------------------------
+
 // --------- Deprecated -------------------
 
 // Deprecated: Use rose.TNowAddIntervalSecDHM instead.
