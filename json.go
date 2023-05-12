@@ -8,8 +8,8 @@ func JsonMarshal(v interface{}) []byte {
 	return bt
 }
 
-// JsonMarshalWithErr
-func JsonMarshalWithErr(v interface{}) ([]byte, error) {
+// JsonMarshalErr
+func JsonMarshalErr(v interface{}) ([]byte, error) {
 	return json.Marshal(v)
 }
 
@@ -19,8 +19,8 @@ func JsonMarshalStr(v interface{}) string {
 	return string(bt)
 }
 
-// JsonMarshalStrWithErr
-func JsonMarshalStrWithErr(v interface{}) (string, error) {
+// JsonMarshalStrErr
+func JsonMarshalStrErr(v interface{}) (string, error) {
 	bt, err := json.Marshal(v)
 	return string(bt), err
 }
@@ -30,8 +30,8 @@ func JsonUnMarshal(data []byte, v interface{}) {
 	json.Unmarshal(data, v)
 }
 
-// JsonUnMarshalWithErr
-func JsonUnMarshalWithErr(data []byte, v interface{}) error {
+// JsonUnMarshalErr
+func JsonUnMarshalErr(data []byte, v interface{}) error {
 	return json.Unmarshal(data, v)
 }
 
@@ -40,7 +40,7 @@ func JsonUnMarshalStr(s string, v interface{}) {
 	json.Unmarshal([]byte(s), v)
 }
 
-// JsonUnMarshalStrWithErr
-func JsonUnMarshalStrWithErr(s string, v interface{}) error {
+// JsonUnMarshalStrErr
+func JsonUnMarshalStrErr(s string, v interface{}) error {
 	return json.Unmarshal([]byte(s), v)
 }
