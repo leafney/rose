@@ -496,8 +496,14 @@ func TSecFormatHMS(secs int64) string {
 
 // ----------------------------
 
+// TSleep sleep seconds
 func TSleep(secs int64) {
 	time.Sleep(time.Duration(secs) * time.Second)
+}
+
+// TSleepMs sleep milliseconds
+func TSleepMs(msecs int64) {
+	time.Sleep(time.Duration(msecs) * time.Millisecond)
 }
 
 // ----------------------------

@@ -11,34 +11,34 @@ import (
 	"strings"
 )
 
-// IsWindows determines whether current OS is Windows.
-func IsWindows() bool {
+// OSIsWindows determines whether current OS is Windows.
+func OSIsWindows() bool {
 	return "windows" == runtime.GOOS
 }
 
-// IsLinux determines whether current OS is Linux.
-func IsLinux() bool {
+// OSIsLinux determines whether current OS is Linux.
+func OSIsLinux() bool {
 	return "linux" == runtime.GOOS
 }
 
-// IsDarwin determines whether current OS is Darwin.
-func IsDarwin() bool {
+// OSIsDarwin determines whether current OS is Darwin.
+func OSIsDarwin() bool {
 	return "darwin" == runtime.GOOS
 }
 
-// Pwd gets the path of current working directory.
-func Pwd() string {
+// OSPwd gets the path of current working directory.
+func OSPwd() string {
 	file, _ := exec.LookPath(os.Args[0])
 	pwd, _ := filepath.Abs(file)
 
 	return filepath.Dir(pwd)
 }
 
-// Home returns the home directory for the executing user.
+// OSHome returns the home directory for the executing user.
 //
 // This uses an OS-specific method for discovering the home directory.
 // An error is returned if a home directory cannot be detected.
-func Home() (string, error) {
+func OSHome() (string, error) {
 	user, err := user.Current()
 	if nil == err {
 		return user.HomeDir, nil
@@ -46,15 +46,15 @@ func Home() (string, error) {
 
 	// cross compile support
 
-	if IsWindows() {
-		return homeWindows()
+	if OSIsWindows() {
+		return OSHomeWindows()
 	}
 
 	// Unix-like system, so just assume Unix
-	return homeUnix()
+	return OSHomeUnix()
 }
 
-func homeUnix() (string, error) {
+func OSHomeUnix() (string, error) {
 	// First prefer the HOME environmental variable
 	if home := os.Getenv("HOME"); home != "" {
 		return home, nil
@@ -76,7 +76,7 @@ func homeUnix() (string, error) {
 	return result, nil
 }
 
-func homeWindows() (string, error) {
+func OSHomeWindows() (string, error) {
 	drive := os.Getenv("HOMEDRIVE")
 	path := os.Getenv("HOMEPATH")
 	home := drive + path
