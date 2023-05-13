@@ -501,6 +501,10 @@ func TSleep(secs int64) {
 	time.Sleep(time.Duration(secs) * time.Second)
 }
 
+func TSleepRand(min, max int64) {
+	time.Sleep(time.Duration(RandInt64Range(min, max)) * time.Second)
+}
+
 // TSleepMs sleep milliseconds
 func TSleepMs(msecs int64) {
 	time.Sleep(time.Duration(msecs) * time.Millisecond)
