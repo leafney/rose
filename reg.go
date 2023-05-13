@@ -26,8 +26,8 @@ func PhoneNumStar(phone string) string {
 	return phone
 }
 
-// PhoneNumEnd 获取手机尾号后4位
-func PhoneNumEnd(phone string) string {
+// PhoneTailNum 获取手机尾号后4位
+func PhoneTailNum(phone string) string {
 	if IsPhone(phone) {
 		return phone[len(phone)-4:]
 	}

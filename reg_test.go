@@ -14,5 +14,5 @@ func TestPhoneNumStar(t *testing.T) {
 	phone := "17092021576"
 	t.Log(IsPhone(phone))
 	t.Log(PhoneNumStar(phone))
-	t.Log(PhoneNumEnd(phone))
+	t.Log(PhoneTailNum(phone))
 }
