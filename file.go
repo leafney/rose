@@ -3,7 +3,6 @@ package rose
 import (
 	"archive/zip"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -36,7 +35,7 @@ func FRemove(path string) error {
 }
 
 // FZip zip the file and save it to destPath
-func FZip(fpath string, destPath string) error {
+func FZip(filePath string, destPath string) error {
 	zipFile, err := os.Create(destPath)
 	if err != nil {
 		return err
@@ -46,7 +45,7 @@ func FZip(fpath string, destPath string) error {
 	archive := zip.NewWriter(zipFile)
 	defer archive.Close()
 
-	filepath.Walk(fpath, func(path string, info os.FileInfo, err error) error {
+	filepath.Walk(filePath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -56,7 +55,7 @@ func FZip(fpath string, destPath string) error {
 			return err
 		}
 
-		header.Name = strings.TrimPrefix(path, filepath.Dir(fpath)+"/")
+		header.Name = strings.TrimPrefix(path, filepath.Dir(filePath)+"/")
 
 		if info.IsDir() {
 			header.Name += "/"
@@ -124,7 +123,28 @@ func FUnZip(zipFile string, destPath string) error {
 	return nil
 }
 
-// FReadFile ioutil.ReadFile
-func FReadFile(filePath string) ([]byte, error) {
-	return ioutil.ReadFile(filePath)
+// FReadFile 直接读取文件（适用于小文件读取）
+func FReadFile(filePath string) (string, error) {
+	res, err := os.ReadFile(filePath)
+	return string(res), err
+}
+
+// FWriteFile 直接写入文件（适用于小文件写入）
+func FWriteFile(filePath string, data string, append bool) error {
+	flagIsAppend := os.O_TRUNC // 默认覆盖
+	if append {
+		flagIsAppend = os.O_APPEND // 追加
+	}
+
+	f, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE|flagIsAppend, 0666)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	_, err = f.WriteString(data)
+	if err != nil {
+		return err
+	}
+	return nil
 }
