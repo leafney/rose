@@ -8,9 +8,12 @@
 
 package rose
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestFWriteFile(t *testing.T) {
-	t.Log(FWriteFile("aaa.txt", "333hello world444", true))
+	//t.Log(FWriteFile("aaa.txt", "333hello world444", true))
 
+	//t.Log(FWriteBigFile("aaa.txt", "hello", true))
 }

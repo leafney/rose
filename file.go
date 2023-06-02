@@ -2,6 +2,7 @@ package rose
 
 import (
 	"archive/zip"
+	"bufio"
 	"io"
 	"os"
 	"path/filepath"
@@ -131,18 +132,78 @@ func FReadFile(filePath string) (string, error) {
 
 // FWriteFile 直接写入文件（适用于小文件写入）
 func FWriteFile(filePath string, data string, append bool) error {
-	flagIsAppend := os.O_TRUNC // 默认覆盖
+	flag := os.O_WRONLY | os.O_CREATE
 	if append {
-		flagIsAppend = os.O_APPEND // 追加
+		flag |= os.O_APPEND
+	} else {
+		flag |= os.O_TRUNC
 	}
-
-	f, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE|flagIsAppend, 0666)
+	f, err := os.OpenFile(filePath, flag, 0666)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 
 	_, err = f.WriteString(data)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func FReadBigFile(filePath string, writer io.Writer) error {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+	buffer := make([]byte, 4096)
+	for {
+		n, err := reader.Read(buffer)
+		if err != nil && err != io.EOF {
+			return err
+		}
+		if n == 0 {
+			break
+		}
+		if _, err := writer.Write(buffer[:n]); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// FWriteBigFile 写入大文件
+func FWriteBigFile(filePath string, data string, append bool) error {
+	//file, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
+	//if err != nil {
+	//	return err
+	//}
+	//defer file.Close()
+	//
+	//buf := bufio.NewWriter(file)
+	//_, err = buf.WriteString(data)
+	//
+	//io.WriteString()
+	//
+	//err = buf.Flush()
+	//return err
+
+	flag := os.O_WRONLY | os.O_CREATE
+	if append {
+		flag |= os.O_APPEND
+	} else {
+		flag |= os.O_TRUNC
+	}
+	file, err := os.OpenFile(filePath, flag, 0666)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	_, err = io.WriteString(file, data)
 	if err != nil {
 		return err
 	}
