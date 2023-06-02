@@ -19,8 +19,11 @@ func TestParseGMTTime(t *testing.T) {
 func TestTSecByDay(t *testing.T) {
 	//tt := TSecByMin(5)
 	//tt := TSecByDay(3)
-	tt := TSecByMonth(2)
-	t.Log(tt)
+	//tt := TSecByMonth(2)
+	//t.Log(tt)
+
+	t.Log(TMonthStartTime())
+	t.Log(TMonthEndTime())
 }
 
 func TestTSecToAdd(t *testing.T) {

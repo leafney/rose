@@ -309,27 +309,42 @@ func TMonthLastL() string {
 	return time.Now().AddDate(0, -1, 0).Format(TimeLayoutLongYM)
 }
 
-// TMonthStartTime 当前月份的第一天日期
+// ----------------------------
+
+// TMonthStartDay 当前月份的第一天的日期
+func TMonthStartDay() time.Time {
+	now := time.Now()
+	return time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, now.Location())
+}
+
+// TMonthStartTime 当前月份的第一天的起始时间
 func TMonthStartTime() time.Time {
 	now := time.Now()
 	return time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, now.Location())
 }
 
-// TMonthStartStr 当前月份的第一天日期字符串
-func TMonthStartStr() string {
-	return TTimeFormat(TMonthStartTime(), TFLongYMD)
+// TMonthStartDayStr 当前月份的第一天日期字符串
+func TMonthStartDayStr() string {
+	return TTimeFormat(TMonthStartDay(), TFLongYMD)
 }
 
-// TMonthEndTime 当前月份的最后一天日期
-func TMonthEndTime() time.Time {
+// TMonthEndDay 当前月份的最后一天的日期
+func TMonthEndDay() time.Time {
 	now := time.Now()
 	nextMonth := time.Date(now.Year(), now.Month()+1, 1, 0, 0, 0, 0, now.Location())
 	return nextMonth.AddDate(0, 0, -1)
 }
 
-// TMonthEndStr 当前月份的最后一天日期字符串
-func TMonthEndStr() string {
-	return TTimeFormat(TMonthEndTime(), TFLongYMD)
+// TMonthEndTime 当前月份的最后一天的截止时间
+func TMonthEndTime() time.Time {
+	now := time.Now()
+	nextMonth := time.Date(now.Year(), now.Month()+1, 1, 23, 59, 59, 0, now.Location())
+	return nextMonth.AddDate(0, 0, -1)
+}
+
+// TMonthEndDayStr 当前月份的最后一天日期字符串
+func TMonthEndDayStr() string {
+	return TTimeFormat(TMonthEndDay(), TFLongYMD)
 }
 
 // ----------------------------
