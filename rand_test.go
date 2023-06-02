@@ -8,7 +8,9 @@
 
 package rose
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestRandIntRange(t *testing.T) {
 
@@ -20,4 +22,10 @@ func TestRandIntRange(t *testing.T) {
 
 func TestRandSomeStr(t *testing.T) {
 	t.Log(RandSomeStr("abcdefghi", 2))
+}
+
+func TestRandFloat64(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		t.Log(RandFloat64(100))
+	}
 }
