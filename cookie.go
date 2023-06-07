@@ -9,9 +9,11 @@
 package rose
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 // CookieFromStr 将 Cookie 字符串转换为 []*http.Cookie
@@ -42,4 +44,15 @@ func CookieFromFile(cookieFilePath string) ([]*http.Cookie, error) {
 	}
 
 	return CookieFromStr(string(fCookieStr)), nil
+}
+
+// CookieToStr 将 []*http.Cookie 转换成 Cookie 字符串
+func CookieToStr(cookies []*http.Cookie) string {
+	res := make([]string, 0)
+	for _, c := range cookies {
+		val, _ := url.QueryUnescape(c.Value)
+		res = append(res, fmt.Sprintf("%s=%s", c.Name, val))
+	}
+
+	return strings.Join(res, "; ")
 }
