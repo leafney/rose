@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"sort"
 	"strconv"
+	"sync"
 )
 
 // MapInt64SortByValue 将map中的key按照value大小排序后返回
@@ -94,4 +95,37 @@ func MapInterfaceToStr(m map[string]interface{}) map[string]string {
 		}
 	}
 	return res
+}
+
+//func MapUnionStr(ms ...map[string]string) map[string]string {
+//	var mutex sync.Mutex
+//	nm := make(map[string]string, 0)
+//
+//	for _, m := range ms {
+//		for k, v := range m {
+//			mutex.Lock()
+//			nm[k] = v
+//			mutex.Unlock()
+//		}
+//	}
+//	return nm
+//}
+
+// MapUnionStr 合并多个Map
+func MapUnionStr(ms ...map[string]string) map[string]string {
+	var nm sync.Map
+
+	for _, m := range ms {
+		for k, v := range m {
+			nm.Store(k, v)
+		}
+	}
+
+	result := make(map[string]string, 0)
+	nm.Range(func(key, value interface{}) bool {
+		result[key.(string)] = value.(string)
+		return true
+	})
+
+	return result
 }
