@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 // CookieFromStr 将 Cookie 字符串转换为 []*http.Cookie
@@ -30,6 +31,30 @@ func CookieFromStr(cookieStr string) []*http.Cookie {
 		newCookies = append(newCookies, &http.Cookie{
 			Name:  c.Name,
 			Value: val,
+		})
+	}
+
+	return newCookies
+}
+
+func CookieFromStrWithDomain(cookieStr string, domain string, path string, expires time.Duration) []*http.Cookie {
+	header := http.Header{}
+	header.Add("Cookie", cookieStr)
+	request := http.Request{Header: header}
+
+	expr := time.Now().Add(expires)
+
+	newCookies := make([]*http.Cookie, 0)
+
+	for _, c := range request.Cookies() {
+		// cookie值可能包含特殊字符
+		val := url.QueryEscape(c.Value)
+		newCookies = append(newCookies, &http.Cookie{
+			Name:    c.Name,
+			Value:   val,
+			Expires: expr,
+			Domain:  domain,
+			Path:    path,
 		})
 	}
 
