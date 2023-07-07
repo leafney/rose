@@ -525,6 +525,10 @@ func TSleepMs(msecs int64) {
 	time.Sleep(time.Duration(msecs) * time.Millisecond)
 }
 
+func TSleepMsRand(min, max int64) {
+	time.Sleep(time.Duration(RandInt64Range(min, max)) * time.Millisecond)
+}
+
 // ----------------------------
 
 // --------- Deprecated -------------------
