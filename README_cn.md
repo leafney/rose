@@ -2,7 +2,7 @@
 
 **Golang 工具类**
 
-[英文](README.md)
+[English](README.md) | 简体中文
 
 ----
 

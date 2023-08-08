@@ -2,7 +2,7 @@
 
 **Golang Toolkit**
 
-[中文](README_cn.md)
+English | [简体中文](README_cn.md)
 
 ----
 
@@ -24,6 +24,7 @@ go get -u github.com/leafney/rose
 
 ## Series
 
+- [leafney/rose-zap: Wrapper class for the logging library uber-go/zap](https://github.com/leafney/rose-zap)
 - [rose-notify](https://github.com/leafney/rose-notify)
 - [rose-ip2region](https://github.com/leafney/rose-ip2region) 
 - [rose-sms](https://github.com/leafney/rose-sms) 
