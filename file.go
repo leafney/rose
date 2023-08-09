@@ -13,7 +13,10 @@ import (
 func FIsExist(path string) bool {
 	_, err := os.Stat(path)
 	return err == nil || os.IsExist(err)
+}
 
+func FJoinPath(elem ...string) string {
+	return filepath.Join(elem...)
 }
 
 // FIsDir whether the specified path is a directory
