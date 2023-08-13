@@ -12,7 +12,8 @@ import "testing"
 
 func TestExecCmd(t *testing.T) {
 
-	o1, err := ExecCmdBashOut("pwd")
+	//o1, err := ExecCmdBashOut("pwd")
+	o1, err := ExecCmdBashOutDir("./reqx", "pwd")
 	if err != nil {
 		t.Log(err)
 	}

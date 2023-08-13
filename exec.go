@@ -289,7 +289,7 @@ func ExecCmdBashOutDir(dir string, arg ...string) (out string, err error) {
 // ExecCmdBashOutDirCtx
 // "/bin/bash", "-c", "command params"
 func ExecCmdBashOutDirCtx(ctx context.Context, dir string, arg ...string) (out string, err error) {
-	arg = append(arg, SplitC)
+	arg = append([]string{SplitC}, arg...)
 	cmd := exec.CommandContext(ctx, Bash, arg...)
 	var stdOut bytes.Buffer
 	cmd.Stdout = &stdOut
@@ -324,7 +324,7 @@ func ExecCmdBashOutDirB(dir string, arg ...string) (out []byte, err error) {
 // ExecCmdBashOutDirBCtx
 // "/bin/bash", "-c", "command params"
 func ExecCmdBashOutDirBCtx(ctx context.Context, dir string, arg ...string) (out []byte, err error) {
-	arg = append(arg, SplitC)
+	arg = append([]string{SplitC}, arg...)
 	cmd := exec.CommandContext(ctx, Bash, arg...)
 	var stdOut bytes.Buffer
 	cmd.Stdout = &stdOut
@@ -359,7 +359,7 @@ func ExecCmdBashOutErrDir(dir string, arg ...string) (out string, fail string, e
 // ExecCmdBashOutErrDirCtx
 // "/bin/bash", "-c", "command params"
 func ExecCmdBashOutErrDirCtx(ctx context.Context, dir string, arg ...string) (out string, fail string, err error) {
-	arg = append(arg, SplitC)
+	arg = append([]string{SplitC}, arg...)
 	cmd := exec.CommandContext(ctx, Bash, arg...)
 	var stdOut, stdErr bytes.Buffer
 	cmd.Stdout = &stdOut // 标准输出
@@ -396,7 +396,7 @@ func ExecCmdBashOutErrDirB(dir string, arg ...string) (out []byte, fail []byte, 
 // ExecCmdBashOutErrDirBCtx
 // "/bin/bash", "-c", "command params"
 func ExecCmdBashOutErrDirBCtx(ctx context.Context, dir string, arg ...string) (out []byte, fail []byte, err error) {
-	arg = append(arg, SplitC)
+	arg = append([]string{SplitC}, arg...)
 	cmd := exec.CommandContext(ctx, Bash, arg...)
 	var stdOut, stdErr bytes.Buffer
 	cmd.Stdout = &stdOut // 标准输出
