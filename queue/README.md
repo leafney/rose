@@ -4,9 +4,16 @@
 
 **Group Queue**
 
+- `maxSize` 每组最大限制消息数
+- `timeout` 每组在达到最大数量限制之前的超时时间
+- `nextDelay` 处理下一组消息之前的间隔时间
+- `handler` 消息处理方法
+
 ----
 
 ### MapGroupQueue
+
+- `handlerName` 指定某个消息处理函数对应的名称，用以区分不同的消息处理函数
 
 **Named Group Queue**
 
@@ -198,5 +205,6 @@ func JobTask(dataList []interface{}) {
 
 Result:
 
+![](result.png)
 
 ----

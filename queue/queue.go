@@ -37,7 +37,6 @@ func NewGroupQueue(maxSize int, timeout, nextDelay time.Duration, handler func([
 		toNextDelay:   nextDelay,
 		handler:       handler,
 		waitGroup:     new(sync.WaitGroup),
-		ticker:        time.NewTicker(timeout),
 		tickerChannel: nil,
 		mutex:         sync.Mutex{},
 		toNext:        make(chan struct{}, 1),
@@ -46,6 +45,9 @@ func NewGroupQueue(maxSize int, timeout, nextDelay time.Duration, handler func([
 }
 
 func (gq *GroupQueue) Start() {
+	// Start the timer
+	gq.ticker = time.NewTicker(gq.timeout)
+
 	gq.waitGroup.Add(1)
 	go func() {
 		defer gq.waitGroup.Done()
@@ -80,8 +82,6 @@ func (gq *GroupQueue) Start() {
 					// When the queue is full, reset the timeout
 					gq.mutex.Lock()
 					gq.ticker.Stop()
-					gq.ticker = time.NewTicker(gq.timeout)
-					gq.tickerChannel = gq.ticker.C
 					gq.mutex.Unlock()
 
 					gq.outputChannel <- dataList
@@ -107,6 +107,9 @@ func (gq *GroupQueue) Start() {
 			if gq.toNextSize == 0 {
 				// Set how long to wait before executing the next round
 				time.Sleep(gq.toNextDelay)
+
+				// After waiting for message processing to complete, reset the timer
+				gq.ticker.Reset(gq.timeout)
 				gq.toNext <- struct{}{}
 			}
 		}
