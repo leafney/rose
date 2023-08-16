@@ -16,6 +16,10 @@
 
 ----
 
+### Demo
+
+#### Test One
+
 mapGroupQueue init:
 
 ```go
@@ -132,5 +136,67 @@ result:
 {"level":"info","time":"2023-06-08 15:48:51.440","msg":"[JobTask] 处理数据","data":"msg-26"}
 
 ```
+
+----
+
+#### Test Two
+
+`SendJob` :
+
+```go
+func SendJobTask() {
+	for i := 0; i < 8; i++ {
+		msg := fmt.Sprintf("msg-%v", i)
+        Producer.PublishWithTopic("ccc", msg)
+	}
+}
+```
+
+`mapGroupQueue init`:
+
+```go
+GroupQueue := queue.NewMapGroupQueue(10, 30*time.Second, 10*time.Second)
+defer GroupQueue.Clear()
+```
+
+`HandlerMsg`:
+
+```go
+type QueueWorker struct{}
+
+func (c *QueueWorker) HandlerMsg(msg *rnsq.XMessage) error {
+	data := msg.ToString()
+
+	log.Info("接收到队列消息", zap.String("action", data))
+
+    GroupQueue.SetConfig("queue", 3, time.Second*120, time.Second*20)
+
+	<-GroupQueue.GetQueue("queue", JobTask).Put(data).Wait()
+	
+	msg.Success()
+	return nil
+}
+```
+
+`JobTask`:
+
+```go
+func JobTask(dataList []interface{}) {
+
+	for _, data := range dataList {
+		// 处理数据
+		if v, ok := data.(string); ok {
+			log.Info("[JobTask] 处理数据", zap.String("data", v))
+
+			rose.TSleep(2)
+
+			log.Info("[JobTask] 处理完毕-----------")
+		}
+	}
+}
+```
+
+Result:
+
 
 ----

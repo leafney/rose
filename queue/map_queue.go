@@ -16,32 +16,36 @@ import (
 type MapGroupQueue struct {
 	maxSize           int
 	timeout           time.Duration
+	nextDelay         time.Duration
 	groupQueueMapLock sync.Mutex
 	groupQueueMap     map[string]*GroupQueue
 	handlerConfigMap  map[string]*Config
 }
 
 type Config struct {
-	maxSize int
-	timeout time.Duration
+	maxSize   int
+	timeout   time.Duration
+	nextDelay time.Duration
 }
 
-func NewMapGroupQueue(maxSize int, timeout time.Duration) *MapGroupQueue {
+func NewMapGroupQueue(maxSize int, timeout, nextDelay time.Duration) *MapGroupQueue {
 	return &MapGroupQueue{
 		maxSize:          maxSize,
 		timeout:          timeout,
+		nextDelay:        nextDelay,
 		groupQueueMap:    make(map[string]*GroupQueue),
 		handlerConfigMap: make(map[string]*Config),
 	}
 }
 
-func (c *MapGroupQueue) SetConfig(handlerName string, maxSize int, timeout time.Duration) {
+func (c *MapGroupQueue) SetConfig(handlerName string, maxSize int, timeout, nextDelay time.Duration) {
 	c.groupQueueMapLock.Lock()
 	defer c.groupQueueMapLock.Unlock()
 
 	c.handlerConfigMap[handlerName] = &Config{
-		maxSize: maxSize,
-		timeout: timeout,
+		maxSize:   maxSize,
+		timeout:   timeout,
+		nextDelay: nextDelay,
 	}
 }
 
@@ -56,12 +60,15 @@ func (c *MapGroupQueue) GetQueue(handlerName string, handlerFunc func([]interfac
 	// Adjust queue totals and timeouts individually
 	theMaxSize := c.maxSize
 	theTimeout := c.timeout
+	theNextDelay := c.nextDelay
+
 	if config, ok := c.handlerConfigMap[handlerName]; ok {
 		theMaxSize = config.maxSize
 		theTimeout = config.timeout
+		theNextDelay = config.nextDelay
 	}
 
-	groupQueue := NewGroupQueue(theMaxSize, theTimeout, handlerFunc)
+	groupQueue := NewGroupQueue(theMaxSize, theTimeout, theNextDelay, handlerFunc)
 	groupQueue.Start()
 
 	c.groupQueueMap[handlerName] = groupQueue
