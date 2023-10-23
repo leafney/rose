@@ -150,11 +150,44 @@ func StrToChar(s string) []string {
 
 // StrAnySplit 对字符串使用任意一个或多个字符分隔，**同时排除空字符**
 func StrAnySplit(s string, seps ...string) []string {
+	if len(s) == 0 {
+		return make([]string, 0)
+	}
+
 	sep := SliceStrToStr(seps, "")
 	splitter := func(r rune) bool {
 		return strings.ContainsRune(sep, r)
 	}
 	return strings.FieldsFunc(s, splitter)
+}
+
+// StrAnySplitFirst 获取分隔后数组第一项
+func StrAnySplitFirst(s string, seps ...string) string {
+	strs := StrAnySplit(s, seps...)
+	if len(strs) > 0 {
+		return strs[0]
+	}
+	return ""
+}
+
+// StrAnySplitLast 获取分隔后数组最后一项
+func StrAnySplitLast(s string, seps ...string) string {
+	strs := StrAnySplit(s, seps...)
+	if len(strs) > 0 {
+		return strs[len(strs)-1]
+	}
+	return ""
+}
+
+// StrAnySplitIndex 获取分隔后数组的指定索引项
+func StrAnySplitIndex(s string, index int, seps ...string) string {
+	strs := StrAnySplit(s, seps...)
+	for i, val := range strs {
+		if i == index {
+			return val
+		}
+	}
+	return ""
 }
 
 // StrAnyTrim 移除字符串首部以及尾部的任意指定字符
@@ -322,11 +355,14 @@ func StrToCamelName(name string) string {
 	return strings.Replace(name, " ", "", -1)
 }
 
-//start：正数 - 在字符串的指定位置开始,超出字符串长度强制把start变为字符串长度
-//       负数 - 在从字符串结尾的指定位置开始
-//       0 - 在字符串中的第一个字符处开始
-//length:正数 - 从 start 参数所在的位置返回
-//       负数 - 从字符串末端返回
+// start：正数 - 在字符串的指定位置开始,超出字符串长度强制把start变为字符串长度
+//
+//	负数 - 在从字符串结尾的指定位置开始
+//	0 - 在字符串中的第一个字符处开始
+//
+// length:正数 - 从 start 参数所在的位置返回
+//
+//	负数 - 从字符串末端返回
 func Substr(str string, start, length int) string {
 	if length == 0 {
 		return ""
