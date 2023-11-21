@@ -17,8 +17,32 @@ func IntToStr(i int) string {
 	return strconv.Itoa(i)
 }
 
+func IntIsBetween(i, a, b int) bool {
+	return a < i && i < b
+}
+
+func IntIsBetweenL(i, a, b int) bool {
+	return a <= i && i < b
+}
+
+func IntIsBetweenR(i, a, b int) bool {
+	return a < i && i <= b
+}
+
 func Int64ToStr(i int64) string {
 	return strconv.FormatInt(i, 10)
+}
+
+func Int64IsBetween(i, a, b int64) bool {
+	return a < i && i < b
+}
+
+func Int64IsBetweenL(i, a, b int64) bool {
+	return a <= i && i < b
+}
+
+func Int64IsBetweenR(i, a, b int64) bool {
+	return a < i && i <= b
 }
 
 // Float64ToStr 将 float64 转换为str
