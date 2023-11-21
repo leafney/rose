@@ -73,3 +73,17 @@ func Float64Round(f float64, n int) float64 {
 func Float64RoundInt64(v float64) int64 {
 	return int64(math.Floor(v + 0.5))
 }
+
+func IntMin(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func IntMax(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}

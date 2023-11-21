@@ -1,6 +1,8 @@
 package rose
 
 import (
+	"fmt"
+	"math/rand"
 	"strconv"
 	"strings"
 	"unicode"
@@ -355,39 +357,43 @@ func StrToCamelName(name string) string {
 	return strings.Replace(name, " ", "", -1)
 }
 
-// start：正数 - 在字符串的指定位置开始,超出字符串长度强制把start变为字符串长度
-//
-//	负数 - 在从字符串结尾的指定位置开始
-//	0 - 在字符串中的第一个字符处开始
-//
-// length:正数 - 从 start 参数所在的位置返回
-//
-//	负数 - 从字符串末端返回
-func Substr(str string, start, length int) string {
-	if length == 0 {
+// Substring 返回截取后的字符串
+// `start >=0` 从左往右，索引从0开始 ；`start <0` 从右往左，且倒数第一个字符索引为-1
+func Substring(str string, start, length int) string {
+	// 参数检查
+	if length <= 0 {
 		return ""
 	}
-	rune_str := []rune(str)
-	len_str := len(rune_str)
 
+	// 将字符串转换为 rune 切片
+	runes := []rune(str)
+	strLen := len(runes)
+
+	// 如果 start 为负值，则从右往左开始算
 	if start < 0 {
-		start = len_str + start
+		start = strLen + start
 	}
-	if start > len_str {
-		start = len_str
-	}
-	end := start + length
-	if end > len_str {
-		end = len_str
-	}
-	if length < 0 {
-		end = len_str + length
-	}
-	if start > end {
-		start, end = end, start
-	}
-	return string(rune_str[start:end])
 
+	// 计算起始索引
+	//start = max(0, min(start, strLen)) // go v1.21
+	start = IntMax(0, IntMin(start, strLen))
+	// 计算结束索引
+	//end := min(start+length, strLen) // go v1.21
+	end := IntMin(start+length, strLen)
+
+	return string(runes[start:end])
+}
+
+// StrToUniqueString 根据输入字符串，生成一个唯一的字符串，可以指定生成字符串长度
+func StrToUniqueString(input string, minLength, maxLength int) string {
+	timestamp := TNowS()
+	hashedString := Sha1(fmt.Sprintf("%s%d", input, timestamp))
+	hashedLength := len(hashedString)
+	strLength := minLength + rand.Intn(maxLength-minLength+1)
+	if strLength > hashedLength {
+		strLength = hashedLength
+	}
+	return hashedString[:strLength]
 }
 
 // --------- Deprecated -------------------
