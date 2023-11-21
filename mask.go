@@ -5,12 +5,12 @@ import (
 	"strings"
 )
 
-// MaskPhone 手机号 前3后4
+// MaskPhone 手机号 保留前3后4
 func MaskPhone(phone string) string {
 	return MaskStr(phone, 3, 4, "*", 4)
 }
 
-// MaskEmail 邮箱 仅用户名部分 前1后1
+// MaskEmail 邮箱 仅用户名部分 保留前1后1
 func MaskEmail(email string) string {
 	if !strings.Contains(email, "@") {
 		return email
@@ -27,12 +27,12 @@ func MaskPwd(pwd string) string {
 	return "********"
 }
 
-// MaskBankCard 银行卡号 前4后4
+// MaskBankCard 银行卡号 保留前4后4
 func MaskBankCard(card string) string {
 	return MaskStr(card, 4, 4, "*", 4)
 }
 
-// MaskIDCard 身份证号 前3后4
+// MaskIDCard 身份证号 保留前3后4
 func MaskIDCard(id string) string {
 	return MaskStr(id, 3, 4, "*", 4)
 }

@@ -12,7 +12,9 @@ import "testing"
 
 func TestPhoneNumStar(t *testing.T) {
 	phone := "17092021576"
-	t.Log(IsPhone(phone))
-	t.Log(PhoneNumStar(phone))
-	t.Log(PhoneTailNum(phone))
+	t.Log(RegIsPhone(phone))
+	t.Log(PhoneNumMask(phone))
+	t.Log(PhoneNumTail(phone))
+	t.Log(RegIsNormalString("hello@qq"))
+	t.Log(RegIsChinese("你好"), RegIsChinese("he 嘿"))
 }
