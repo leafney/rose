@@ -17,32 +17,48 @@ func IntToStr(i int) string {
 	return strconv.Itoa(i)
 }
 
+// IntIsBetween a < i < b
 func IntIsBetween(i, a, b int) bool {
 	return a < i && i < b
 }
 
+// IntIsBetweenL a <= i < b
 func IntIsBetweenL(i, a, b int) bool {
 	return a <= i && i < b
 }
 
+// IntIsBetweenR a < i <= b
 func IntIsBetweenR(i, a, b int) bool {
 	return a < i && i <= b
+}
+
+// IntIsBetweenE a <= i <= b
+func IntIsBetweenE(i, a, b int) bool {
+	return a <= i && i <= b
 }
 
 func Int64ToStr(i int64) string {
 	return strconv.FormatInt(i, 10)
 }
 
+// Int64IsBetween a < i < b
 func Int64IsBetween(i, a, b int64) bool {
 	return a < i && i < b
 }
 
+// Int64IsBetweenL a <= i < b
 func Int64IsBetweenL(i, a, b int64) bool {
 	return a <= i && i < b
 }
 
+// Int64IsBetweenR a < i <= b
 func Int64IsBetweenR(i, a, b int64) bool {
 	return a < i && i <= b
+}
+
+// Int64IsBetweenE a <= i <= b
+func Int64IsBetweenE(i, a, b int64) bool {
+	return a <= i && i <= b
 }
 
 // Float64ToStr 将 float64 转换为str
@@ -58,7 +74,7 @@ func UInt32ToStr(i uint32) string {
 	return strconv.FormatUint(uint64(i), 10)
 }
 
-// UInt64ToStr
+// UInt64ToStr 将uint64转换为字符串
 func UInt64ToStr(i uint64) string {
 	return strconv.FormatUint(i, 10)
 }
