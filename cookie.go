@@ -92,6 +92,7 @@ func CookieFromFileWithDPE(cookieFilePath string, domain string, path string, du
 func CookieToStrNV(cookies []*http.Cookie) string {
 	res := make([]string, 0)
 	for _, c := range cookies {
+		// 对特殊字符转义
 		val, _ := url.QueryUnescape(c.Value)
 		res = append(res, fmt.Sprintf("%s=%s", c.Name, val))
 	}
@@ -113,9 +114,12 @@ type CookieModel struct {
 func CookieToJsonStrNVDPE(cookies []*http.Cookie) string {
 	res := make([]*CookieModel, 0)
 	for _, c := range cookies {
+		// 对特殊字符转义
+		val, _ := url.QueryUnescape(c.Value)
+
 		res = append(res, &CookieModel{
 			Name:    c.Name,
-			Value:   c.Value,
+			Value:   val,
 			Path:    c.Path,
 			Domain:  c.Domain,
 			Expires: c.Expires.Unix(),

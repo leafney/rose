@@ -60,3 +60,19 @@ func UrlParseQueries(query string) url.Values {
 	}
 	return res
 }
+
+// UrlEncode alias url.QueryEscape，ab&cd => ab%26cd
+func UrlEncode(s string) string {
+	return url.QueryEscape(s)
+}
+
+// UrlDecode alias url.QueryUnescape，ab%26cd => ab&cd
+func UrlDecode(s string) string {
+	val, _ := url.QueryUnescape(s)
+	return val
+}
+
+// UrlDecodeErr alias url.QueryUnescape，ab%26cd => ab&cd
+func UrlDecodeErr(s string) (string, error) {
+	return url.QueryUnescape(s)
+}
