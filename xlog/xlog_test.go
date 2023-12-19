@@ -16,19 +16,23 @@ import (
 
 func TestNewXLog(t *testing.T) {
 
-	loggg := NewXLog(false).SetDebug(true).SetPrefix("OKOK")
+	loggg := NewXLog(false).
+		//SetDebug(true).
+		SetEnable(true).
+		SetPrefix("")
 
 	fmt.Println("↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓")
 	loggg.Debug("aaa", "bbb", "ccc")
 	loggg.Debugln("aaa", "bbb", "ccc")
 	loggg.Info("hello1")
 	loggg.Infof("hello2 %v", 12345)
-	loggg.Infoln("world")
+	loggg.Infoln("world", "oooo")
+	loggg.Errorln("haha", "ohoh")
 	fmt.Println("↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑")
 	log.Print("aaa", "bbb", "ccc")
 	log.Println("aaa", "bbb", "ccc")
 	log.Print("hello1")
 	log.Printf("hello2 %v", 12345)
-	log.Println("world")
+	log.Println("world", "oooo")
 	fmt.Println("↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑")
 }

@@ -44,7 +44,7 @@ func (c *Log) SetDebug(debug bool) *Log {
 }
 
 func (c *Log) SetEnable(enable bool) *Log {
-	c.debug = enable
+	c.enable = enable
 	return c
 }
 
@@ -75,21 +75,15 @@ func (c *Log) logf(level LogLevel, format string, v ...any) {
 }
 
 func (c *Log) Debug(v ...any) {
-	if c.debug {
-		c.logf(DebugLevel, "%s", fmt.Sprint(v...))
-	}
+	c.logf(DebugLevel, "%s", fmt.Sprint(v...))
 }
 
 func (c *Log) Debugf(format string, v ...any) {
-	if c.debug {
-		c.logf(DebugLevel, format, v...)
-	}
+	c.logf(DebugLevel, format, v...)
 }
 
 func (c *Log) Debugln(v ...any) {
-	if c.debug {
-		c.logf(DebugLevel, "%s", fmt.Sprintln(v...))
-	}
+	c.logf(DebugLevel, "%s", fmt.Sprintln(v...))
 }
 
 func (c *Log) Info(v ...any) {
