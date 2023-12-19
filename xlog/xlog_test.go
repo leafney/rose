@@ -16,18 +16,19 @@ import (
 
 func TestNewXLog(t *testing.T) {
 
-	loggg := NewXLog(false).
-		//SetDebug(true).
-		SetEnable(true).
-		SetPrefix("")
+	xlog := NewXLog(false).
+		SetDebug(true).
+		//SetPrefix("").
+		//SetPrefix("[hello]").
+		SetEnable(true)
 
 	fmt.Println("↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓")
-	loggg.Debug("aaa", "bbb", "ccc")
-	loggg.Debugln("aaa", "bbb", "ccc")
-	loggg.Info("hello1")
-	loggg.Infof("hello2 %v", 12345)
-	loggg.Infoln("world", "oooo")
-	loggg.Errorln("haha", "ohoh")
+	xlog.Debug("aaa", "bbb", "ccc")
+	xlog.Debugln("aaa", "bbb", "ccc")
+	xlog.Info("hello1")
+	xlog.Infof("hello2 %v", 12345)
+	xlog.Infoln("world", "oooo")
+	xlog.Errorln("haha", "ohoh")
 	fmt.Println("↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑")
 	log.Print("aaa", "bbb", "ccc")
 	log.Println("aaa", "bbb", "ccc")

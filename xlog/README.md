@@ -1,26 +1,31 @@
 ## xlog
 
-**Debug log output to console**
+**Simple log output to console**
 
 ## How to use
 
 ```go
-    var xlog xlog.Log
+    var xlog xlog.*Log
     
     func init() {
-        xlog = xlog.NewLog(true)
+        // simple
+        xlog = NewXLog(true)
+        
+        // more
+        xlog = NewXLog(false).
+            SetDebug(true).
+            //SetPrefix("").
+            //SetPrefix("[hello]").
+            SetEnable(true)
     }
-    
-	// Set whether to output logs to console 
-	xlog.SetDebug(false)
-
-    // Set log message prefix
-	xlog.SetPrefix("debug: ")
-
+	
     // show log
-	xlog.Println("hello world")
+    xlog.Debugln("hello","world")
+    xlog.Info("hello")
+    xlog.Infof("hello %v", "world")
+    xlog.Errorln("hello", "world")
+    xlog.Fatal("fatal")
 
-    xlog.Printf("hello %s\n","world")
-    
-    xlog.Printfn("hello %s","world")
+    // example
+    // 2023/12/19 20:15:00 [XLog] [INFO]: hello world
 ```

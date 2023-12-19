@@ -10,7 +10,6 @@ package xlog
 
 import (
 	"fmt"
-	"github.com/leafney/rose"
 	"log"
 	"os"
 )
@@ -22,6 +21,8 @@ const (
 	InfoLevel  LogLevel = "INFO"
 	ErrorLevel LogLevel = "ERROR"
 	FatalLevel LogLevel = "FATAL"
+
+	defPrefix = "[XLog] "
 )
 
 type Log struct {
@@ -34,7 +35,7 @@ func NewXLog(debug bool) *Log {
 	return &Log{
 		debug:  debug,
 		enable: true,
-		logger: log.New(os.Stdout, "[XLog] ", log.LstdFlags|log.Lmsgprefix),
+		logger: log.New(os.Stdout, defPrefix, log.LstdFlags|log.Lmsgprefix),
 	}
 }
 
@@ -49,12 +50,14 @@ func (c *Log) SetEnable(enable bool) *Log {
 }
 
 func (c *Log) SetPrefix(prefix string) *Log {
-	if !rose.StrIsEmpty(prefix) {
+	if prefix != "" {
 		if prefix[len(prefix)-1:] != " " {
 			c.logger.SetPrefix(prefix + " ")
 		} else {
 			c.logger.SetPrefix(prefix)
 		}
+	} else {
+		c.logger.SetPrefix("")
 	}
 	return c
 }
@@ -121,23 +124,3 @@ func (c *Log) Fatalf(format string, v ...any) {
 func (c *Log) Fatalln(v ...any) {
 	c.logf(FatalLevel, "%s", fmt.Sprintln(v...))
 }
-
-//
-//func (c *Log) Println(v ...any) {
-//	if c.debug {
-//		c.logger.Println(v...)
-//	}
-//}
-//
-//func (c *Log) Printf(format string, v ...any) {
-//	if c.debug {
-//		c.logger.Printf(format, v...)
-//	}
-//}
-//
-//func (c *Log) Printfln(format string, v ...any) {
-//	if c.debug {
-//		msg := fmt.Sprintf(format, v...)
-//		c.logger.Printf("%s\n", msg)
-//	}
-//}
