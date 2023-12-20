@@ -1,5 +1,12 @@
 ## queue
 
+
+### Upgrade
+
+Support the waiting time interval for the next round of execution
+
+For detail [queue_test.go](queue_test.go)
+
 ### GroupQueue
 
 **Group Queue**
