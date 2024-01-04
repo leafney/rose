@@ -296,12 +296,12 @@ func StrJoinWith(elems []string, sep string) string {
 	return strings.Join(elems, sep)
 }
 
-// StrEqualFold 比较两个字符串是否相同，不区分大小写
+// StrEqualFold 比较两个字符串内容是否相同，忽略大小写差异
 func StrEqualFold(s, t string) bool {
 	return strings.EqualFold(s, t)
 }
 
-// StrEqualFull 比较两个字符串是否完全相等，区分大小写
+// StrEqualFull 比较两个字符串是否完全相同，大小写敏感
 func StrEqualFull(s, t string) bool {
 	return s == t
 }
