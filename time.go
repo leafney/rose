@@ -167,19 +167,19 @@ func TUnixMsFormatStr(ms int64, layout string) string {
 
 // ----------------------------
 
-// TParseDateTimeToTime 将时间字符串`2006-01-02 15:04:05`转换为time.Time
+// TParseDateTimeToTime 将时间字符串 `2006-01-02 15:04:05` 转换为 time.Time
 func TParseDateTimeToTime(ds string) time.Time {
-	return TParseFormatToTimeLoc(TFLongYMDHS, ds, time.Local)
+	return TParseFormatSTTInLocByTF(TFLongYMDHS, ds, time.Local)
 }
 
 // TParseDateYMDToTime 将时间字符串`2006-01-02`转换为time.Time
 func TParseDateYMDToTime(ds string) time.Time {
-	return TParseFormatToTime(TFLongYMD, ds)
+	return TParseFormatSTTByTF(TFLongYMD, ds)
 }
 
 // TParseDateYMDHToTime 将时间字符串`2006-01-02 15:04`转换为time.Time
 func TParseDateYMDHToTime(ds string) time.Time {
-	return TParseFormatToTime(TFLongYMDH, ds)
+	return TParseFormatSTTByTF(TFLongYMDH, ds)
 }
 
 // TParseDateTimeToUnix 将时间字符串`2006-01-02 15:04:05`转换为Unix时间戳
@@ -197,53 +197,94 @@ func TParseDateYMDHToUnix(ds string) int64 {
 	return TParseDateYMDHToTime(ds).Unix()
 }
 
-// TParseFormatToTime 将内置格式时间字符串转换为time.Time
-func TParseFormatToTime(layout TFormat, ds string) time.Time {
-	return TParseFormatToTimeLoc(layout, ds, time.Local)
+// ----------------------------
+
+// TParseLocation 转换时区字符串 eg: "Asia/Shanghai"
+func TParseLocation(location string) *time.Location {
+	loc, _ := time.LoadLocation(location)
+	return loc
 }
 
-// TParseFormatToTimeLoc 将内置格式时间字符串转换为time.Time，支持指定时区
-func TParseFormatToTimeLoc(layout TFormat, ds string, loc *time.Location) time.Time {
-	return TParseFormatStrToTimeLoc(string(layout), ds, loc)
+// TParseFormatSTT 将自定义格式时间字符串转换为 time.Time
+func TParseFormatSTT(layout string, ds string) time.Time {
+	return TParseFormatSTTInLoc(layout, ds, time.Local)
 }
 
-// TParseFormatStrToTime 将自定义格式时间字符串转换为time.Time
-func TParseFormatStrToTime(layout string, ds string) time.Time {
-	return TParseFormatStrToTimeLoc(layout, ds, time.Local)
+// TParseFormatSTTE 将自定义格式时间字符串转换为time.Time，支持异常捕获
+func TParseFormatSTTE(layout string, ds string) (time.Time, error) {
+	return TParseFormatSTTInLocE(layout, ds, time.Local)
 }
 
-// TParseFormatStrToTimeLoc 将自定义格式时间字符串转换为time.Time，支持指定时区
-func TParseFormatStrToTimeLoc(layout string, ds string, loc *time.Location) time.Time {
-	if StrIsEmpty(ds) {
-		return TNow()
-	}
-	parse, _ := time.ParseInLocation(layout, ds, loc)
+// TParseFormatSTTByTF 将内置格式时间字符串转换为 time.Time
+func TParseFormatSTTByTF(layout TFormat, ds string) time.Time {
+	return TParseFormatSTT(string(layout), ds)
+}
+
+// TParseFormatSTTByTFE 将内置格式时间字符串转换为 time.Time，支持异常捕获
+func TParseFormatSTTByTFE(layout TFormat, ds string) (time.Time, error) {
+	return TParseFormatSTTInLocE(string(layout), ds, time.Local)
+}
+
+// TParseFormatSTTInLoc 将自定义格式时间字符串转换为time.Time，支持指定时区
+func TParseFormatSTTInLoc(layout string, ds string, loc *time.Location) time.Time {
+	parse, _ := TParseFormatSTTInLocE(layout, ds, loc)
 	return parse
 }
 
-// TParseFormatToTimeE 将内置格式时间字符串转换为time.Time，支持异常捕获
-func TParseFormatToTimeE(layout TFormat, ds string) (time.Time, error) {
-	return TParseEFormatStrToTimeLocE(string(layout), ds, time.Local)
+// TParseFormatSTTInLocByTF 将内置格式时间字符串转换为time.Time，支持指定时区
+func TParseFormatSTTInLocByTF(layout TFormat, ds string, loc *time.Location) time.Time {
+	return TParseFormatSTTInLoc(string(layout), ds, loc)
 }
 
-// TParseEFormatStrToTimeE 将自定义格式时间字符串转换为time.Time，支持异常捕获
-func TParseEFormatStrToTimeE(layout string, ds string) (time.Time, error) {
-	return TParseEFormatStrToTimeLocE(layout, ds, time.Local)
-}
-
-// TParseEFormatStrToTimeLocE 将自定义格式时间字符串转换为time.Time，支持指定时区，支持异常捕获
-func TParseEFormatStrToTimeLocE(layout string, ds string, loc *time.Location) (time.Time, error) {
+// TParseFormatSTTInLocE StringToTime 将自定义格式时间字符串转换为time.Time，支持指定时区，支持异常捕获
+func TParseFormatSTTInLocE(layout string, ds string, loc *time.Location) (time.Time, error) {
 	if StrIsEmpty(ds) {
-		return time.Time{}, errors.New("ds value empty")
+		return time.Time{}, errors.New("the time string is empty")
 	}
 	return time.ParseInLocation(layout, ds, loc)
 }
 
-// TParseGMTTimeOfRFC1123 GMT
+func TParseFormatSTTInLocStr(layout string, ds string, location string) time.Time {
+	parse, _ := TParseFormatSTTInLocStrE(layout, ds, location)
+	return parse
+}
+
+// TParseFormatSTTInLocStrE 将 自定义格式时间字符串 转换为 time.Time，支持指定时区，支持异常捕获
+func TParseFormatSTTInLocStrE(layout string, ds string, location string) (time.Time, error) {
+	if StrIsEmpty(ds) {
+		return time.Time{}, errors.New("the time string is empty")
+	}
+	loc, err := time.LoadLocation(location)
+	if err != nil {
+		return time.Time{}, err
+	}
+	return TParseFormatSTTInLocE(layout, ds, loc)
+}
+
+// TParseGMTSTTE 将 GMT time.RFC1123 时间格式字符串转换为 time.Time
+//
 // eg: Mon, 20 Jul 2020 06:09:21 GMT => Time
 // https://golang.org/pkg/time/#pkg-constants
-func TParseGMTTimeOfRFC1123(gmt string) (time.Time, error) {
+func TParseGMTSTTE(gmt string) (time.Time, error) {
 	return time.Parse(time.RFC1123, gmt)
+}
+
+// TParseGMTSTTInLocE 将 GMT time.RFC1123 时间格式字符串转换为 time.Time ，指定时区
+func TParseGMTSTTInLocE(gmt string, loc *time.Location) (time.Time, error) {
+	return time.ParseInLocation(time.RFC1123, gmt, loc)
+}
+
+// TParseRFC9990700STTE 将 时间字符串 2006-01-02T15:04:05.999-0700 格式化为 time.Time ，本地时区
+//
+// eg：2023-11-22T12:49:38.758+0000 => Time
+func TParseRFC9990700STTE(ds string) (time.Time, error) {
+	return TParseRFC9990700STTInLocE(ds, time.Local)
+}
+
+// TParseRFC9990700STTInLocE 将 时间字符串 2006-01-02T15:04:05.999-0700 格式化为 time.Time ，指定时区
+func TParseRFC9990700STTInLocE(ds string, loc *time.Location) (time.Time, error) {
+	layout := "2006-01-02T15:04:05.999-0700"
+	return time.ParseInLocation(layout, ds, loc)
 }
 
 // ----------------------------
@@ -446,12 +487,26 @@ func TTimeMs(t time.Time) int64 {
 	return t.UnixMilli()
 }
 
+// TTimeFormat Time.Format()
 func TTimeFormat(t time.Time, layout TFormat) string {
 	return t.Format(string(layout))
 }
 
 func TTimeFormatStr(t time.Time, layout string) string {
 	return t.Format(layout)
+}
+
+// TTimeFormatInLoc 带有时区的时间格式化
+func TTimeFormatInLoc(t time.Time, layout, location string) string {
+	loc := TParseLocation(location)
+	return t.In(loc).Format(layout)
+}
+
+// TTimeFormatInLocByTF 带有时区的时间格式化，使用内置格式
+//
+// 可以使用时区格式如：`Asia/Shanghai` 或者 `time.UTC` `time.Local` 等
+func TTimeFormatInLocByTF(t time.Time, layout TFormat, location string) string {
+	return TTimeFormatInLoc(t, string(layout), location)
 }
 
 // ----------------------------
