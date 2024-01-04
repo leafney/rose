@@ -39,6 +39,10 @@ const (
 	TFTimeHS     TFormat = "15:04:05"
 )
 
+const (
+	TLocChina = "Asia/Shanghai"
+)
+
 // ----------------------------
 
 // TNow 当前时间
@@ -274,6 +278,14 @@ func TParseGMTSTTInLocE(gmt string, loc *time.Location) (time.Time, error) {
 	return time.ParseInLocation(time.RFC1123, gmt, loc)
 }
 
+func TParseGMTSTTInLocStrE(gmt string, location string) (time.Time, error) {
+	loc, err := time.LoadLocation(location)
+	if err != nil {
+		return time.Time{}, err
+	}
+	return TParseGMTSTTInLocE(gmt, loc)
+}
+
 // TParseRFC9990700STTE 将 时间字符串 2006-01-02T15:04:05.999-0700 格式化为 time.Time ，本地时区
 //
 // eg：2023-11-22T12:49:38.758+0000 => Time
@@ -285,6 +297,14 @@ func TParseRFC9990700STTE(ds string) (time.Time, error) {
 func TParseRFC9990700STTInLocE(ds string, loc *time.Location) (time.Time, error) {
 	layout := "2006-01-02T15:04:05.999-0700"
 	return time.ParseInLocation(layout, ds, loc)
+}
+
+func TParseRFC9990700STTInLocStrE(ds string, location string) (time.Time, error) {
+	loc, err := time.LoadLocation(location)
+	if err != nil {
+		return time.Time{}, err
+	}
+	return TParseRFC9990700STTInLocE(ds, loc)
 }
 
 // ----------------------------
@@ -496,17 +516,25 @@ func TTimeFormatStr(t time.Time, layout string) string {
 	return t.Format(layout)
 }
 
-// TTimeFormatInLoc 带有时区的时间格式化
-func TTimeFormatInLoc(t time.Time, layout, location string) string {
+func TTimeFormatInLoc(t time.Time, layout string, loc *time.Location) string {
+	return t.In(loc).Format(layout)
+}
+
+// TTimeFormatInLocStr 带有时区的时间格式化
+func TTimeFormatInLocStr(t time.Time, layout, location string) string {
 	loc := TParseLocation(location)
 	return t.In(loc).Format(layout)
 }
 
-// TTimeFormatInLocByTF 带有时区的时间格式化，使用内置格式
+func TTimeFormatInLocByTF(t time.Time, layout TFormat, loc *time.Location) string {
+	return TTimeFormatInLoc(t, string(layout), loc)
+}
+
+// TTimeFormatInLocStrByTF 带有时区的时间格式化，使用内置格式
 //
 // 可以使用时区格式如：`Asia/Shanghai` 或者 `time.UTC` `time.Local` 等
-func TTimeFormatInLocByTF(t time.Time, layout TFormat, location string) string {
-	return TTimeFormatInLoc(t, string(layout), location)
+func TTimeFormatInLocStrByTF(t time.Time, layout TFormat, location string) string {
+	return TTimeFormatInLocStr(t, string(layout), location)
 }
 
 // ----------------------------
