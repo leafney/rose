@@ -4,6 +4,8 @@
 
 ## How to use
 
+### Example
+
 ```go
     var xlog xlog.*Log
     
@@ -29,3 +31,20 @@
     // example
     // 2023/12/19 20:15:00 [XLog] [INFO]: hello world
 ```
+
+### Log Level
+
+- debug
+- info (default)
+- error
+- fatal
+
+### Config
+
+- `SetDebug()`
+- `SetLevel()`
+- `SetEnable()`
+- `SetPrefix()`
+- `SetFlags()`
+
+----

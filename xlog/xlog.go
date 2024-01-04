@@ -14,13 +14,13 @@ import (
 	"os"
 )
 
-type LogLevel string
+type LogLevel int
 
 const (
-	DebugLevel LogLevel = "DEBUG"
-	InfoLevel  LogLevel = "INFO"
-	ErrorLevel LogLevel = "ERROR"
-	FatalLevel LogLevel = "FATAL"
+	DebugLevel LogLevel = iota
+	InfoLevel
+	ErrorLevel
+	FatalLevel
 
 	defPrefix = "[XLog] "
 )
@@ -28,6 +28,7 @@ const (
 type Log struct {
 	debug  bool
 	enable bool
+	level  LogLevel
 	logger *log.Logger
 }
 
@@ -35,6 +36,7 @@ func NewXLog(debug bool) *Log {
 	return &Log{
 		debug:  debug,
 		enable: true,
+		level:  InfoLevel,
 		logger: log.New(os.Stdout, defPrefix, log.LstdFlags|log.Lmsgprefix),
 	}
 }
@@ -46,6 +48,13 @@ func (c *Log) SetDebug(debug bool) *Log {
 
 func (c *Log) SetEnable(enable bool) *Log {
 	c.enable = enable
+	return c
+}
+
+func (c *Log) SetLevel(level LogLevel) *Log {
+	if !c.debug {
+		c.level = level
+	}
 	return c
 }
 
@@ -68,13 +77,29 @@ func (c *Log) SetFlags(flag int) *Log {
 }
 
 func (c *Log) logf(level LogLevel, format string, v ...any) {
-	if c.enable && (c.debug || level != DebugLevel) {
+	if c.enable && (c.debug || level != DebugLevel) && (c.debug || level >= c.level) {
 		msg := fmt.Sprintf(format, v...)
-		c.logger.Printf("[%s]: %s", level, msg)
+		c.logger.Printf("[%s]: %s", c.showLevel(level), msg)
 	}
 	if level == FatalLevel {
 		os.Exit(1)
 	}
+}
+
+func (c *Log) showLevel(level LogLevel) (res string) {
+	switch level {
+	case DebugLevel:
+		res = "DEBUG"
+	case InfoLevel:
+		res = "INFO"
+	case ErrorLevel:
+		res = "ERROR"
+	case FatalLevel:
+		res = "FATAL"
+	default:
+		res = ""
+	}
+	return
 }
 
 func (c *Log) Debug(v ...any) {

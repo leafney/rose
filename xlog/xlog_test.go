@@ -17,9 +17,10 @@ import (
 func TestNewXLog(t *testing.T) {
 
 	xlog := NewXLog(false).
-		SetDebug(true).
+		//SetDebug(true).
 		//SetPrefix("").
 		//SetPrefix("[hello]").
+		//SetLevel(ErrorLevel).
 		SetEnable(true)
 
 	fmt.Println("↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓")
