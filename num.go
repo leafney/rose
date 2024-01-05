@@ -41,6 +41,18 @@ func Int64ToStr(i int64) string {
 	return strconv.FormatInt(i, 10)
 }
 
+func IntToBool(i int) bool {
+	return Int64ToBool(int64(i))
+}
+
+func Int64ToBool(i int64) bool {
+	if i != 0 {
+		return true
+	} else {
+		return false
+	}
+}
+
 // Int64IsBetween a < i < b
 func Int64IsBetween(i, a, b int64) bool {
 	return a < i && i < b
