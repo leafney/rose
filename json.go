@@ -1,6 +1,8 @@
 package rose
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 // JsonMarshal
 func JsonMarshal(v interface{}) []byte {
