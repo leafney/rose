@@ -8,13 +8,17 @@
 
 package queue
 
-import "log"
+import (
+	"log"
+	"sync"
+)
 
 type MessageQueue struct {
 	queues           map[string]chan string
 	defaultTopic     string
 	defaultQueueSize int
 	tempCache        chan string
+	mu               sync.RWMutex
 }
 
 func NewMessageQueue(tempCacheSize int) *MessageQueue {
@@ -34,9 +38,11 @@ func (mq *MessageQueue) Publish(content string, topics ...string) {
 	}
 
 	for _, topic := range topics {
+		mq.mu.Lock()
 		if _, ok := mq.queues[topic]; !ok {
 			mq.queues[topic] = make(chan string, mq.defaultQueueSize)
 		}
+		mq.mu.Unlock()
 
 		select {
 		case mq.queues[topic] <- content:
@@ -57,6 +63,7 @@ func (mq *MessageQueue) Consume(handler func(content string), topics ...string) 
 	}
 
 	for _, topic := range topics {
+		mq.mu.RLock()
 		if _, ok := mq.queues[topic]; !ok {
 			mq.queues[topic] = make(chan string, mq.defaultQueueSize)
 		}
@@ -69,14 +76,16 @@ func (mq *MessageQueue) Consume(handler func(content string), topics ...string) 
 					handler(msg)
 
 					select {
-					case msg := <-mq.tempCache:
-						log.Printf("Message retrieved from temp cache: %v", msg)
-						q <- msg
+					case tMsg := <-mq.tempCache:
+						log.Printf("Message retrieved from temp cache: %v", tMsg)
+						q <- tMsg
 					default:
 
 					}
 				}
 			}
 		}(queue)
+
+		mq.mu.RUnlock()
 	}
 }
