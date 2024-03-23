@@ -17,7 +17,7 @@ import "math"
 */
 
 const (
-	xPi     = math.Pi * 3000.0 * 180.0
+	xPi     = math.Pi * 3000.0 / 180.0
 	xOffset = 0.00669342162296594323 // 扁率
 	xAxis   = 6378245.0              // 长半轴
 )
