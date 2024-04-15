@@ -57,6 +57,8 @@ func pkcs7UnPadding(data []byte) ([]byte, error) {
 
 // --------
 
+// AesCBCEncrypt
+// 密钥key位数为 16 、24、32 个字符，分别对应AES-128，AES-192，AES-256 加密方式
 func AesCBCEncrypt(key, data []byte) ([]byte, error) {
 	theKey := aesKeyPadding(key)
 	block, err := aes.NewCipher(theKey)
@@ -78,6 +80,8 @@ func AesCBCEncrypt(key, data []byte) ([]byte, error) {
 	return crypted, nil
 }
 
+// AesCBCDecrypt
+// 密钥key位数为 16 、24、32 个字符，分别对应AES-128，AES-192，AES-256 加密方式
 func AesCBCDecrypt(key, data []byte) ([]byte, error) {
 	theKey := aesKeyPadding(key)
 	block, err := aes.NewCipher(theKey)
@@ -97,17 +101,21 @@ func AesCBCDecrypt(key, data []byte) ([]byte, error) {
 }
 
 // AesEncrypt alias AesEncryptBase64
+// 密钥key位数为 16 、24、32 个字符，分别对应AES-128，AES-192，AES-256 加密方式
 func AesEncrypt(key, data string) string {
 	res, _ := AesEncryptBase64(key, data)
 	return res
 }
 
 // AesDecrypt alias AesDecryptBase64
+// 密钥key位数为 16 、24、32 个字符，分别对应AES-128，AES-192，AES-256 加密方式
 func AesDecrypt(key, data string) string {
 	res, _ := AesDecryptBase64(key, data)
 	return res
 }
 
+// AesEncryptHex
+// 密钥key位数为 16 、24、32 个字符，分别对应AES-128，AES-192，AES-256 加密方式
 func AesEncryptHex(key, data string) (string, error) {
 	res, err := AesCBCEncrypt([]byte(key), []byte(data))
 	if err != nil {
@@ -116,6 +124,8 @@ func AesEncryptHex(key, data string) (string, error) {
 	return hex.EncodeToString(res), nil
 }
 
+// AesDecryptHex
+// 密钥key位数为 16 、24、32 个字符，分别对应AES-128，AES-192，AES-256 加密方式
 func AesDecryptHex(key, data string) (string, error) {
 	theData, err := hex.DecodeString(data)
 	if err != nil {
@@ -125,6 +135,8 @@ func AesDecryptHex(key, data string) (string, error) {
 	return string(res), err
 }
 
+// AesEncryptBase64
+// 密钥key位数为 16 、24、32 个字符，分别对应AES-128，AES-192，AES-256 加密方式
 func AesEncryptBase64(key, data string) (string, error) {
 	res, err := AesCBCEncrypt([]byte(key), []byte(data))
 	if err != nil {
@@ -133,6 +145,8 @@ func AesEncryptBase64(key, data string) (string, error) {
 	return base64.StdEncoding.EncodeToString(res), nil
 }
 
+// AesDecryptBase64
+// 密钥key位数为 16 、24、32 个字符，分别对应AES-128，AES-192，AES-256 加密方式
 func AesDecryptBase64(key, data string) (string, error) {
 	theData, err := base64.StdEncoding.DecodeString(data)
 	if err != nil {
