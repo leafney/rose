@@ -159,7 +159,7 @@ func SliceSortByLength(slices []string, asc bool) []string {
 	return slices
 }
 
-// 洗牌算法
+// SliceShuffleInt 洗牌算法
 func SliceShuffleInt(list []int) (newList []int) {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for _, i := range r.Perm(len(list)) {
@@ -168,7 +168,7 @@ func SliceShuffleInt(list []int) (newList []int) {
 	return
 }
 
-// 洗牌算法
+// SliceShuffleInt64 洗牌算法
 func SliceShuffleInt64(list []int64) (newList []int64) {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for _, i := range r.Perm(len(list)) {
@@ -177,7 +177,7 @@ func SliceShuffleInt64(list []int64) (newList []int64) {
 	return
 }
 
-// 洗牌算法
+// SliceShuffleStr 洗牌算法
 func SliceShuffleStr(list []string) (newList []string) {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for _, i := range r.Perm(len(list)) {
@@ -244,11 +244,19 @@ func SliceSplitPage(page, pageSize, defSize int64, count int) (sliceStart, slice
 	return sliceStart, sliceEnd
 }
 
-// SlicePageToOffset 将集合分页Page方式转换为Offset方式
-func SlicePageToOffset(page, pageSize int64) (offset, count int64) {
+// SlicePageToOffsetInt 将集合Page分页方式转换为Offset分页方式
+func SlicePageToOffsetInt(page, size int) (offset, count int) {
 	// 计算偏移量 offset 和每页显示数量 count
-	offset = (page - 1) * pageSize
-	count = pageSize
+	offset = (page - 1) * size
+	count = size
+	return
+}
+
+// SlicePageToOffsetInt64 将集合Page分页方式转换为Offset分页方式
+func SlicePageToOffsetInt64(page, size int64) (offset, count int64) {
+	// 计算偏移量 offset 和每页显示数量 count
+	offset = (page - 1) * size
+	count = size
 	return
 }
 
@@ -355,4 +363,30 @@ func SliceContainsSlice(a []string, b []string) bool {
 	}
 
 	return false
+}
+
+// SliceInclusionRelationship 判断两个切片之间的包含关系（获取共有的元素、仅在第一个数组中存在的元素和仅在第二个数组中存在的元素
+func SliceInclusionRelationship[T comparable](A, B []T) (share, left, right []T) {
+	// 创建一个map来存储A中的元素
+	aMap := make(map[T]bool)
+	for _, item := range A {
+		aMap[item] = true
+	}
+
+	// 遍历B中的元素，如果元素在aMap中存在，则将其添加到share中，否则添加到right中
+	for _, item := range B {
+		if _, ok := aMap[item]; ok {
+			share = append(share, item)
+			delete(aMap, item) // 从aMap中删除已经匹配的元素
+		} else {
+			right = append(right, item)
+		}
+	}
+
+	// 将aMap中剩余的元素添加到left中
+	for item := range aMap {
+		left = append(left, item)
+	}
+
+	return share, left, right
 }
