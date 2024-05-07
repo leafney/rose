@@ -11,10 +11,10 @@
     
     func init() {
         // simple
-        xlog = NewXLog(true)
+        xlog = NewXLog()
         
         // more
-        xlog = NewXLog(false).
+        xlog = NewXLog(WithDebug(true)).
             SetDebug(true).
             //SetPrefix("").
             //SetPrefix("[hello]").
@@ -41,10 +41,18 @@
 
 ### Config
 
+- `WithDebug()` (default `False`)
+- `WithLevel()` (default `Info`)
+- `WithEnable()` (default `True`)
+- `WithPrefix()` (default `[XLog]`)
+- `WithFlags()`
+
+---
+
 - `SetDebug()`
 - `SetLevel()`
 - `SetEnable()`
 - `SetPrefix()`
 - `SetFlags()`
 
-----
+---

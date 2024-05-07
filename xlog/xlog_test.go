@@ -16,7 +16,7 @@ import (
 
 func TestNewXLog(t *testing.T) {
 
-	xlog := NewXLog(false).
+	xlog := NewXLog(WithDebug(true), WithPrefix("HAHA")).
 		//SetDebug(true).
 		//SetPrefix("").
 		//SetPrefix("[hello]").
