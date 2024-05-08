@@ -11,12 +11,12 @@ import (
 
 /*
 	key为16,24,32位字符串，分别对应AES-128，AES-192，AES-256 加密方法
-	- AesCBCEncrypt (AesEncrypt)
-	- AesCBCDecrypt (AesDecrypt)
-	- AesCFBEncrypt
-	- AesCFBDecrypt
-	- AesECBEncrypt
-	- AesECBDecrypt
+	- [x] AesCBCEncrypt (AesEncrypt)
+	- [x] AesCBCDecrypt (AesDecrypt)
+	- [ ] AesCFBEncrypt
+	- [ ] AesCFBDecrypt
+	- [ ] AesECBEncrypt
+	- [ ] AesECBDecrypt
 */
 
 func aesKeyPadding(key []byte) []byte {
@@ -100,18 +100,16 @@ func AesCBCDecrypt(key, data []byte) ([]byte, error) {
 	return crypted, nil
 }
 
-// AesEncrypt alias AesEncryptBase64
+// AesEncrypt
 // 密钥key位数为 16 、24、32 个字符，分别对应AES-128，AES-192，AES-256 加密方式
-func AesEncrypt(key, data string) string {
-	res, _ := AesEncryptBase64(key, data)
-	return res
+func AesEncrypt(key, data string) (string, error) {
+	return AesEncryptB64(key, data, false)
 }
 
-// AesDecrypt alias AesDecryptBase64
+// AesDecrypt
 // 密钥key位数为 16 、24、32 个字符，分别对应AES-128，AES-192，AES-256 加密方式
-func AesDecrypt(key, data string) string {
-	res, _ := AesDecryptBase64(key, data)
-	return res
+func AesDecrypt(key, data string) (string, error) {
+	return AesDecryptB64(key, data, false)
 }
 
 // AesEncryptHex
@@ -135,23 +133,35 @@ func AesDecryptHex(key, data string) (string, error) {
 	return string(res), err
 }
 
-// AesEncryptBase64
+// AesEncryptB64
 // 密钥key位数为 16 、24、32 个字符，分别对应AES-128，AES-192，AES-256 加密方式
-func AesEncryptBase64(key, data string) (string, error) {
+func AesEncryptB64(key, data string, isBase64 bool) (string, error) {
 	res, err := AesCBCEncrypt([]byte(key), []byte(data))
 	if err != nil {
 		return "", err
 	}
-	return base64.StdEncoding.EncodeToString(res), nil
+
+	if isBase64 {
+		return base64.StdEncoding.EncodeToString(res), nil
+	} else {
+		return string(res), nil
+	}
 }
 
-// AesDecryptBase64
+// AesDecryptB64
 // 密钥key位数为 16 、24、32 个字符，分别对应AES-128，AES-192，AES-256 加密方式
-func AesDecryptBase64(key, data string) (string, error) {
-	theData, err := base64.StdEncoding.DecodeString(data)
-	if err != nil {
-		return "", err
+func AesDecryptB64(key, data string, isBase64 bool) (string, error) {
+	var err error
+	var theData []byte
+	if isBase64 {
+		theData, err = base64.StdEncoding.DecodeString(data)
+		if err != nil {
+			return "", err
+		}
+	} else {
+		theData = []byte(data)
 	}
+
 	res, err := AesCBCDecrypt([]byte(key), theData)
 	return string(res), err
 }

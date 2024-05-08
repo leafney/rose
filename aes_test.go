@@ -24,8 +24,8 @@ func TestAesEncrypt(t *testing.T) {
 	//deStr, err := AesDecryptHex(pwdKey, enStr)
 	//t.Logf("RESULT [%v] err [%v]", deStr, err)
 
-	enStr, err := AesEncryptBase64(pwdKey, origin)
+	enStr, err := AesEncryptB64(pwdKey, origin, true)
 	t.Logf("RESULT [%v] err [%v]", enStr, err)
-	deStr, err := AesDecryptBase64(pwdKey, enStr)
+	deStr, err := AesDecryptB64(pwdKey, enStr, true)
 	t.Logf("RESULT [%v] err [%v]", deStr, err)
 }
