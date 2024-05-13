@@ -3,6 +3,7 @@ package rose
 import (
 	"archive/zip"
 	"bufio"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -135,6 +136,11 @@ func FReadFile(filePath string) (string, error) {
 
 // FWriteFile 直接写入文件（适用于小文件写入）
 func FWriteFile(filePath string, data string, append bool) error {
+	return FWriteFileByte(filePath, []byte(data), append)
+}
+
+// FWriteFileByte 直接写入文件（适用于小文件写入）
+func FWriteFileByte(filePath string, data []byte, append bool) error {
 	flag := os.O_WRONLY | os.O_CREATE
 	if append {
 		flag |= os.O_APPEND
@@ -145,15 +151,21 @@ func FWriteFile(filePath string, data string, append bool) error {
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func() {
+		if err := f.Close(); err != nil {
+			// 处理关闭文件时可能出现的错误
+			fmt.Printf("Error closing file: %v\n", err)
+		}
+	}()
 
-	_, err = f.WriteString(data)
+	_, err = f.Write(data)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
+// FReadBigFile 读取大型文件
 func FReadBigFile(filePath string, writer io.Writer) error {
 	file, err := os.Open(filePath)
 	if err != nil {
