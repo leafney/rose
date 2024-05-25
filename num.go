@@ -95,6 +95,16 @@ func UInt64ToStr(i uint64) string {
 func Float64Round(f float64, n int) float64 {
 	pow10N := math.Pow10(n)
 	return math.Trunc(f*pow10N+0.5) / pow10N //0.5是为了四舍五入
+	/*
+		另一种方法：待验证
+		scale := math.Pow10(n)
+		return math.Round(f*scale) / scale
+	*/
+}
+
+// Float64RoundStr 获取 float64保留 n 位小数后返回字符串格式
+func Float64RoundStr(f float64, n int) string {
+	return strconv.FormatFloat(f, 'f', n, 64)
 }
 
 // Float64RoundInt64 将小数四舍五入得到整数

@@ -20,3 +20,7 @@ func TestFloat64RoundInt64(t *testing.T) {
 	t.Log(Float64RoundInt64(3.1415926))
 	t.Log(Float64RoundInt64(5.678))
 }
+
+func TestFloat64RoundStr(t *testing.T) {
+	t.Log(Float64RoundStr(3.1415926, 4))
+}

@@ -338,6 +338,18 @@ func TDayEndRemainSec() int64 {
 	return int64(endOfDay.Sub(now).Seconds())
 }
 
+// TTotalSecondsInt 将天数、小时数、分钟数转化为秒
+func TTotalSecondsInt(days, hours, minutes, seconds int) int {
+	totalSeconds := (days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60) + seconds
+	return totalSeconds
+}
+
+// TTotalSecondsInt64 将天数、小时数、分钟数转化为秒
+func TTotalSecondsInt64(days, hours, minutes, seconds int64) int64 {
+	totalSeconds := (days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60) + seconds
+	return totalSeconds
+}
+
 // ----------------------------
 
 // TMonthS 获取当前月份 eg: 202303
@@ -406,6 +418,18 @@ func TMonthEndTime() time.Time {
 // TMonthEndDayStr 当前月份的最后一天日期字符串
 func TMonthEndDayStr() string {
 	return TTimeFormat(TMonthEndDay(), TFLongYMD)
+}
+
+// TMonthRemainDays 获取当前日期到本月末的剩余天数（是否包含今天
+func TMonthRemainDays(includeToday bool) int {
+	now := time.Now()
+	lastDayOfMonth := time.Date(now.Year(), now.Month()+1, 0, 0, 0, 0, 0, now.Location())
+	remainDays := lastDayOfMonth.Day() - now.Day()
+	if includeToday {
+		remainDays += 1
+	}
+
+	return remainDays
 }
 
 // ----------------------------

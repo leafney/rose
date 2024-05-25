@@ -40,3 +40,24 @@ func ReqUserAgentPhone() string {
 	}
 	return SliceRandomItemStr(UserAgentList)
 }
+
+const (
+	ReqHeaderReferer        = "Referer"
+	ReqHeaderUserAgent      = "User-Agent"
+	ReqHeaderAuthorization  = "Authorization"
+	ReqHeaderContentType    = "Content-Type"
+	ReqHeaderAccept         = "Accept"
+	ReqHeaderAcceptEncoding = "Accept-Encoding"
+	ReqHeaderAcceptLanguage = "Accept-Language"
+	ReqHeaderCacheControl   = "Cache-Control"
+	ReqHeaderCookie         = "Cookie"
+)
+
+//// 请求头参数
+//HEADER_ACCEPT_ALL            = "*/*"
+//HEADER_ACCEPT_JSON_PLAIN_ALL = "application/json, text/plain, */*"
+//HEADER_ACCEPT_LANGUAGE       = "zh-CN,zh-Hans;q=0.9"
+//HEADER_ACCEPT_ENCODING       = "gzip"
+//HEADER_CONTENT_TYPE_JSON     = "application/json; charset=UTF-8"
+//HEADER_CONTENT_TYPE_FORM     = "application/x-www-form-urlencoded"
+//
