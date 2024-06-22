@@ -37,6 +37,7 @@ func ReqUserAgentPhone() string {
 		"Mozilla/5.0 (Linux; Android 10; EVR-AL00 Build/HUAWEIEVR-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.186 Mobile Safari/537.36 baiduboxapp/11.0.5.12 (Baidu; P1 10)",
 		"Mozilla/5.0 (iPhone; CPU iPhone OS 16_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
 		"Mozilla/5.0 (iPhone; CPU iPhone OS 16_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/20G81",
+		"Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
 	}
 	return SliceRandomItemStr(UserAgentList)
 }
@@ -53,7 +54,7 @@ const (
 	ReqHeaderCookie         = "Cookie"
 )
 
-//// 请求头参数
+//// TODO 请求头参数
 //HEADER_ACCEPT_ALL            = "*/*"
 //HEADER_ACCEPT_JSON_PLAIN_ALL = "application/json, text/plain, */*"
 //HEADER_ACCEPT_LANGUAGE       = "zh-CN,zh-Hans;q=0.9"

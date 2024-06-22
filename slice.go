@@ -18,7 +18,7 @@ import (
 	"time"
 )
 
-// SliceStrRmvEmpty Remove empty items from slice
+// SliceStrRmvEmpty Remove empty items from slice 移除空项
 func SliceStrRmvEmpty(sls []string) []string {
 	newSls := make([]string, 0)
 	for k, v := range sls {
@@ -27,6 +27,17 @@ func SliceStrRmvEmpty(sls []string) []string {
 		}
 	}
 	return newSls
+}
+
+// SliceStrRmvOne 从 slice 中移除指定项
+func SliceStrRmvOne(sls []string, value string) []string {
+	for i := 0; i < len(sls); i++ {
+		if sls[i] == value {
+			sls = append(sls[:i], sls[i+1:]...)
+			i--
+		}
+	}
+	return sls
 }
 
 // SliceStrToArray Divide a slice into a specified number of slice groups
@@ -90,34 +101,25 @@ func SliceRmvSubSlice(slice1, slice2 []string) (newSlice []string) {
 	return
 }
 
-// SliceExistStr 判断slice中是否存在
-func SliceExistStr(slices []string, val string) bool {
-	for _, v := range slices {
-		if val == v {
-			return true
-		}
+// SliceRmvSubSlice2  从 slice1 中移除 slice2 中存在的子项(效率高)
+func SliceRmvSubSlice2(slice1, slice2 []string) []string {
+	// 创建一个 map 存储要移除的元素
+	removeMap := make(map[string]bool, len(slice2))
+	for _, s2 := range slice2 {
+		removeMap[s2] = true
 	}
-	return false
-}
 
-// SliceExistInt64 判断slice中是否存在
-func SliceExistInt64(slices []int64, val int64) bool {
-	for _, v := range slices {
-		if val == v {
-			return true
-		}
-	}
-	return false
-}
+	// 创建结果切片,预先分配足够的内存空间
+	result := make([]string, 0, len(slice1))
 
-// SliceExistInt 判断slice中是否存在
-func SliceExistInt(slices []int, val int) bool {
-	for _, v := range slices {
-		if val == v {
-			return true
+	// 遍历源切片,检查每个元素是否在要移除的 map 中
+	for _, s1 := range slice1 {
+		if !removeMap[s1] {
+			result = append(result, s1)
 		}
 	}
-	return false
+
+	return result
 }
 
 // SliceRandomItemStr 随机选择Slice中的一项
@@ -347,8 +349,44 @@ func SliceStrToMap(arr []string, prefix string) map[string]string {
 	return res
 }
 
-// SliceContainsSlice 判断 slice A 中是否存在 slice B 中的任意元素
-func SliceContainsSlice(a []string, b []string) bool {
+// SliceGetElementByIndex 获取指定索引元素，如果索引越界则返回错误
+func SliceGetElementByIndex[T any](slice []T, index int) (T, error) {
+	var zeroValue T
+	if index < 0 || index >= len(slice) {
+		return zeroValue, fmt.Errorf("索引 %d 越界，切片长度为 %d", index, len(slice))
+	}
+	return slice[index], nil
+}
+
+// SliceGetElementValByIndex 获取指定索引元素，如果索引越界则返回类型零值
+func SliceGetElementValByIndex[T any](slice []T, index int) T {
+	val, _ := SliceGetElementByIndex(slice, index)
+	return val
+}
+
+//func SliceContainsOne[T any](slice []T, val T) bool {
+//	for _, v := range slice {
+//		if val == v {
+//			return true
+//		}
+//	}
+//	return false
+//}
+
+func SliceContainsStr(slice []string, val string) bool {
+	return SliceExistStr(slice, val)
+}
+
+func SliceContainsInt(slice []int, val int) bool {
+	return SliceExistInt(slice, val)
+}
+
+func SliceContainsInt64(slice []int64, val int64) bool {
+	return SliceExistInt64(slice, val)
+}
+
+// SliceContainsSliceAnyOne 判断 slice A 中是否存在 slice B 中的任意元素
+func SliceContainsSliceAnyOne(a []string, b []string) bool {
 	// 将slice B中的元素存入map中
 	bMap := make(map[string]bool)
 	for _, item := range b {
@@ -389,4 +427,39 @@ func SliceInclusionRelationship[T comparable](A, B []T) (share, left, right []T)
 	}
 
 	return share, left, right
+}
+
+// Deprecated
+
+// Deprecated: Use SliceContainsStr instead.
+// SliceExistStr 判断slice中是否存在
+func SliceExistStr(slices []string, val string) bool {
+	for _, v := range slices {
+		if val == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Deprecated: Use SliceContainsInt64 instead.
+// SliceExistInt64 判断slice中是否存在
+func SliceExistInt64(slices []int64, val int64) bool {
+	for _, v := range slices {
+		if val == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Deprecated: Use SliceContainsInt instead.
+// SliceExistInt 判断slice中是否存在
+func SliceExistInt(slices []int, val int) bool {
+	for _, v := range slices {
+		if val == v {
+			return true
+		}
+	}
+	return false
 }

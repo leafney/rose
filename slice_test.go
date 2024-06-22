@@ -30,3 +30,11 @@ func BenchmarkSliceRmvSubStr(b *testing.B) {
 		b.Log(SliceRmvSubSlice(slc1, slc2))
 	}
 }
+
+func TestSliceRmvSubSlice2(t *testing.T) {
+	slc1 := []string{"aaa", "bbb", "ccc", "ddd", "eee", "fff", "mmm", "nnn"}
+	slc2 := []string{"ddd", "fff", "nnn"}
+
+	r1 := SliceRmvSubSlice2(slc1, slc2)
+	t.Log(r1, len(r1))
+}

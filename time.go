@@ -590,8 +590,8 @@ func TSecByMin(minutes int) int64 {
 	return int64(duration.Seconds())
 }
 
-// TSecFormatMS 将秒转换为 `时:分:秒` 形式
-// 当总秒数小于1小时时，为简写形式：00:40；当总秒数超过1小时时，为完整形式：47:55:49
+// TSecFormatMS 将总秒数转换为 `分:秒` 或 `时:分:秒` 字符串形式
+// 当总秒数小于1小时内，为简写形式：00:40；当总秒数超过1小时，为完整形式：47:55:49
 func TSecFormatMS(secs int64) string {
 	duration := time.Duration(secs) * time.Second
 	hours := int(duration.Hours())
@@ -605,8 +605,8 @@ func TSecFormatMS(secs int64) string {
 	}
 }
 
-// TSecFormatHMS 将秒转换为 `时:分:秒` 形式
-// 完整形式：00:55:49
+// TSecFormatHMS 将总秒数转换为 `时:分:秒` 字符串形式
+// 完整形式：00:55:49，如果总秒数小于 1 小时内，小时部分为 `00`
 func TSecFormatHMS(secs int64) string {
 	duration := time.Duration(secs) * time.Second
 	hours := int(duration.Hours())
@@ -616,14 +616,23 @@ func TSecFormatHMS(secs int64) string {
 	return fmt.Sprintf("%02d:%02d:%02d", hours, minutes, seconds)
 }
 
+// TSecToDHMS 获取总秒数对应的天数、小时数、分钟数及秒数
+func TSecToDHMS(secs int64) (days, hours, minutes, seconds int64) {
+	days = secs / (60 * 60 * 24)
+	hours = (secs % (60 * 60 * 24)) / (60 * 60)
+	minutes = (secs % (60 * 60)) / 60
+	seconds = secs % 60
+	return
+}
+
 // ----------------------------
 
-// TSleep sleep seconds
-func TSleep(secs int64) {
+// TSleepS sleep seconds
+func TSleepS(secs int64) {
 	time.Sleep(time.Duration(secs) * time.Second)
 }
 
-func TSleepRand(min, max int64) {
+func TSleepSRand(min, max int64) {
 	time.Sleep(time.Duration(RandInt64Range(min, max)) * time.Second)
 }
 
