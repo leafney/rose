@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 )
 
 type LogLevel int
@@ -70,6 +71,22 @@ func WithLevel(level LogLevel) Option {
 	}
 }
 
+// WithLevelStr 设置日志等级 DEBUG INFO ERROR FATAL
+func WithLevelStr(level string) Option {
+	return func(l *Log) {
+		switch strings.ToLower(level) {
+		case "info":
+			l.level = InfoLevel
+		case "error":
+			l.level = ErrorLevel
+		case "fatal":
+			l.level = FatalLevel
+		case "debug":
+			l.level = DebugLevel
+		}
+	}
+}
+
 // WithPrefix 设置日志前缀
 func WithPrefix(prefix string) Option {
 	return func(l *Log) {
@@ -107,6 +124,23 @@ func (c *Log) SetEnable(enable bool) *Log {
 func (c *Log) SetLevel(level LogLevel) *Log {
 	if !c.debug {
 		c.level = level
+	}
+	return c
+}
+
+// SetLevelStr 设置日志等级
+func (c *Log) SetLevelStr(level string) *Log {
+	if !c.debug {
+		switch strings.ToLower(level) {
+		case "info":
+			c.level = InfoLevel
+		case "error":
+			c.level = ErrorLevel
+		case "fatal":
+			c.level = FatalLevel
+		case "debug":
+			c.level = DebugLevel
+		}
 	}
 	return c
 }
