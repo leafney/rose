@@ -76,8 +76,17 @@ func RsaGenerateKey(bits int) (private, public []byte, err error) {
 
 // RsaEncrypt RSA加密
 // pemData：公钥内容；plainText：要加密的字符串数据；
+//
+// pemData 数据必须包含在关键字 `-----BEGIN PUBLIC KEY----- 和 -----END PUBLIC KEY-----` 内部
 func RsaEncrypt(pemData, plainText string) (string, error) {
 	return RsaEncryptB64([]byte(pemData), plainText, false)
+}
+
+// RsaEncryptS64 返回结果经过 base64 编码
+//
+// pemData 数据必须包含在关键字 `-----BEGIN PUBLIC KEY----- 和 -----END PUBLIC KEY-----` 内部
+func RsaEncryptS64(pemData, plainText string) (string, error) {
+	return RsaEncryptB64([]byte(pemData), plainText, true)
 }
 
 // RsaDecrypt RSA解密
@@ -86,8 +95,15 @@ func RsaDecrypt(pemData, cipherText string) (string, error) {
 	return RsaDecryptB64([]byte(pemData), cipherText, false)
 }
 
+// RsaDecryptS64 RSA解密 解密的数据是否需要 base64 解码
+func RsaDecryptS64(pemData, cipherText string) (string, error) {
+	return RsaDecryptB64([]byte(pemData), cipherText, true)
+}
+
 // RsaEncryptB64 RSA加密，公钥加密
 // pemData：公钥内容；plainText：要加密的字符串数据；isBase64：返回结果是否需要经过 base64 编码
+//
+// pemData 数据必须包含在关键字 `-----BEGIN PUBLIC KEY----- 和 -----END PUBLIC KEY-----` 内部
 func RsaEncryptB64(pemData []byte, plainText string, isBase64 bool) (string, error) {
 	cipherByte, err := RsaEncryptByte(pemData, plainText)
 	if err != nil {
@@ -120,6 +136,8 @@ func RsaDecryptB64(pemData []byte, cipherText string, isBase64 bool) (string, er
 }
 
 // RsaEncryptByte RSA加密，公钥加密
+//
+// pemData 数据必须包含在关键字 `-----BEGIN PUBLIC KEY----- 和 -----END PUBLIC KEY-----` 内部
 func RsaEncryptByte(pemData []byte, plainText string) ([]byte, error) {
 	block, _ := pem.Decode(pemData)
 	if block == nil {
