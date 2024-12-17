@@ -179,3 +179,12 @@ func RsaDecryptByte(pemData []byte, cipherText string) ([]byte, error) {
 	}
 	return plainText, nil
 }
+
+// RsaPEMWrapper 为 PEM 数据增加关键字 `-----BEGIN PUBLIC KEY----- 和 -----END PUBLIC KEY-----`
+func RsaPEMWrapper(pemStr string) string {
+	return fmt.Sprintf("-----BEGIN PUBLIC KEY-----\n%s\n-----END PUBLIC KEY-----\n", pemStr)
+}
+
+func RsaPEMWrapperB(pemStr string) []byte {
+	return []byte(RsaPEMWrapper(pemStr))
+}

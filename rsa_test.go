@@ -27,4 +27,6 @@ func TestRsaEncrypt(t *testing.T) {
 	//	RSA解密
 	decrypt, _ := RsaDecryptByte(pri, string(encrypt))
 	t.Logf("decrypt [%v]", string(decrypt))
+
+	t.Logf("result [%v]", RsaPEMWrapper("hello"))
 }
