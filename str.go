@@ -280,6 +280,16 @@ func StrAnySuffixI(s string, suffixes ...string) bool {
 	return false
 }
 
+// StrSpecialTrim 清除特定字符（如换行符、回车符、制表符、空格等），无论在前、后、还是中间
+func StrSpecialTrim(s string) string {
+	return strings.Map(func(r rune) rune {
+		if r == '\n' || r == '\r' || r == '\t' || r == ' ' {
+			return -1 // 删除这些字符
+		}
+		return r
+	}, s)
+}
+
 // -------------------
 
 // StrJoin 字符串拼接
