@@ -71,8 +71,8 @@ func SliceStrReverse(s []string) []string {
 	return s
 }
 
-// SliceRmvDuplicates 切片去重
-func SliceRmvDuplicates(slices []string) []string {
+// SliceRmvStrDuplicates 字符串切片去重
+func SliceRmvStrDuplicates(slices []string) []string {
 	result := make([]string, 0, len(slices))
 	temp := map[string]struct{}{}
 	for _, item := range slices {
@@ -427,6 +427,22 @@ func SliceInclusionRelationship[T comparable](A, B []T) (share, left, right []T)
 	}
 
 	return share, left, right
+}
+
+// SliceRmvDuplicates 泛型方法，移除切片中重复的元素
+func SliceRmvDuplicates[T any, K comparable](items []T, getKey func(T) K) []T {
+	seen := make(map[K]struct{}) // 用来存储已经出现的字段值
+	var result []T
+
+	for _, item := range items {
+		key := getKey(item)
+		if _, exists := seen[key]; !exists {
+			seen[key] = struct{}{}
+			result = append(result, item)
+		}
+	}
+
+	return result
 }
 
 // Deprecated
