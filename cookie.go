@@ -17,9 +17,9 @@ import (
 	"time"
 )
 
-// CookieFromNV 通过键值设置 Cookie，默认对值作编码处理
+// CookieFromNV 通过键值设置 Cookie，默认不对值作编码处理
 func CookieFromNV(name, value string) *http.Cookie {
-	return CookieFromNVEscape(name, value, true)
+	return CookieFromNVEscape(name, value, false)
 }
 
 // CookieFromNVEscape 通过键值设置 Cookie，可选是否对值作编码处理
@@ -36,9 +36,9 @@ func CookieFromNVEscape(name, value string, escape bool) *http.Cookie {
 	}
 }
 
-// CookieFromNVs 通过 map 集合设置 Cookie，默认对值作编码处理
+// CookieFromNVs 通过 map 集合设置 Cookie，默认不对值作编码处理
 func CookieFromNVs(cookies map[string]string) []*http.Cookie {
-	return CookieFromNVsEscape(cookies, true)
+	return CookieFromNVsEscape(cookies, false)
 }
 
 // CookieFromNVsEscape 通过 map 集合设置 Cookie，可选是否对值作编码处理
@@ -60,10 +60,10 @@ func CookieFromNVsEscape(cookies map[string]string, escape bool) []*http.Cookie 
 	return newCookies
 }
 
-// CookieFromStr 将 Cookie 字符串转换为 []*http.Cookie，默认对值作编码处理
+// CookieFromStr 将 Cookie 字符串转换为 []*http.Cookie，默认不对值作编码处理
 // Cookie 字符串格式：key1=value1; key2=value2; key3=value3;
 func CookieFromStr(cookieStr string) []*http.Cookie {
-	return CookieFromStrEscape(cookieStr, true)
+	return CookieFromStrEscape(cookieStr, false)
 }
 
 // CookieFromStrEscape 将 Cookie 字符串转换为 []*http.Cookie，可选是否对值作编码处理
@@ -91,11 +91,11 @@ func CookieFromStrEscape(cookieStr string, escape bool) []*http.Cookie {
 	return newCookies
 }
 
-// CookieFromStrWithDPE 将 Cookie 字符串转换为 []*http.Cookie，同时设置 Domain、Path、Expires 信息，默认对值作编码处理
+// CookieFromStrWithDPE 将 Cookie 字符串转换为 []*http.Cookie，同时设置 Domain、Path、Expires 信息，默认不对值作编码处理
 // duration: 从当前时间开始的持续时间
 // Cookie 字符串格式：key1=value1; key2=value2; key3=value3;
 func CookieFromStrWithDPE(cookieStr string, domain string, path string, duration time.Duration) []*http.Cookie {
-	return CookieFromStrWithDPEEscape(cookieStr, domain, path, duration, true)
+	return CookieFromStrWithDPEEscape(cookieStr, domain, path, duration, false)
 }
 
 // CookieFromStrWithDPEEscape 将 Cookie 字符串转换为 []*http.Cookie，同时设置 Domain、Path、Expires 信息，可选是否对值作编码处理
@@ -128,9 +128,9 @@ func CookieFromStrWithDPEEscape(cookieStr string, domain string, path string, du
 	return newCookies
 }
 
-// CookieFromFile 从文件中获取 Cookie 字符串并转换为 []*http.Cookie，默认对值作编码处理
+// CookieFromFile 从文件中获取 Cookie 字符串并转换为 []*http.Cookie，默认不对值作编码处理
 func CookieFromFile(cookieFilePath string) ([]*http.Cookie, error) {
-	return CookieFromFileEscape(cookieFilePath, true)
+	return CookieFromFileEscape(cookieFilePath, false)
 }
 
 // CookieFromFileEscape 从文件中获取 Cookie 字符串并转换为 []*http.Cookie，可选是否对值作编码处理
@@ -143,10 +143,10 @@ func CookieFromFileEscape(cookieFilePath string, escape bool) ([]*http.Cookie, e
 	return CookieFromStrEscape(string(cookieBytes), escape), nil
 }
 
-// CookieFromFileWithDPE 从文件中获取 Cookie 字符串并转换为 []*http.Cookie，同时设置 Domain、Path、Expires 信息，默认对值作编码处理
+// CookieFromFileWithDPE 从文件中获取 Cookie 字符串并转换为 []*http.Cookie，同时设置 Domain、Path、Expires 信息，默认不对值作编码处理
 // duration: 从当前时间开始的持续时间
 func CookieFromFileWithDPE(cookieFilePath string, domain string, path string, duration time.Duration) ([]*http.Cookie, error) {
-	return CookieFromFileWithDPEEscape(cookieFilePath, domain, path, duration, true)
+	return CookieFromFileWithDPEEscape(cookieFilePath, domain, path, duration, false)
 }
 
 // CookieFromFileWithDPEEscape 从文件中获取 Cookie 字符串并转换为 []*http.Cookie，同时设置 Domain、Path、Expires 信息，可选是否对值作编码处理
@@ -162,7 +162,7 @@ func CookieFromFileWithDPEEscape(cookieFilePath string, domain string, path stri
 
 // CookieToStrNV 将 []*http.Cookie 转换成 Cookie 字符串，格式为 name1=value1; name2=value2; name3=value3;
 func CookieToStrNV(cookies []*http.Cookie) string {
-	return CookieToStrNVUnEscape(cookies, true)
+	return CookieToStrNVUnEscape(cookies, false)
 }
 
 // CookieToStrNVUnEscape 将 []*http.Cookie 转换成 Cookie 字符串，格式为 name1=value1; name2=value2; name3=value3;
@@ -192,7 +192,7 @@ type CookieModel struct {
 //
 // 转换后格式为：[{"name":"","value":"","path":"","domain":"","expires":0},{"name":"","value":"","path":"","domain":"","expires":0}]
 func CookieToJsonStrNVDPE(cookies []*http.Cookie) string {
-	return CookieToJsonStrNVDPEUnEscape(cookies, true)
+	return CookieToJsonStrNVDPEUnEscape(cookies, false)
 }
 
 // CookieToJsonStrNVDPEUnEscape 将 []*http.Cookie 转换成 Json 格式的 Cookie 字符串，带有 Name、Value、Path、Domain、Expires 参数
@@ -226,4 +226,34 @@ func CookieFromStrWithDomain(cookieStr string, domain string, path string, expir
 // Deprecated: Use CookieToStrNV instead.
 func CookieToStr(cookies []*http.Cookie) string {
 	return CookieToStrNV(cookies)
+}
+
+// CookieParseStr 将 cookie 字符串转换为 []*http.Cookie
+func CookieParseStr(cookieStr string) []*http.Cookie {
+	cookies := make(map[string]string)
+	// 分割cookie字符串
+	pairs := strings.Split(cookieStr, ";")
+	for _, pair := range pairs {
+		pair = strings.TrimSpace(pair)
+		if pair == "" {
+			continue
+		}
+
+		// 分割键值对
+		parts := strings.SplitN(pair, "=", 2)
+		if len(parts) != 2 {
+			continue
+		}
+
+		cookies[parts[0]] = parts[1]
+	}
+
+	result := make([]*http.Cookie, 0)
+	for name, value := range cookies {
+		result = append(result, &http.Cookie{
+			Name:  name,
+			Value: value,
+		})
+	}
+	return result
 }
