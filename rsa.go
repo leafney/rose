@@ -24,7 +24,7 @@ import (
 // savePath：保存到的目录路径
 func RSAGenerateKeySave(bits int, keyName, savePath string) error {
 	// 确保保存的目录存在
-	if err := DEnsurePathExist(savePath); err != nil {
+	if err := DirExistsEnsure(savePath); err != nil {
 		return err
 	}
 
